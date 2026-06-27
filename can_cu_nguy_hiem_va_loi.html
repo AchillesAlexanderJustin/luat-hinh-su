@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Căn cứ đánh giá tính nguy hiểm & Lỗi</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:840px;margin:0 auto}
+  .title{text-align:center;font-size:20px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{flex:1;min-width:160px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .legal-ref{font-size:13px;color:var(--accent2);font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .legal-ref .badge{background:var(--accent);color:#fff;padding:2px 10px;border-radius:20px;font-size:11px}
+
+  /* căn cứ grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  .item{
+    display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);
+    border-radius:12px;padding:13px 14px;opacity:0;transform:translateY(10px) scale(.97);transition:.4s;
+  }
+  .item.in{opacity:1;transform:none}
+  .item .ic{font-size:24px;line-height:1;flex-shrink:0;width:36px;text-align:center;transition:transform .3s}
+  .item:hover .ic{transform:scale(1.25) rotate(-6deg)}
+  .item p{margin:0;font-size:14px;line-height:1.5;color:var(--txt)}
+  .item .lbl{display:block;font-size:11px;color:var(--accent2);font-weight:700;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+
+  /* lỗi */
+  .loi-root{display:flex;flex-direction:column;gap:16px}
+  .loi-head{text-align:center;font-size:18px;font-weight:800;color:var(--blue)}
+  .loi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:620px){.loi-grid{grid-template-columns:1fr}}
+  .loi-box{background:var(--panel2);border:2px solid var(--line);border-radius:14px;padding:18px;opacity:0;transform:scale(.94);transition:.45s}
+  .loi-box.in{opacity:1;transform:none}
+  .loi-box.coy{border-color:var(--accent)}
+  .loi-box.voy{border-color:var(--green)}
+  .loi-box .top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .loi-box .top .ic{font-size:28px}
+  .loi-box .top h3{margin:0;font-size:17px}
+  .coy .top h3{color:var(--accent)} .voy .top h3{color:var(--green)}
+  .sub{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:10px}
+  .sub:last-child{margin-bottom:0}
+  .sub b{display:block;font-size:13.5px;margin-bottom:4px}
+  .coy .sub b{color:var(--accent2)} .voy .sub b{color:var(--green)}
+  .sub p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Tính nguy hiểm đáng kể & Yếu tố Lỗi</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">📊 Căn cứ đánh giá</div>
+    <div class="tab" data-t="1">🎯 Lỗi (cố ý / vô ý)</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="legal-ref"><span class="badge">Căn cứ</span> Những căn cứ để đánh giá tính nguy hiểm đáng kể cho xã hội của hành vi</div>
+      <div class="grid" id="grid">
+        <div class="item"><div class="ic">🛡️</div><p><span class="lbl">Khách thể</span>Tầm quan trọng của quan hệ xã hội mà LHS bảo vệ</p></div>
+        <div class="item"><div class="ic">🧭</div><p><span class="lbl">Mặt chủ quan</span>Động cơ, mục đích phạm tội</p></div>
+        <div class="item"><div class="ic">💥</div><p><span class="lbl">Hậu quả</span>Mức độ thiệt hại về vật chất, tinh thần do tội phạm gây ra</p></div>
+        <div class="item"><div class="ic">🌐</div><p><span class="lbl">Bối cảnh</span>Hoàn cảnh chính trị – xã hội lúc và nơi hành vi xảy ra</p></div>
+        <div class="item"><div class="ic">🛠️</div><p><span class="lbl">Hành vi khách quan</span>Phương thức, thủ đoạn thực hiện tội phạm</p></div>
+        <div class="item"><div class="ic">👤</div><p><span class="lbl">Chủ thể</span>Nhân thân người phạm tội</p></div>
+        <div class="item"><div class="ic">⚖️</div><p><span class="lbl">Lỗi</span>Tính chất, mức độ lỗi</p></div>
+        <div class="item"><div class="ic">🔺</div><p><span class="lbl">Tình tiết</span>Những tình tiết tăng nặng hoặc giảm nhẹ TNHS</p></div>
+      </div>
+      <div class="hint">Bấm/di chuột vào icon để nhấn mạnh từng căn cứ.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại từng căn cứ</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="loi-root">
+        <div class="loi-head">⚡ LỖI — Thái độ tâm lý của người phạm tội đối với hành vi & hậu quả</div>
+        <div class="loi-grid" id="loigrid">
+          <div class="loi-box coy">
+            <div class="top"><span class="ic">🎯</span><h3>LỖI CỐ Ý</h3></div>
+            <div class="sub"><b>Cố ý trực tiếp</b><p>Nhận thức rõ hành vi nguy hiểm, thấy trước hậu quả và <b style="color:var(--accent)">mong muốn</b> hậu quả xảy ra.</p></div>
+            <div class="sub"><b>Cố ý gián tiếp</b><p>Nhận thức rõ, thấy trước hậu quả, tuy không mong muốn nhưng <b style="color:var(--accent)">có ý thức để mặc</b> hậu quả xảy ra.</p></div>
+          </div>
+          <div class="loi-box voy">
+            <div class="top"><span class="ic">🌀</span><h3>LỖI VÔ Ý</h3></div>
+            <div class="sub"><b>Vô ý vì quá tự tin</b><p>Thấy trước hậu quả nhưng <b style="color:var(--green)">tin rằng sẽ không xảy ra</b> hoặc có thể ngăn ngừa được.</p></div>
+            <div class="sub"><b>Vô ý do cẩu thả</b><p><b style="color:var(--green)">Không thấy trước</b> hậu quả mặc dù phải thấy và có thể thấy trước.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Lỗi là dấu hiệu bắt buộc thuộc mặt chủ quan của tội phạm (Điều 10–11 BLHS).</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      i==='0'?playGrid():playLoi();
+    });
+  });
+  var items=document.querySelectorAll('#grid .item');
+  function playGrid(){
+    items.forEach(function(c){c.classList.remove('in')});
+    items.forEach(function(c,i){setTimeout(function(){c.classList.add('in')},i*200)});
+  }
+  var boxes=document.querySelectorAll('#loigrid .loi-box');
+  function playLoi(){
+    boxes.forEach(function(b){b.classList.remove('in')});
+    boxes.forEach(function(b,i){setTimeout(function(){b.classList.add('in')},i*350+150)});
+  }
+  document.getElementById('rp0').addEventListener('click',playGrid);
+  document.getElementById('rp1').addEventListener('click',playLoi);
+  playGrid();
+})();
+</script>
+</body>
+</html>

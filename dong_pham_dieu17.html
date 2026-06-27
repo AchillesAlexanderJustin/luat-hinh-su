@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đồng phạm — Điều 17 BLHS 2015</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:20px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  /* khái niệm */
+  .quote{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px}
+  .quote .qbody{font-style:italic;font-size:13px;line-height:1.6;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .def2{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .dchip{flex:1;min-width:150px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:13px;display:flex;gap:11px;align-items:center;opacity:0;transform:translateY(8px);transition:.5s}
+  .dchip.in{opacity:1;transform:none}
+  .dchip .di{font-size:24px;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .dchip .dt{font-size:13px;line-height:1.5}
+  .dchip .dt b{color:var(--accent2)}
+
+  .sech{font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center}
+  .sech b{color:var(--accent2)}
+
+  /* nút minh hoạ sơ đồ vai trò */
+  .seebtn{margin:4px 0 16px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:300px;margin-bottom:16px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  /* 4 loại người */
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd{display:flex;align-items:center;gap:13px;padding:14px 16px;background:var(--panel2)}
+  .item .emo{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  .item .ti{flex:1}
+  .item .ti .num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+  .item .ti h3{margin:2px 0 0;font-size:16px}
+  .item .bd{padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .item .bd b{color:var(--accent2)}
+  .item .ex{margin-top:10px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:9px;padding:11px;font-size:12.5px;line-height:1.55}
+  .item .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .item .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .p-red{border-color:var(--accent)} .p-red .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .p-red h3{color:var(--accent)} .p-red .num{color:var(--accent)}
+  .p-purple{border-color:var(--purple)} .p-purple .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .p-purple h3{color:var(--purple)} .p-purple .num{color:var(--purple)}
+  .p-orange{border-color:var(--orange)} .p-orange .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .p-orange h3{color:var(--orange)} .p-orange .num{color:var(--orange)}
+  .p-green{border-color:var(--green)} .p-green .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .p-green h3{color:var(--green)} .p-green .num{color:var(--green)}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Đồng phạm — Điều 17 BLHS 2015</div>
+
+  <div class="card">
+    <div class="quote">
+      <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 17 BLHS 2015</div></div>
+      <div class="qsub">Đồng phạm</div>
+      <div class="qbody">Đồng phạm là trường hợp <b>có hai người trở lên cố ý cùng thực hiện một tội phạm</b>.</div>
+    </div>
+
+    <div class="sech">2 dấu hiệu bắt buộc của đồng phạm:</div>
+    <div class="def2" id="def2">
+      <div class="dchip"><span class="di">👥</span><div class="dt"><b>Về số lượng:</b> có <b>từ 2 người trở lên</b> (đều đủ điều kiện chủ thể).</div></div>
+      <div class="dchip"><span class="di">🤝</span><div class="dt"><b>Về ý chí:</b> <b>cố ý cùng</b> thực hiện <b>một tội phạm</b> (cùng lỗi cố ý).</div></div>
+    </div>
+
+    <div class="sech">Trong đồng phạm có <b>4 loại người</b> — bấm "Xem sơ đồ" để thấy vai trò:</div>
+    <button class="seebtn" data-il="ilrole"><span>🖼️ Xem sơ đồ vai trò</span><span class="car">▾</span></button>
+    <div class="illus" id="ilrole"><div class="illus-inner">
+      <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9aa3b2"/></marker></defs>
+        <rect x="130" y="10" width="100" height="30" rx="8" fill="#171a21" stroke="#b18cff"/>
+        <text x="180" y="29" fill="#b18cff" font-size="11" font-weight="700" text-anchor="middle">🧠 Tổ chức</text>
+        <rect x="20" y="70" width="90" height="30" rx="8" fill="#171a21" stroke="#ff9d4d"/>
+        <text x="65" y="89" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">🗣️ Xúi giục</text>
+        <rect x="250" y="70" width="90" height="30" rx="8" fill="#171a21" stroke="#48d597"/>
+        <text x="295" y="89" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">🤲 Giúp sức</text>
+        <rect x="130" y="125" width="100" height="32" rx="8" fill="#171a21" stroke="#ff5c4d"/>
+        <text x="180" y="145" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">🔪 Thực hành</text>
+        <path d="M180 40 L180 123" stroke="#9aa3b2" stroke-width="2" marker-end="url(#arr)"/>
+        <path d="M75 100 L150 127" stroke="#9aa3b2" stroke-width="2" stroke-dasharray="4" marker-end="url(#arr)"/>
+        <path d="M285 100 L210 127" stroke="#9aa3b2" stroke-width="2" stroke-dasharray="4" marker-end="url(#arr)"/>
+        <text x="180" y="168" fill="#9aa3b2" font-size="9" text-anchor="middle">Người thực hành = người trực tiếp ra tay (trung tâm)</text>
+      </svg>
+    </div></div>
+
+    <div id="roles">
+      <div class="item p-red">
+        <div class="hd"><div class="emo">🔪</div><div class="ti"><div class="num">Loại 1</div><h3>Người thực hành</h3></div></div>
+        <div class="bd">
+          Là người <b>trực tiếp thực hiện</b> tội phạm.
+          <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Trong vụ cướp, người <b>trực tiếp cầm dao khống chế và lấy tài sản</b> là người thực hành.</div>
+        </div>
+      </div>
+      <div class="item p-purple">
+        <div class="hd"><div class="emo">🧠</div><div class="ti"><div class="num">Loại 2</div><h3>Người tổ chức</h3></div></div>
+        <div class="bd">
+          Là người <b>chủ mưu, cầm đầu, chỉ huy</b> việc thực hiện tội phạm.
+          <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Kẻ <b>lên kế hoạch, phân công vai trò</b> cho cả nhóm cướp và điều hành toàn bộ phi vụ là người tổ chức (vai trò nguy hiểm nhất).</div>
+        </div>
+      </div>
+      <div class="item p-orange">
+        <div class="hd"><div class="emo">🗣️</div><div class="ti"><div class="num">Loại 3</div><h3>Người xúi giục</h3></div></div>
+        <div class="bd">
+          Là người <b>kích động, dụ dỗ, thúc đẩy</b> người khác thực hiện tội phạm.
+          <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Người <b>liên tục khích "mày hèn lắm, đánh nó đi"</b> khiến bạn mình ra tay đánh người ⇒ người xúi giục.</div>
+        </div>
+      </div>
+      <div class="item p-green">
+        <div class="hd"><div class="emo">🤲</div><div class="ti"><div class="num">Loại 4</div><h3>Người giúp sức</h3></div></div>
+        <div class="bd">
+          Là người <b>tạo điều kiện tinh thần hoặc vật chất</b> cho việc thực hiện tội phạm.
+          <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Người <b>canh gác, cung cấp hung khí hoặc lái xe chờ sẵn</b> để đồng bọn tẩu thoát ⇒ người giúp sức.</div>
+        </div>
+      </div>
+    </div>
+    <div class="hint">⚠️ Một người có thể giữ <b>nhiều vai trò</b>; mức TNHS xét theo tính chất, mức độ tham gia của từng người (Điều 58).</div>
+    <div class="replay"><button id="rp">▶ Phát lại</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(){
+    var d=document.querySelectorAll('#def2 .dchip');
+    var r=document.querySelectorAll('#roles .item');
+    d.forEach(function(x){x.classList.remove('in')});
+    r.forEach(function(x){x.classList.remove('in')});
+    d.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+    r.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},700+k*300)});
+  }
+  document.getElementById('rp').addEventListener('click',play);
+  play();
+})();
+</script>
+</body>
+</html>

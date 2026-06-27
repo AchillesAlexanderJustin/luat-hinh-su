@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Án treo vs Cải tạo không giam giữ</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:150px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:13px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
+  .sub b{color:var(--accent2)}
+
+  /* bảng so sánh 2 cột */
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:6px}
+  @media(max-width:600px){.cmp{grid-template-columns:1fr}}
+  .col{border-radius:14px;padding:16px;opacity:0;transform:translateY(10px);transition:.5s}
+  .col.in{opacity:1;transform:none}
+  .col.a{background:rgba(255,213,74,.08);border:1px solid var(--accent2)}
+  .col.b{background:rgba(90,169,255,.08);border:1px solid var(--blue)}
+  .col .ch{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;margin-bottom:12px}
+  .col.a .ch{color:var(--accent2)} .col.b .ch{color:var(--blue)}
+  .col .ce{font-size:24px;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .col .row{font-size:12.5px;line-height:1.5;margin-bottom:10px;border-bottom:1px dashed var(--line);padding-bottom:9px}
+  .col .row:last-child{border-bottom:none;margin-bottom:0}
+  .col .rk{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;display:block;margin-bottom:2px}
+  .col.a .rk{color:var(--accent2)} .col.b .rk{color:var(--blue)}
+
+  .item{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:13px 14px;margin-bottom:11px;opacity:0;transform:translateX(-12px);transition:.45s}
+  .item.in{opacity:1;transform:none}
+  .item .ie{font-size:22px;flex-shrink:0;width:32px;text-align:center;animation:float 2.6s ease-in-out infinite}
+  .item .it{flex:1}
+  .item .it h4{margin:0 0 4px;font-size:14px}
+  .item .it p{margin:0;font-size:13px;line-height:1.55;color:var(--txt)}
+  .item .it p b{color:var(--accent2)}
+  .g .item{border-left-color:var(--green)} .g .item h4{color:var(--green)}
+  .r .item{border-left-color:var(--accent)} .r .item h4{color:var(--accent)}
+
+  .ex{margin-top:13px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:11px;padding:13px;font-size:13px;line-height:1.6}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .seebtn{margin-top:13px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:360px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .key{background:rgba(177,140,255,.08);border:1px dashed var(--purple);border-radius:10px;padding:13px;font-size:13px;line-height:1.6;margin-top:14px}
+  .key b{color:var(--purple)}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Án treo ≠ Cải tạo không giam giữ</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">🆚 So sánh 2 chế định</div>
+    <div class="tab" data-t="1">👁️ Cơ chế giám sát</div>
+    <div class="tab" data-t="2">🏃 Nếu bỏ trốn thì sao?</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="sub">Hai cái đều "<b>không bị nhốt</b>" nên rất dễ nhầm — nhưng bản chất khác hẳn:</div>
+      <div class="cmp" id="cmp">
+        <div class="col a">
+          <div class="ch"><span class="ce">⛓️</span> Án treo (Đ.65)</div>
+          <div class="row"><span class="rk">Bản chất</span><b style="color:var(--accent2)">KHÔNG phải hình phạt</b> — là biện pháp <b>miễn chấp hành hình phạt tù CÓ ĐIỀU KIỆN</b>.</div>
+          <div class="row"><span class="rk">Tòa tuyên gì?</span>Vẫn tuyên <b>phạt TÙ</b> (vd 2 năm tù), nhưng cho hoãn chấp hành.</div>
+          <div class="row"><span class="rk">Cái "treo"</span>Án tù vẫn còn đó — phá điều kiện thì <b>rơi xuống, phải vào tù thật</b>.</div>
+          <div class="row"><span class="rk">Có thời gian thử thách</span><b>CÓ</b> — bằng 2× mức án (1–5 năm).</div>
+        </div>
+        <div class="col b">
+          <div class="ch"><span class="ce">🔗</span> Cải tạo không giam giữ (Đ.36)</div>
+          <div class="row"><span class="rk">Bản chất</span><b style="color:var(--blue)">LÀ một loại hình phạt chính</b> (nằm trong thang hình phạt).</div>
+          <div class="row"><span class="rk">Tòa tuyên gì?</span>Tuyên thẳng <b>"cải tạo không giam giữ X năm"</b> — đó là bản án.</div>
+          <div class="row"><span class="rk">Cái "treo"</span>Không có gì treo — bản án chính là cải tạo KGG, chấp hành xong là hết.</div>
+          <div class="row"><span class="rk">Có thời gian thử thách</span><b>KHÔNG</b> — chỉ có thời hạn cải tạo (6 tháng – 3 năm).</div>
+        </div>
+      </div>
+      <div class="key">
+        🔑 <b>Cách nhớ:</b> Cải tạo KGG = "<b>đích đến</b>" (bản án chính nó). Án treo = "<b>tù bị treo lơ lửng</b>" — chấp hành tốt thì không rơi, vi phạm thì rơi xuống thành tù thật.
+      </div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="sub">Cả 2 đều cải tạo <b>tại cộng đồng</b> nhưng KHÔNG phải thả tự do — có cơ chế giám sát chặt:</div>
+      <div class="g" id="g1">
+        <div class="item"><div class="ie">🏛️</div><div class="it"><h4>Giao cho địa phương giám sát</h4><p>Giao cho <b>UBND xã/phường</b> nơi cư trú hoặc <b>cơ quan nơi làm việc</b> giám sát, giáo dục.</p></div></div>
+        <div class="item"><div class="ie">✍️</div><div class="it"><h4>Định kỳ trình diện & kiểm điểm</h4><p>Phải <b>định kỳ báo cáo, làm bản tự kiểm điểm</b> với cơ quan giám sát.</p></div></div>
+        <div class="item"><div class="ie">📍</div><div class="it"><h4>Hạn chế di chuyển</h4><p><b>Không được tự ý rời nơi cư trú</b>; muốn đi nơi khác phải xin phép.</p></div></div>
+        <div class="item"><div class="ie">🚫</div><div class="it"><h4>Bị hạn chế một số quyền</h4><p>Có thể bị <b>khấu trừ thu nhập</b> (cải tạo KGG) hoặc hạn chế một số quyền trong thời gian thử thách (án treo).</p></div></div>
+      </div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A hưởng án treo phải <b>hằng tháng lên UBND phường trình diện</b>, nộp bản kiểm điểm, muốn đi tỉnh khác làm ăn phải xin phép — không phải "được tự do hoàn toàn".</div>
+      <div class="hint">Cải tạo tại cộng đồng = vẫn bị quản lý, chỉ là không bị giam trong trại.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="sub">Câu hỏi hay nhất — <b>"lỡ bỏ trốn thì sao?"</b> Luật đã có cơ chế xử lý:</div>
+      <div class="r" id="g2">
+        <div class="item"><div class="ie">🚷</div><div class="it"><h4>Bỏ trốn = mất luôn án treo</h4><p>"Bỏ trốn và bị đề nghị truy nã" nằm trong danh sách <b>KHÔNG được hưởng án treo</b> ngay từ đầu (Nghị quyết 02/2018).</p></div></div>
+        <div class="item"><div class="ie">⬇️</div><div class="it"><h4>Án tù "treo" rơi xuống</h4><p>Với án treo: vi phạm nghĩa vụ / phạm tội mới trong thử thách ⇒ Tòa <b>buộc chấp hành hình phạt tù</b> đã tuyên (cái án tù treo thành tù thật).</p></div></div>
+        <div class="item"><div class="ie">📢</div><div class="it"><h4>Bị truy nã như mọi đối tượng</h4><p>Người bỏ trốn bị <b>cơ quan công an truy nã</b>, truy bắt như mọi trường hợp trốn thi hành án.</p></div></div>
+        <div class="item"><div class="ie">⚡</div><div class="it"><h4>Cải tạo KGG vi phạm → nghiêm khắc hơn</h4><p>Với cải tạo KGG: bỏ trốn/vi phạm bị truy bắt, có thể bị xem xét <b>biện pháp nghiêm khắc hơn</b> và xử lý theo quy định.</p></div></div>
+      </div>
+      <button class="seebtn" data-il="iltron"><span>🖼️ Xem cơ chế "rơi án tù" của án treo</span><span class="car">▾</span></button>
+      <div class="illus" id="iltron"><div class="illus-inner">
+        <svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+          <defs><marker id="ard" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff5c4d"/></marker></defs>
+          <rect x="105" y="14" width="150" height="34" rx="9" fill="#171a21" stroke="#ffd54a"/>
+          <text x="180" y="31" fill="#ffd54a" font-size="11" font-weight="700" text-anchor="middle">⛓️ Án tù "treo"</text>
+          <text x="180" y="43" fill="#9aa3b2" font-size="8.5" text-anchor="middle">vd: 2 năm tù treo</text>
+          <text x="65" y="78" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">Chấp hành tốt</text>
+          <path d="M110 50 L75 70" stroke="#48d597" stroke-width="2"/>
+          <rect x="20" y="84" width="100" height="34" rx="9" fill="#171a21" stroke="#48d597"/>
+          <text x="70" y="101" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">✅ Không vào tù</text>
+          <text x="70" y="113" fill="#9aa3b2" font-size="8" text-anchor="middle">hết thử thách → xong</text>
+          <text x="285" y="78" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">Bỏ trốn/tội mới</text>
+          <path d="M250 50 L285 70" stroke="#ff5c4d" stroke-width="2" marker-end="url(#ard)"/>
+          <rect x="240" y="84" width="105" height="34" rx="9" fill="#171a21" stroke="#ff5c4d"/>
+          <text x="292" y="101" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">⬇️ Rơi xuống</text>
+          <text x="292" y="113" fill="#9aa3b2" font-size="8" text-anchor="middle">vào tù thật 2 năm</text>
+        </svg>
+      </div></div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A được án treo 2 năm tù, đang thử thách thì <b>bỏ trốn</b> ⇒ bị truy nã; khi bắt được, A <b>phải chấp hành 2 năm tù thật</b> (cộng thêm hậu quả nếu phạm tội mới).</div>
+      <div class="hint">Chính vì rủi ro bỏ trốn nên luật mới đặt điều kiện chặt (nhân thân tốt, có nơi cư trú ổn định) trước khi cho hưởng án treo.</div>
+      <div class="replay"><button id="rp2">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    if(i==='0'){
+      var c=document.querySelectorAll('#cmp .col');
+      c.forEach(function(x){x.classList.remove('in')});
+      c.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*350)});
+      return;
+    }
+    var g=document.getElementById('g'+i); if(!g)return;
+    var els=g.querySelectorAll('.item');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*250)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  document.getElementById('rp2').addEventListener('click',function(){play('2')});
+  play('0');
+})();
+</script>
+</body>
+</html>

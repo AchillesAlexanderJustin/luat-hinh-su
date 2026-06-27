@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khái niệm tội phạm - Điều 8 BLHS 2015</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:820px;margin:0 auto}
+  .title{
+    text-align:center;font-size:21px;font-weight:800;letter-spacing:.4px;padding:14px;
+    border:2px solid var(--blue);border-radius:12px;
+    background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase;
+  }
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{flex:1;min-width:140px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .legal-ref{font-size:13px;color:var(--accent2);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .legal-ref .badge{background:var(--accent);color:#fff;padding:2px 10px;border-radius:20px;font-size:11px}
+
+  /* định nghĩa bóc tách */
+  .def-line{font-size:16px;line-height:1.8;margin-bottom:18px;color:var(--muted)}
+  .def-line .core{color:var(--txt);font-weight:600}
+  .chips{display:flex;flex-direction:column;gap:10px}
+  .chip{
+    display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);
+    border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 14px;
+    opacity:0;transform:translateX(-12px);transition:.45s;
+  }
+  .chip.in{opacity:1;transform:none}
+  .chip .ic{font-size:22px;line-height:1;flex-shrink:0;width:34px;text-align:center}
+  .chip h4{margin:0 0 3px;font-size:14px;color:var(--accent2)}
+  .chip p{margin:0;font-size:13.5px;color:var(--txt);line-height:1.55}
+  .chip.c1{border-left-color:var(--accent)}
+  .chip.c2{border-left-color:var(--blue)}
+  .chip.c3{border-left-color:var(--green)}
+  .chip.c4{border-left-color:var(--purple)}
+  .chip.c5{border-left-color:var(--accent2)}
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+
+  /* dấu hiệu */
+  .sig-grid{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center}
+  @media(max-width:600px){.sig-grid{grid-template-columns:1fr}}
+  .sig-main{
+    background:var(--panel2);border:2px solid var(--blue);border-radius:14px;padding:18px;text-align:center;
+  }
+  .sig-main .num{font-style:italic;color:var(--muted);font-size:13px}
+  .sig-main .h{font-size:16px;font-weight:800;margin-top:6px;color:var(--txt)}
+  .branches{display:flex;flex-direction:column;gap:14px}
+  .branch{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:15px;font-weight:600;opacity:0;transform:translateX(14px);transition:.45s}
+  .branch.in{opacity:1;transform:none}
+  .branch.b1{border-color:var(--green);color:var(--green)}
+  .branch.b2{border-color:var(--accent);color:var(--accent)}
+  .note{margin-top:18px;background:rgba(255,213,74,.08);border:1px dashed var(--accent2);border-radius:10px;padding:14px;font-size:14px;line-height:1.6;color:var(--txt)}
+  .note b{color:var(--accent2)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">II. Khái niệm Tội phạm — Điều 8 BLHS 2015</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">📜 Định nghĩa tội phạm</div>
+    <div class="tab" data-t="1">🔍 Dấu hiệu cơ bản</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="legal-ref"><span class="badge">Cơ sở pháp lý</span> Điều 8 Bộ luật Hình sự năm 2015 (sửa đổi, bổ sung 2017)</div>
+      <div class="def-line">
+        Tội phạm là <span class="core">hành vi nguy hiểm cho xã hội</span> được quy định trong Bộ luật Hình sự, do người có năng lực TNHS hoặc pháp nhân thương mại thực hiện một cách <span class="core">cố ý hoặc vô ý</span>… mà theo BLHS phải bị xử lý hình sự.
+      </div>
+      <div class="chips" id="chips">
+        <div class="chip c1"><div class="ic">⚠️</div><div><h4>Tính nguy hiểm cho xã hội</h4><p>Hành vi xâm phạm các quan hệ xã hội được luật hình sự bảo vệ.</p></div></div>
+        <div class="chip c2"><div class="ic">📖</div><div><h4>Tính trái pháp luật hình sự</h4><p>Phải được quy định trong Bộ luật Hình sự (nguyên tắc "không luật, không tội").</p></div></div>
+        <div class="chip c3"><div class="ic">🧑‍⚖️</div><div><h4>Chủ thể có năng lực TNHS</h4><p>Do người có năng lực trách nhiệm hình sự hoặc pháp nhân thương mại thực hiện.</p></div></div>
+        <div class="chip c4"><div class="ic">🎯</div><div><h4>Tính có lỗi</h4><p>Thực hiện một cách cố ý hoặc vô ý.</p></div></div>
+        <div class="chip c5"><div class="ic">⚖️</div><div><h4>Tính phải chịu hình phạt</h4><p>Theo BLHS phải bị xử lý hình sự.</p></div></div>
+      </div>
+      <div class="note" style="margin-top:18px">
+        Khách thể bị xâm phạm: <b>độc lập, chủ quyền, toàn vẹn lãnh thổ</b>; chế độ chính trị, kinh tế, văn hóa, quốc phòng, an ninh, trật tự an toàn xã hội; <b>quyền & lợi ích hợp pháp</b> của tổ chức, quyền con người, quyền & lợi ích hợp pháp của công dân…
+      </div>
+      <div class="hint">5 dấu hiệu pháp lý rút ra từ định nghĩa Điều 8.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại từng ý</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="legal-ref"><span class="badge">Dấu hiệu thứ 1</span> Tính nguy hiểm đáng kể cho xã hội của hành vi</div>
+      <div class="sig-grid">
+        <div class="sig-main">
+          <div class="num">Dấu hiệu thứ 1</div>
+          <div class="h">Tính nguy hiểm đáng kể cho xã hội của hành vi</div>
+        </div>
+        <div class="branches" id="branches">
+          <div class="branch b1">➜ Hành vi gây thiệt hại hoặc đe dọa gây thiệt hại</div>
+          <div class="branch b2">➜ Hành vi nguy hiểm <u>đáng kể</u></div>
+        </div>
+      </div>
+      <div class="note">
+        “Những hành vi tuy có dấu hiệu của tội phạm nhưng <b>tính chất nguy hiểm cho xã hội không đáng kể</b> thì không phải là tội phạm và được xử lý bằng các biện pháp khác.”
+      </div>
+      <div class="hint">"Đáng kể" là ranh giới phân biệt tội phạm với vi phạm hành chính.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại nhánh</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      i==='0'?playChips():playBranches();
+    });
+  });
+  var chips=document.querySelectorAll('#chips .chip');
+  function playChips(){
+    chips.forEach(function(c){c.classList.remove('in')});
+    chips.forEach(function(c,i){setTimeout(function(){c.classList.add('in')},i*350)});
+  }
+  var branches=document.querySelectorAll('#branches .branch');
+  function playBranches(){
+    branches.forEach(function(b){b.classList.remove('in')});
+    branches.forEach(function(b,i){setTimeout(function(){b.classList.add('in')},i*400+200)});
+  }
+  document.getElementById('rp0').addEventListener('click',playChips);
+  document.getElementById('rp1').addEventListener('click',playBranches);
+  playChips();
+})();
+</script>
+</body>
+</html>

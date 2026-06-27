@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap Luật Hình sự — Hành trình học của Justin</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:920px;margin:0 auto}
+  .title{text-align:center;font-size:24px;font-weight:800;letter-spacing:.4px;padding:18px;border:2px solid var(--blue);border-radius:14px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:8px;text-transform:uppercase}
+  .subtitle{text-align:center;font-size:14px;color:var(--muted);margin-bottom:24px}
+  .subtitle b{color:var(--accent2)}
+
+  .stats{display:flex;gap:12px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 20px;text-align:center}
+  .stat .n{font-size:24px;font-weight:800;color:var(--blue)}
+  .stat .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+
+  /* phase */
+  .phase{margin-bottom:26px;opacity:0;transform:translateY(16px);transition:.6s}
+  .phase.in{opacity:1;transform:none}
+  .phase-hd{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .phase-hd .pe{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;animation:float 2.8s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .phase-hd .pt{flex:1}
+  .phase-hd .pt .pn{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  .phase-hd .pt h2{margin:2px 0 0;font-size:19px}
+  .phase-hd .pd{font-size:12px;color:var(--muted);max-width:280px;text-align:right}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;padding-left:68px}
+  @media(max-width:600px){.cards{padding-left:0}}
+  .lcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;cursor:pointer;transition:.2s;text-decoration:none;color:var(--txt);display:block}
+  .lcard:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+  .lcard .ci{font-size:22px;margin-bottom:8px;display:block}
+  .lcard h4{margin:0 0 4px;font-size:13.5px;line-height:1.35}
+  .lcard .cd{font-size:11px;color:var(--muted);line-height:1.4}
+  .lcard .ref{display:inline-block;margin-top:7px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;background:var(--panel2);color:var(--accent2)}
+
+  /* màu phase */
+  .ph1 .pe{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .ph1 h2{color:var(--blue)} .ph1 .pn{color:var(--blue)}
+  .ph2 .pe{background:rgba(255,213,74,.15);border:1px solid var(--accent2)} .ph2 h2{color:var(--accent2)} .ph2 .pn{color:var(--accent2)}
+  .ph3 .pe{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .ph3 h2{color:var(--orange)} .ph3 .pn{color:var(--orange)}
+  .ph4 .pe{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .ph4 h2{color:var(--accent)} .ph4 .pn{color:var(--accent)}
+  .ph5 .pe{background:rgba(72,213,151,.15);border:1px solid var(--green)} .ph5 h2{color:var(--green)} .ph5 .pn{color:var(--green)}
+  .ph6 .pe{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .ph6 h2{color:var(--purple)} .ph6 .pn{color:var(--purple)}
+
+  .connector{margin-left:26px;width:2px;height:18px;background:linear-gradient(var(--line),transparent);}
+
+  .footer{text-align:center;font-size:12px;color:var(--muted);margin-top:30px;padding-top:20px;border-top:1px solid var(--line);line-height:1.7}
+  .footer b{color:var(--accent2)}
+  .note{background:rgba(90,169,255,.07);border:1px dashed var(--blue);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.6;color:var(--muted);margin-top:20px}
+  .note b{color:var(--blue)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">🗺️ Roadmap Luật Hình sự</div>
+  <div class="subtitle">Hành trình học của Justin — từ <b>khái niệm</b> đến <b>xóa án tích</b>. Bấm vào từng thẻ để mở widget ôn tập.</div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">6</div><div class="l">Giai đoạn</div></div>
+    <div class="stat"><div class="n">26</div><div class="l">Widget</div></div>
+    <div class="stat"><div class="n">15+</div><div class="l">Điều luật</div></div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase ph1">
+    <div class="phase-hd">
+      <div class="pe">📖</div>
+      <div class="pt"><div class="pn">Giai đoạn 1 — Nền tảng</div><h2>Khái niệm & Tội phạm</h2></div>
+      <div class="pd">Hiểu LHS là gì, tội phạm là gì, các dấu hiệu cơ bản</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="khai_niem_luat_hinh_su.html"><span class="ci">⚖️</span><h4>Khái niệm Luật Hình sự</h4><div class="cd">Ngành luật độc lập, đối tượng & phương pháp điều chỉnh</div></a>
+      <a class="lcard" href="khai_niem_toi_pham_dieu8.html"><span class="ci">📜</span><h4>Khái niệm Tội phạm</h4><div class="cd">Định nghĩa + 5 dấu hiệu pháp lý</div><span class="ref">Điều 8</span></a>
+      <a class="lcard" href="can_cu_nguy_hiem_va_loi.html"><span class="ci">📊</span><h4>Căn cứ nguy hiểm & Lỗi</h4><div class="cd">8 căn cứ đánh giá + lỗi cố ý/vô ý</div></a>
+      <a class="lcard" href="phan_loai_loi_blhs.html"><span class="ci">🎯</span><h4>Phân loại Lỗi</h4><div class="cd">Cố ý trực tiếp/gián tiếp, vô ý tự tin/cẩu thả</div><span class="ref">Điều 10-11</span></a>
+      <a class="lcard" href="dieu_kien_loi_va_su_kien_bat_ngo.html"><span class="ci">⚡</span><h4>Điều kiện có lỗi & Sự kiện bất ngờ</h4><div class="cd">Khi nào có lỗi + sự kiện bất ngờ</div><span class="ref">Điều 20</span></a>
+      <a class="lcard" href="dau_hieu_34_va_phan_loai_toi_pham.html"><span class="ci">🧩</span><h4>Dấu hiệu 3-4 & Phân loại tội phạm</h4><div class="cd">Trái PLHS, chịu hình phạt + 4 loại tội</div><span class="ref">Điều 9</span></a>
+    </div>
+  </div>
+  <div class="connector"></div>
+
+  <!-- PHASE 2 -->
+  <div class="phase ph2">
+    <div class="phase-hd">
+      <div class="pe">🧩</div>
+      <div class="pt"><div class="pn">Giai đoạn 2 — Cấu thành</div><h2>Cấu thành tội phạm & Chủ thể</h2></div>
+      <div class="pd">4 yếu tố cấu thành, ai là chủ thể</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="dieu128_luuy_cau_thanh_toi_pham.html"><span class="ci">🏗️</span><h4>Cấu thành tội phạm (4 yếu tố)</h4><div class="cd">Điều 128, lưu ý tội danh-loại, 4 yếu tố</div><span class="ref">Điều 128</span></a>
+      <a class="lcard" href="vi_du_cau_thanh_toi_pham_tuan.html"><span class="ci">📋</span><h4>Ví dụ: Vụ Phạm Minh Tuấn</h4><div class="cd">Phân tích 4 yếu tố trong vụ án thật</div><span class="ref">Điều 169</span></a>
+      <a class="lcard" href="chu_the_cua_toi_pham.html"><span class="ci">🧍</span><h4>Chủ thể của tội phạm</h4><div class="cd">NLTNHS, tuổi, pháp nhân thương mại</div><span class="ref">Điều 12-13-21-76</span></a>
+      <a class="lcard" href="bai_tap_xac_dinh_toi_danh.html"><span class="ci">📝</span><h4>Bài tập xác định tội danh</h4><div class="cd">Phương pháp giải + tình huống mẫu</div></a>
+    </div>
+  </div>
+  <div class="connector"></div>
+
+  <!-- PHASE 3 -->
+  <div class="phase ph3">
+    <div class="phase-hd">
+      <div class="pe">🎬</div>
+      <div class="pt"><div class="pn">Giai đoạn 3 — Diễn biến</div><h2>Giai đoạn phạm tội & Đồng phạm</h2></div>
+      <div class="pd">Vòng đời tội phạm, nhiều người cùng phạm</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="giai_doan_thuc_hien_toi_pham.html"><span class="ci">🎬</span><h4>Các giai đoạn thực hiện tội phạm</h4><div class="cd">Chuẩn bị → chưa đạt → hoàn thành + tự ý nửa chừng</div><span class="ref">Điều 14-15-16</span></a>
+      <a class="lcard" href="dong_pham_dieu17.html"><span class="ci">👥</span><h4>Đồng phạm</h4><div class="cd">2 dấu hiệu + 4 loại người</div><span class="ref">Điều 17</span></a>
+    </div>
+  </div>
+  <div class="connector"></div>
+
+  <!-- PHASE 4 -->
+  <div class="phase ph4">
+    <div class="phase-hd">
+      <div class="pe">⚖️</div>
+      <div class="pt"><div class="pn">Giai đoạn 4 — Trách nhiệm & Hình phạt</div><h2>TNHS, Hình phạt & Tình tiết</h2></div>
+      <div class="pd">Hậu quả pháp lý, các loại hình phạt</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="tnhs_thoi_hieu_mien_tnhs.html"><span class="ci">⏳</span><h4>TNHS, Thời hiệu & Miễn TNHS</h4><div class="cd">Trách nhiệm HS, thời hiệu, căn cứ miễn</div><span class="ref">Điều 27-28-29</span></a>
+      <a class="lcard" href="mien_hinh_phat_dieu59.html"><span class="ci">🕊️</span><h4>Miễn hình phạt vs Miễn TNHS</h4><div class="cd">Phân biệt 2 chế định dễ nhầm</div><span class="ref">Điều 59</span></a>
+      <a class="lcard" href="dieu51_tinh_tiet_giam_nhe.html"><span class="ci">💚</span><h4>Tình tiết giảm nhẹ</h4><div class="cd">3 nhóm (khắc phục/hoàn cảnh/nhân thân)</div><span class="ref">Điều 51</span></a>
+      <a class="lcard" href="dieu52_tinh_tiet_tang_nang.html"><span class="ci">🔺</span><h4>Tình tiết tăng nặng</h4><div class="cd">8 tình tiết (danh sách đóng)</div><span class="ref">Điều 52</span></a>
+      <a class="lcard" href="hinh_phat_bien_phap_tu_phap.html"><span class="ci">🛠️</span><h4>Hình phạt & Biện pháp tư pháp</h4><div class="cd">HP cá nhân/pháp nhân + PNTM/huy động vốn</div></a>
+      <a class="lcard" href="chi_tiet_hinh_phat_chinh.html"><span class="ci">🔒</span><h4>Chi tiết hình phạt chính</h4><div class="cd">Cảnh cáo → tử hình + HP bổ sung</div><span class="ref">Điều 35-40</span></a>
+      <a class="lcard" href="hinh_phat_phap_nhan_quyet_dinh.html"><span class="ci">🏢</span><h4>Hình phạt pháp nhân & Quyết định HP</h4><div class="cd">Đ.77-79 + quyết định hình phạt + Đ.54</div><span class="ref">Điều 77-79</span></a>
+    </div>
+  </div>
+  <div class="connector"></div>
+
+  <!-- PHASE 5 -->
+  <div class="phase ph5">
+    <div class="phase-hd">
+      <div class="pe">➕</div>
+      <div class="pt"><div class="pn">Giai đoạn 5 — Tổng hợp & Án treo</div><h2>Tổng hợp HP & Án treo</h2></div>
+      <div class="pd">Phạm nhiều tội, nhiều bản án, án treo</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="dieu55_pham_nhieu_toi.html"><span class="ci">➕</span><h4>Phạm nhiều tội</h4><div class="cd">Tổng hợp cùng loại/khác loại/HP bổ sung</div><span class="ref">Điều 55</span></a>
+      <a class="lcard" href="dieu56_tong_hop_nhieu_ban_an.html"><span class="ci">📚</span><h4>Tổng hợp nhiều bản án</h4><div class="cd">Công thức tội cũ vs tội mới</div><span class="ref">Điều 56</span></a>
+      <a class="lcard" href="an_treo.html"><span class="ci">⛓️</span><h4>Án treo</h4><div class="cd">Khái niệm, điều kiện, thời gian thử thách</div><span class="ref">Điều 65</span></a>
+      <a class="lcard" href="an_treo_tinh_huong_dac_biet.html"><span class="ci">⚠️</span><h4>Án treo: tình huống đặc biệt</h4><div class="cd">Phạm tội mới, trừ tạm giam, miễn HP</div></a>
+      <a class="lcard" href="an_treo_vs_cai_tao_kgg.html"><span class="ci">🆚</span><h4>Án treo vs Cải tạo KGG</h4><div class="cd">So sánh + giám sát + bỏ trốn</div></a>
+      <a class="lcard" href="cai_tao_khong_giam_giu_su_that.html"><span class="ci">🔗</span><h4>Cải tạo KGG (sự thật)</h4><div class="cd">Không phải lao động khổ sai!</div><span class="ref">Điều 36</span></a>
+    </div>
+  </div>
+  <div class="connector"></div>
+
+  <!-- PHASE 6 -->
+  <div class="phase ph6">
+    <div class="phase-hd">
+      <div class="pe">🕊️</div>
+      <div class="pt"><div class="pn">Giai đoạn 6 — Kết thúc nhân văn</div><h2>Xóa án tích</h2></div>
+      <div class="pd">Tái hòa nhập cộng đồng</div>
+    </div>
+    <div class="cards">
+      <a class="lcard" href="xoa_an_tich.html"><span class="ci">🕊️</span><h4>Xóa án tích</h4><div class="cd">Coi như chưa từng bị kết án</div><span class="ref">Điều 69-73</span></a>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 <b>Cách ôn hiệu quả:</b> đi theo thứ tự 6 giai đoạn từ trên xuống — mỗi giai đoạn xây trên cái trước. Trong mỗi widget, bấm nút "▶ Phát lại" để xem animation, và "🖼️ Xem minh hoạ" để mở sơ đồ. Các cặp dễ nhầm nên học song song: <b>lỗi cố ý gián tiếp ↔ vô ý quá tự tin</b>, <b>chưa đạt ↔ tự ý nửa chừng</b>, <b>miễn TNHS ↔ miễn hình phạt</b>, <b>án treo ↔ cải tạo KGG</b>, <b>tội cũ ↔ tội mới (Đ.56)</b>.
+  </div>
+
+  <div class="footer">
+    Bộ tài liệu ôn tập <b>Luật Hình sự</b> · 26 widget tương tác · Toàn bộ animation + trích dẫn điều luật + ví dụ tình huống<br>
+    Chúc Justin ôn thi tốt! 💪
+  </div>
+</div>
+
+<script>
+(function(){
+  var phases=document.querySelectorAll('.phase');
+  phases.forEach(function(p,k){setTimeout(function(){p.classList.add('in')},k*200)});
+})();
+</script>
+</body>
+</html>

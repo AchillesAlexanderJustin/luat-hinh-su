@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miễn hình phạt (Đ.59) & So sánh với miễn TNHS</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:160px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .sub b{color:var(--accent2)}
+
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd{display:flex;align-items:center;gap:13px;padding:14px 16px;background:var(--panel2)}
+  .item .emo{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .item .ti{flex:1}
+  .item .ti .num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+  .item .ti h3{margin:2px 0 0;font-size:15px}
+  .item .bd{padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .item .bd b{color:var(--accent2)}
+
+  .v-blue{border-color:var(--blue)} .v-blue .emo{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .v-blue h3{color:var(--blue)} .v-blue .num{color:var(--blue)}
+  .v-red{border-color:var(--accent)} .v-red .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .v-red h3{color:var(--accent)} .v-red .num{color:var(--accent)}
+  .v-green{border-color:var(--green)} .v-green .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .v-green h3{color:var(--green)} .v-green .num{color:var(--green)}
+  .v-orange{border-color:var(--orange)} .v-orange .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .v-orange h3{color:var(--orange)} .v-orange .num{color:var(--orange)}
+  .v-purple{border-color:var(--purple)} .v-purple .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .v-purple h3{color:var(--purple)} .v-purple .num{color:var(--purple)}
+
+  .quote{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .quote .qhd{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .quote .qic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:13px;font-weight:800}
+  .quote .qsub{font-size:11.5px;color:var(--muted);margin-left:39px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .seebtn{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:400px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .ex{margin-top:11px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:10px;padding:11px;font-size:12.5px;line-height:1.55}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  /* bảng so sánh */
+  .cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  @media(max-width:600px){.cmp{grid-template-columns:1fr}}
+  .col{border-radius:14px;padding:16px;opacity:0;transform:translateY(10px);transition:.5s}
+  .col.in{opacity:1;transform:none}
+  .col.a{background:rgba(72,213,151,.08);border:1px solid var(--green)}
+  .col.b{background:rgba(255,157,77,.08);border:1px solid var(--orange)}
+  .col .ch{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;margin-bottom:12px}
+  .col.a .ch{color:var(--green)} .col.b .ch{color:var(--orange)}
+  .col .ch .ce{font-size:22px}
+  .col .row{font-size:12.5px;line-height:1.5;margin-bottom:10px;border-bottom:1px dashed var(--line);padding-bottom:9px}
+  .col .row:last-child{border-bottom:none;margin-bottom:0}
+  .col .rk{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);display:block;margin-bottom:2px}
+  .col.a .rk{color:var(--green)} .col.b .rk{color:var(--orange)}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Miễn hình phạt (Điều 59) & So sánh với miễn TNHS</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">⚖️ Miễn hình phạt (Đ.59)</div>
+    <div class="tab" data-t="1">🆚 So sánh 2 chế định</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="sub"><b>Miễn hình phạt</b>: người đã bị kết tội (vẫn là người phạm tội) nhưng <b>không phải chấp hành hình phạt</b> do có tình tiết giảm nhẹ đặc biệt.</div>
+      <div id="g0">
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">🕊️</div><div class="ti"><div class="num">Điều 59</div><h3>Miễn hình phạt</h3></div></div>
+          <div class="bd">
+            Người phạm tội <b>có thể được miễn hình phạt</b> nếu thuộc trường hợp quy định tại <b>khoản 1 và khoản 2 Điều 54</b> (có ít nhất 2 tình tiết giảm nhẹ) mà <b>đáng được khoan hồng đặc biệt</b> nhưng <b>chưa đến mức được miễn TNHS</b>.
+            <div class="quote">
+              <div class="qhd"><div class="qic" style="background:rgba(255,157,77,.18);color:var(--orange)">⚖️</div><div class="qti">Điều 59 BLHS 2015</div></div>
+              <div class="qsub">Miễn hình phạt</div>
+              <div class="qbody">Người phạm tội có thể được <b>miễn hình phạt</b> nếu thuộc trường hợp quy định tại khoản 1 và khoản 2 Điều 54 của Bộ luật này mà <b>đáng được khoan hồng đặc biệt</b> nhưng <b>chưa đến mức được miễn trách nhiệm hình sự</b>.</div>
+            </div>
+            <button class="seebtn" data-il="il00"><span>🖼

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ví dụ: Cấu thành tội phạm — Vụ Phạm Minh Tuấn</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+
+  /* tình huống */
+  .case{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px}
+  .case .ch{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;color:var(--accent2);margin-bottom:12px}
+  .case .ch .ic{font-size:18px;animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+  .case p{margin:0;font-size:14px;line-height:1.75;color:var(--txt)}
+  .case .hl{background:rgba(255,92,77,.18);color:var(--accent);padding:1px 5px;border-radius:4px;font-weight:600}
+  .case .hl-b{background:rgba(90,169,255,.16);color:var(--blue);padding:1px 5px;border-radius:4px;font-weight:600}
+
+  /* kết luận tội danh */
+  .verdict{background:linear-gradient(180deg,#241a1a,#1a1518);border:1px solid var(--accent);border-radius:14px;padding:16px;margin-bottom:18px;display:flex;gap:14px;align-items:center}
+  .verdict .vico{font-size:34px;animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .verdict .vt h3{margin:0 0 3px;font-size:16px;color:var(--accent)}
+  .verdict .vt p{margin:0;font-size:13px;color:var(--muted)}
+
+  .sech{font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center}
+  .sech b{color:var(--accent2)}
+
+  /* yếu tố cards */
+  .yt{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .yt.in{opacity:1;transform:none}
+  .yt .yhd{display:flex;align-items:center;gap:13px;padding:14px 16px;background:var(--panel2)}
+  .yt .emo{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .yt .yti{flex:1}
+  .yt .yti .num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+  .yt .yti h3{margin:2px 0 0;font-size:15.5px}
+  .yt .ybd{padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .yt .ybd .q{font-size:12px;font-style:italic;color:var(--muted);margin-bottom:8px}
+  .yt .ybd .map{background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:9px;padding:11px;font-size:13px;line-height:1.55}
+  .yt .ybd .map .mh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .yt .ybd .map b{color:var(--accent2)}
+  .yt.y1{border-color:var(--accent)} .yt.y1 .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .yt.y1 h3{color:var(--accent)} .yt.y1 .num{color:var(--accent)}
+  .yt.y2{border-color:var(--blue)} .yt.y2 .emo{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .yt.y2 h3{color:var(--blue)} .yt.y2 .num{color:var(--blue)}
+  .yt.y3{border-color:var(--green)} .yt.y3 .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .yt.y3 h3{color:var(--green)} .yt.y3 .num{color:var(--green)}
+  .yt.y4{border-color:var(--purple)} .yt.y4 .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .yt.y4 h3{color:var(--purple)} .yt.y4 .num{color:var(--purple)}
+
+  /* nút minh hoạ */
+  .seebtn{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:360px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  /* trích dẫn */
+  .quote{margin-top:18px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px}
+  .quote .qbody{font-style:italic;font-size:13px;line-height:1.6;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">📋 Ví dụ: Phân tích cấu thành tội phạm</div>
+
+  <div class="case">
+    <div class="ch"><span class="ic">📖</span> Tình huống</div>
+    <p>Phạm Minh Tuấn (<span class="hl-b">21 tuổi</span>) làm thuê cho anh Thành, thỉnh thoảng được nhờ đón con trai tên Đạt (<span class="hl-b">5 tuổi</span>). Khi phát hiện Tuấn cờ bạc và trộm cắp, anh Thành đuổi việc. Do bị các con bạc đòi nợ và đe dọa, Tuấn quẫn trí đã đến trường mầm non, <span class="hl">nói dối cô giáo</span> để đón Đạt, rồi <span class="hl">chở Đạt đến nhà hoang nhốt lại</span>; đồng thời <span class="hl">nhắn tin buộc anh Thành đưa 500 triệu, nếu không sẽ giết Đạt</span>.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="vico">⚖️</div>
+    <div class="vt">
+      <h3>Tội danh: Bắt cóc nhằm chiếm đoạt tài sản</h3>
+      <p>Điều 169 Bộ luật Hình sự năm 2015</p>
+    </div>
+  </div>
+
+  <div class="sech">Phân tích <b>4 yếu tố cấu thành tội phạm</b> trong vụ án — bấm "Xem minh hoạ" ở từng yếu tố nhaa:</div>
+
+  <div id="yts">
+    <!-- khách thể -->
+    <div class="yt y1">
+      <div class="yhd"><div class="emo">🎯</div><div class="yti"><div class="num">Yếu tố 1</div><h3>Khách thể</h3></div></div>
+      <div class="ybd">
+        <div class="q">❔ Tội phạm xâm phạm cái gì?</div>
+        <div class="map">
+          <div class="mh"><span>🔎</span>Áp vào vụ án</div>
+          Hành vi của Tuấn xâm phạm <b>2 khách thể</b> cùng lúc: <b>quyền tự do thân thể</b> của cháu Đạt (bị nhốt) và <b>quyền sở hữu tài sản</b> của anh Thành (bị đe dọa lấy 500 triệu).
+        </div>
+        <button class="seebtn" data-il="il1"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+        <div class="illus" id="il1"><div class="illus-inner">
+          <svg viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+            <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff5c4d"/></marker></defs>
+            <rect x="125" y="40" width="110" height="30" rx="8" fill="#171a21" stroke="#ff5c4d"/>
+            <text x="180" y="59" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">Hành vi của Tuấn</text>
+            <path d="M150 40 L75 22" stroke="#ff5c4d" stroke-width="2" marker-end="url(#ar1)"/>
+            <path d="M210 40 L285 22" stroke="#ff5c4d" stroke-width="2" marker-end="url(#ar1)"/>
+            <rect x="10" y="6" width="120" height="28" rx="8" fill="#171a21" stroke="#48d597"/>
+            <text x="70" y="24" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">Tự do thân thể (Đạt)</text>
+            <rect x="232" y="6" width="120" height="28" rx="8" fill="#171a21" stroke="#48d597"/>
+            <text x="292" y="24" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">Sở hữu tài sản (Thành)</text>
+            <text x="180" y="98" fill="#9aa3b2" font-size="10" text-anchor="middle">⇒ xâm phạm 2 khách thể (tội ghép)</text>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- mặt khách quan -->
+    <div class="yt y2">
+      <div class="yhd"><div class="emo">👁️</div><div class="yti"><div class="num">Yếu tố 2</div><h3>Mặt khách quan</h3></div></div>
+      <div class="ybd">
+        <div class="q">❔ Tội phạm diễn ra như thế nào?</div>
+        <div class="map">
+          <div class="mh"><span>🔎</span>Áp vào vụ án</div>
+          <b>Hành vi:</b> bắt cóc cháu Đạt (nói dối đón → nhốt nhà hoang) + đe dọa giết để đòi tiền. <b>Thủ đoạn:</b> lợi dụng lòng tin. <b>Mục tiêu hậu quả:</b> chiếm đoạt 500 triệu. Tội hoàn thành từ thời điểm đe dọa đòi tài sản (không cần lấy được tiền).
+        </div>
+        <button class="seebtn" data-il="il2"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+        <div class="illus" id="il2"><div class="illus-inner">
+          <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="34" width="80" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+            <text x="48" y="49" fill="#5aa9ff" font-size="9" font-weight="700" text-anchor="middle">Nói dối</text>
+            <text x="48" y="60" fill="#9aa3b2" font-size="8" text-anchor="middle">đón Đạt</text>
+            <text x="95" y="52" fill="#9aa3b2" font-size="12">→</text>
+            <rect x="108" y="34" width="80" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+            <text x="148" y="49" fill="#5aa9ff" font-size="9" font-weight="700" text-anchor="middle">Nhốt</text>
+            <text x="148" y="60" fill="#9aa3b2" font-size="8" text-anchor="middle">nhà hoang</text>
+            <text x="195" y="52" fill="#9aa3b2" font-size="12">→</text>
+            <rect x="208" y="34" width="90" height="30" rx="7" fill="#171a21" stroke="#ff9d4d"/>
+            <text x="253" y="49" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Đe dọa giết</text>
+            <text x="253" y="60" fill="#9aa3b2" font-size="8" text-anchor="middle">đòi 500tr</text>
+            <text x="305" y="52" fill="#9aa3b2" font-size="12">→</text>
+            <rect x="318" y="34" width="34" height="30" rx="7" fill="#171a21" stroke="#ff5c4d"/>
+            <text x="335" y="53" fill="#ff5c4d" font-size="14" font-weight="700" text-anchor="middle">✔</text>
+            <text x="180" y="20" fill="#5aa9ff" font-size="10" font-weight="700" text-anchor="middle">Chuỗi hành vi khách quan</text>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- chủ thể -->
+    <div class="yt y3">
+      <div class="yhd"><div class="emo">🧍</div><div class="yti"><div class="num">Yếu tố 3</div><h3>Chủ thể</h3></div></div>
+      <div class="ybd">
+        <div class="q">❔ Ai thực hiện tội phạm?</div>
+        <div class="map">
+          <div class="mh"><span>🔎</span>Áp vào vụ án</div>
+          Tuấn <b>21 tuổi</b> (đủ tuổi chịu TNHS theo Điều 12) + không có dấu hiệu mất năng lực nhận thức/điều khiển (có năng lực TNHS theo Điều 21) ⇒ <b>đủ điều kiện làm chủ thể</b>. ("Quẫn trí" vì bị đòi nợ không làm mất NLTNHS.)
+        </div>
+        <button class="seebtn" data-il="il3"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+        <div class="illus" id="il3"><div class="illus-inner">
+          <svg viewBox="0 0 360 90" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="32" width="150" height="34" rx="8" fill="#171a21" stroke="#48d597"/>
+            <text x="95" y="47" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">✔ 21 tuổi (đủ tuổi)</text>
+            <text x="95" y="59" fill="#9aa3b2" font-size="9" text-anchor="middle">Điều 12 BLHS</text>
+            <text x="185" y="53" fill="#9aa3b2" font-size="14">+</text>
+            <rect x="200" y="32" width="150" height="34" rx="8" fill="#171a21" stroke="#48d597"/>
+            <text x="275" y="47" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">✔ Có năng lực TNHS</text>
+            <text x="275" y="59" fill="#9aa3b2" font-size="9" text-anchor="middle">không mắc bệnh (Đ.21)</text>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- mặt chủ quan -->
+    <div class="yt y4">
+      <div class="yhd"><div class="emo">🧠</div><div class="yti"><div class="num">Yếu tố 4</div><h3>Mặt chủ quan</h3></div></div>
+      <div class="ybd">
+        <div class="q">❔ Thái độ tâm lý của người phạm tội ra sao?</div>
+        <div class="map">
+          <div class="mh"><span>🔎</span>Áp vào vụ án</div>
+          <b>Lỗi cố ý trực tiếp:</b> Tuấn nhận thức rõ việc bắt cóc & đe dọa là nguy hiểm, thấy trước hậu quả và <b>mong muốn</b> chiếm được 500 triệu. <b>Mục đích:</b> chiếm đoạt tài sản (dấu hiệu bắt buộc của tội Đ.169). <b>Động cơ:</b> trả nợ cờ bạc.
+        </div>
+        <button class="seebtn" data-il="il4"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+        <div class="illus" id="il4"><div class="illus-inner">
+          <svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="38" width="100" height="32" rx="8" fill="#171a21" stroke="#ff5c4d"/>
+            <text x="68" y="54" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">Cố ý trực tiếp</text>
+            <text x="68" y="64" fill="#9aa3b2" font-size="8" text-anchor="middle">mong muốn hậu quả</text>
+            <text x="128" y="56" fill="#9aa3b2" font-size="12">+</text>
+            <rect x="143" y="38" width="95" height="32" rx="8" fill="#171a21" stroke="#b18cff"/>
+            <text x="190" y="54" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">Mục đích</text>
+            <text x="190" y="64" fill="#9aa3b2" font-size="8" text-anchor="middle">chiếm 500tr</text>
+            <text x="248" y="56" fill="#9aa3b2" font-size="12">+</text>
+            <rect x="263" y="38" width="88" height="32" rx="8" fill="#171a21" stroke="#9aa3b2"/>
+            <text x="307" y="54" fill="#9aa3b2" font-size="10" font-weight="700" text-anchor="middle">Động cơ</text>
+            <text x="307" y="64" fill="#9aa3b2" font-size="8" text-anchor="middle">trả nợ</text>
+            <text x="180" y="22" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">Lỗi + mục đích = bắt buộc với Điều 169</text>
+          </svg>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote">
+    <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 169 BLHS 2015</div></div>
+    <div class="qsub">Tội bắt cóc nhằm chiếm đoạt tài sản</div>
+    <div class="qbody">Người nào <b>bắt cóc người khác làm con tin nhằm chiếm đoạt tài sản</b>, thì bị phạt tù… (khung hình phạt tăng nặng khi nạn nhân là <b>người dưới 16 tuổi</b> — cháu Đạt 5 tuổi).</div>
+  </div>
+
+  <div class="hint">✔ Đủ <b>cả 4 yếu tố</b> ⇒ hành vi của Tuấn cấu thành tội Bắt cóc nhằm chiếm đoạt tài sản (Điều 169).</div>
+  <div class="replay"><button id="rp">▶ Phát lại 4 yếu tố</button></div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  var yts=document.querySelectorAll('#yts .yt');
+  function play(){
+    yts.forEach(function(x){x.classList.remove('in')});
+    yts.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*350)});
+  }
+  document.getElementById('rp').addEventListener('click',play);
+  play();
+})();
+</script>
+</body>
+</html>

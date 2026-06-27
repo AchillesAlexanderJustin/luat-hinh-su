@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khái niệm Luật Hình sự</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg);
+    color:var(--txt); margin:0; padding:24px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  .title{
+    text-align:center;font-size:22px;font-weight:800;letter-spacing:.5px;padding:14px;
+    border:2px solid var(--blue);border-radius:12px;
+    background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase;
+  }
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{
+    flex:1;min-width:120px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);
+    border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;
+    text-align:center;transition:.2s;
+  }
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;line-height:1.7;font-size:16px}
+  .hl{background:var(--accent);color:#fff;padding:1px 7px;border-radius:5px;font-weight:700;cursor:help}
+  .hl-y{background:var(--accent2);color:#1a1300;padding:1px 7px;border-radius:5px;font-weight:700}
+  .def b{color:var(--accent)}
+  .pop{display:none;margin-top:6px;font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding:6px 10px;background:var(--panel2);border-radius:0 8px 8px 0}
+  .pop.show{display:block}
+  .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 6px;justify-content:center}
+  .node{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:600;text-align:center;min-width:120px;opacity:0;transform:translateY(8px);transition:.5s}
+  .node.in{opacity:1;transform:none}
+  .node.s1{border-color:var(--blue)} .node.s2{border-color:var(--accent2)} .node.s3{border-color:var(--accent)}
+  .arr{color:var(--muted);font-size:20px;opacity:0;transition:.5s}
+  .arr.in{opacity:1}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  @media(max-width:560px){.pair{grid-template-columns:1fr}}
+  .mini{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .mini h4{margin:0 0 8px;font-size:14px;color:var(--accent2)}
+  .mini p{margin:0;font-size:14px;line-height:1.6}
+  .tag{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:8px}
+  .replay{margin-top:14px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">I. Khái niệm Luật Hình sự</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">📖 Khái niệm</div>
+    <div class="tab" data-t="1">🎯 Đối tượng điều chỉnh</div>
+    <div class="tab" data-t="2">⚖️ Phương pháp điều chỉnh</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card def">
+      Luật Hình sự là một <span class="hl" data-k="a">ngành luật độc lập</span>
+      trong hệ thống pháp luật Việt Nam, bao gồm hệ thống những quy phạm pháp luật
+      do <b>Nhà nước</b> ban hành, xác định những hành vi nguy hiểm cho xã hội nào là
+      <span class="hl" data-k="b">tội phạm</span>, đồng thời quy định
+      <span class="hl" data-k="c">hình phạt</span> đối với những tội phạm ấy.
+      <div class="pop" data-pk="a">Có đối tượng & phương pháp điều chỉnh riêng → tự đứng độc lập, không phụ thuộc ngành luật khác.</div>
+      <div class="pop" data-pk="b">Hành vi nguy hiểm cho xã hội, do người có năng lực TNHS thực hiện một cách có lỗi, được BLHS quy định.</div>
+      <div class="pop" data-pk="c">Biện pháp cưỡng chế nghiêm khắc nhất của Nhà nước, tước/hạn chế quyền của người phạm tội.</div>
+    </div>
+    <div class="flow" id="flow">
+      <div class="node s1">Hành vi nguy hiểm<br>cho xã hội</div>
+      <span class="arr">➜</span>
+      <div class="node s2">Nhà nước xác định<br>là <b>tội phạm</b></div>
+      <span class="arr">➜</span>
+      <div class="node s3">Quy định<br><b>hình phạt</b></div>
+    </div>
+    <div class="hint">Bấm vào chữ tô đỏ để xem giải thích.</div>
+    <div class="replay"><button id="rp">▶ Phát lại mạch logic</button></div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <span class="tag">Đối tượng điều chỉnh</span>
+      <p style="margin:0 0 16px">Là <b style="color:var(--accent2)">quan hệ xã hội</b> phát sinh giữa Nhà nước với người phạm tội, khi người này thực hiện một hành vi mà Nhà nước quy định là <span class="hl-y">tội phạm</span>.</p>
+      <div class="flow">
+        <div class="node s1 in">🏛️ Nhà nước</div>
+        <span class="arr in" style="color:var(--accent)">⟷ QH hình sự ⟷</span>
+        <div class="node s3 in">🧍 Người phạm tội</div>
+      </div>
+      <p style="font-size:13px;color:var(--muted);text-align:center;margin-top:10px">Quan hệ chỉ phát sinh <b style="color:var(--accent)">khi có hành vi phạm tội</b> xảy ra.</p>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <span class="tag">Phương pháp điều chỉnh</span>
+      <p style="margin:0 0 14px">Sử dụng <span class="hl-y">phương pháp quyền uy</span> — dùng quyền lực Nhà nước buộc người phạm tội phải chịu <b style="color:var(--accent)">trách nhiệm hình sự</b>.</p>
+      <div class="pair">
+        <div class="mini"><h4>Bản chất</h4><p>Quan hệ <b style="color:var(--accent)">mệnh lệnh – phục tùng</b>. Nhà nước có quyền tối cao, người phạm tội không "thỏa thuận" được.</p></div>
+        <div class="mini"><h4>Biểu hiện</h4><p>Áp dụng hình phạt & biện pháp cưỡng chế trực tiếp lên người phạm tội mà không cần sự đồng ý của họ.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      if(i==='0')play();
+    });
+  });
+  document.querySelectorAll('.hl').forEach(function(h){
+    h.addEventListener('click',function(){
+      var pop=document.querySelector('.pop[data-pk="'+h.getAttribute('data-k')+'"]');
+      var open=pop.classList.contains('show');
+      document.querySelectorAll('.pop').forEach(function(p){p.classList.remove('show')});
+      if(!open)pop.classList.add('show');
+    });
+  });
+  var nodes=document.querySelectorAll('#flow .node'), arrs=document.querySelectorAll('#flow .arr');
+  function play(){
+    nodes.forEach(function(n){n.classList.remove('in')}); arrs.forEach(function(a){a.classList.remove('in')});
+    [[nodes[0],0],[arrs[0],450],[nodes[1],700],[arrs[1],1150],[nodes[2],1400]].forEach(function(s){
+      setTimeout(function(){s[0].classList.add('in')},s[1]);
+    });
+  }
+  document.getElementById('rp').addEventListener('click',play);
+  play();
+})();
+</script>
+</body>
+</html>

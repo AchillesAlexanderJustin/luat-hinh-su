@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chủ thể của tội phạm</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:20px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:150px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .sub b{color:var(--accent2)}
+
+  /* item card */
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd{display:flex;align-items:center;gap:13px;padding:14px 16px;background:var(--panel2)}
+  .item .emo{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .item .ti{flex:1}
+  .item .ti .num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+  .item .ti h3{margin:2px 0 0;font-size:15.5px}
+  .item .bd{padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .item .bd b{color:var(--accent2)}
+
+  /* màu variant */
+  .v-blue{border-color:var(--blue)} .v-blue .emo{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .v-blue h3{color:var(--blue)} .v-blue .num{color:var(--blue)}
+  .v-red{border-color:var(--accent)} .v-red .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .v-red h3{color:var(--accent)} .v-red .num{color:var(--accent)}
+  .v-green{border-color:var(--green)} .v-green .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .v-green h3{color:var(--green)} .v-green .num{color:var(--green)}
+  .v-orange{border-color:var(--orange)} .v-orange .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .v-orange h3{color:var(--orange)} .v-orange .num{color:var(--orange)}
+  .v-purple{border-color:var(--purple)} .v-purple .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .v-purple h3{color:var(--purple)} .v-purple .num{color:var(--purple)}
+
+  /* trích dẫn */
+  .quote{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .quote .qhd{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .quote .qic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:13px;font-weight:800}
+  .quote .qsub{font-size:11.5px;color:var(--muted);margin-left:39px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  /* nút minh hoạ */
+  .seebtn{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:340px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  /* ví dụ */
+  .ex{margin-top:11px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:10px;padding:11px;font-size:12.5px;line-height:1.55}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Chủ thể của tội phạm</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">🧠 Năng lực TNHS</div>
+    <div class="tab" data-t="1">🎂 Tuổi chịu TNHS</div>
+    <div class="tab" data-t="2">🏢 Pháp nhân thương mại</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="sub">Chủ thể là cá nhân phải có <b>năng lực trách nhiệm hình sự (NLTNHS)</b> = khả năng <b>nhận thức</b> + khả năng <b>điều khiển</b> hành vi.</div>
+      <div id="g0">
+        <div class="item v-blue">
+          <div class="hd"><div class="emo">🧠</div><div class="ti"><div class="num">Khái niệm</div><h3>Năng lực TNHS</h3></div></div>
+          <div class="bd">
+            Là khả năng của một người tại thời điểm thực hiện hành vi nguy hiểm: <b>nhận thức được</b> tính nguy hiểm cho xã hội của hành vi và <b>điều khiển được</b> hành vi đó.
+            <button class="seebtn" data-il="il00"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="il00"><div class="illus-inner">
+              <svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="35" width="130" height="34" rx="8" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="85" y="50" fill="#5aa9ff" font-size="11" font-weight="700" text-anchor="middle">🧠 Nhận thức</text>
+                <text x="85" y="63" fill="#9aa3b2" font-size="9" text-anchor="middle">biết hành vi nguy hiểm</text>
+                <text x="178" y="56" fill="#48d597" font-size="16" font-weight="700" text-anchor="middle">+</text>
+                <rect x="205" y="35" width="135" height="34" rx="8" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="272" y="50" fill="#5aa9ff" font-size="11" font-weight="700" text-anchor="middle">🎮 Điều khiển</text>
+                <text x="272" y="63" fill="#9aa3b2" font-size="9" text-anchor="middle">làm chủ được hành vi</text>
+                <text x="180" y="90" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">⇒ Có đủ cả 2 = có NLTNHS</text>
+              </svg>
+            </div></div>
+          </div>
+        </div>
+
+        <div class="item v-red">
+          <div class="hd"><div class="emo">🚫</div><div class="ti"><div class="num">Loại trừ</div><h3>Không có NLTNHS</h3></div></div>
+          <div class="bd">
+            Người thực hiện hành vi trong khi mắc bệnh tâm thần hoặc bệnh khác <b>làm mất khả năng nhận thức hoặc điều khiển</b> hành vi thì <b>không phải chịu TNHS</b>.
+            <div class="quote">
+              <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 21 BLHS 2015</div></div>
+              <div class="qsub">Tình trạng không có năng lực TNHS</div>
+              <div class="qbody">Người thực hiện hành vi nguy hiểm cho xã hội trong khi đang mắc bệnh tâm thần, một bệnh khác làm <b>mất khả năng nhận thức hoặc khả năng điều khiển</b> hành vi của mình, thì <b>không phải chịu trách nhiệm hình sự</b>.</div>
+            </div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Người tâm thần phân liệt lên cơn, đập phá gây thương tích nhưng <b>mất khả năng nhận thức</b> ⇒ không có NLTNHS ⇒ không chịu TNHS (áp dụng biện pháp bắt buộc chữa bệnh).</div>
+          </div>
+        </div>
+
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">🍺</div><div class="ti"><div class="num">Trường hợp đặc biệt</div><h3>Say rượu / chất kích thích</h3></div></div>
+          <div class="bd">
+            Người phạm tội trong tình trạng mất khả năng nhận thức/điều khiển <b>do dùng rượu, bia hoặc chất kích thích mạnh</b> thì <b>vẫn phải chịu TNHS</b>.
+            <div class="quote">
+              <div class="qhd"><div class="qic" style="background:rgba(255,157,77,.18);color:var(--orange)">⚖️</div><div class="qti">Điều 13 BLHS 2015</div></div>
+              <div class="qsub">Phạm tội do dùng rượu, bia hoặc chất kích thích mạnh khác</div>
+              <div class="qbody">Người phạm tội trong tình trạng mất khả năng nhận thức hoặc khả năng điều khiển hành vi do dùng rượu, bia hoặc chất kích thích mạnh khác, thì <b>vẫn phải chịu trách nhiệm hình sự</b>.</div>
+            </div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A nhậu say, lái xe tông chết người ⇒ dù lúc đó mất nhận thức nhưng do <b>tự uống rượu</b> ⇒ vẫn chịu TNHS đầy đủ.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Mấu chốt: mất nhận thức do <b>bệnh</b> ⇒ miễn TNHS (Đ.21); do <b>rượu/chất kích thích</b> ⇒ vẫn chịu TNHS (Đ.13).</div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="sub">Ngoài năng lực TNHS, chủ thể cá nhân còn phải <b>đủ tuổi chịu TNHS</b> (Điều 12 BLHS 2015).</div>
+      <div id="g1">
+        <div class="item v-green">
+          <div class="hd"><div class="emo">🧑</div><div class="ti"><div class="num">Từ đủ 16 tuổi trở lên</div><h3>Chịu TNHS về mọi loại tội phạm</h3></div></div>
+          <div class="bd">
+            Người <b>từ đủ 16 tuổi trở lên</b> phải chịu trách nhiệm hình sự về <b>mọi loại tội phạm</b>, trừ những tội phạm mà BLHS có quy định khác.
+            <button class="seebtn" data-il="il10"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="il10"><div class="illus-inner">
+              <svg viewBox="0 0 360 95" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="20" fill="#48d597" font-size="12" font-weight="700" text-anchor="middle">≥ 16 tuổi → chịu TNHS MỌI tội</text>
+                <line x1="20" y1="55" x2="340" y2="55" stroke="#2a2f3a" stroke-width="2"/>
+                <rect x="20" y="42" width="320" height="26" rx="6" fill="#48d597"/>
+                <text x="180" y="60" fill="#0b1410" font-size="11" font-weight="700" text-anchor="middle">Ít NT · NT · Rất NT · Đặc biệt NT (tất cả)</text>
+                <text x="180" y="88" fill="#9aa3b2" font-size="10" text-anchor="middle">phạm vi rộng nhất</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Học sinh 17 tuổi trộm cắp tài sản ⇒ đủ tuổi ⇒ chịu TNHS về tội trộm cắp.</div>
+          </div>
+        </div>
+
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">🧒</div><div class="ti"><div class="num">Từ đủ 14 → dưới 16 tuổi</div><h3>Chỉ tội rất NT & đặc biệt NT</h3></div></div>
+          <div class="bd">
+            Người <b>từ đủ 14 tuổi đến dưới 16 tuổi</b> phải chịu TNHS về <b>tội phạm rất nghiêm trọng, tội đặc biệt nghiêm trọng</b> quy định tại một số điều luật (123 giết người, 134 cố ý gây thương tích, 168 cướp tài sản…).
+            <button class="seebtn" data-il="il11"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="il11"><div class="illus-inner">
+              <svg viewBox="0 0 360 95" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="20" fill="#ff9d4d" font-size="12" font-weight="700" text-anchor="middle">14 → dưới 16 tuổi → chỉ tội nặng</text>
+                <line x1="20" y1="55" x2="340" y2="55" stroke="#2a2f3a" stroke-width="2"/>
+                <rect x="20" y="42" width="160" height="26" rx="6" fill="#1e222b" stroke="#2a2f3a" stroke-dasharray="4"/>
+                <text x="100" y="60" fill="#9aa3b2" font-size="10" text-anchor="middle">Ít NT · NT (miễn)</text>
+                <rect x="180" y="42" width="160" height="26" rx="6" fill="#ff5c4d"/>
+                <text x="260" y="60" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">Rất NT · Đặc biệt NT</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Thiếu niên 15 tuổi cướp tài sản (Đ.168, tội rất nghiêm trọng) ⇒ vẫn chịu TNHS; nhưng nếu chỉ trộm cắp thường (ít nghiêm trọng) ⇒ không chịu TNHS.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Mẹo: <b>≥16</b> = mọi tội · <b>14→16</b> = chỉ rất NT + đặc biệt NT · <b>&lt;14</b> = không chịu TNHS.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="sub">Ngoài cá nhân, <b>pháp nhân thương mại</b> cũng có thể là chủ thể của tội phạm (điểm mới của BLHS 2015).</div>
+
+      <div class="item v-purple in" style="opacity:1;transform:none;margin-bottom:18px">
+        <div class="hd"><div class="emo">🏢</div><div class="ti"><div class="num">Phạm vi chịu TNHS</div><h3>Điều 76 BLHS 2015</h3></div></div>
+        <div class="bd">
+          Pháp nhân thương mại chỉ phải chịu TNHS về tội phạm quy định tại <b>một số điều luật giới hạn</b> (các điều 188, 189, 190… 300, 324) — chủ yếu là tội kinh tế và môi trường, <b>không phải mọi tội</b>.
+          <div class="quote">
+            <div class="qhd"><div class="qic" style="background:rgba(177,140,255,.18);color:var(--purple)">⚖️</div><div class="qti">Điều 76 BLHS 2015</div></div>
+            <div class="qsub">Phạm vi chịu TNHS của pháp nhân thương mại</div>
+            <div class="qbody">Pháp nhân thương mại phải chịu trách nhiệm hình sự về tội phạm quy định tại <b>một trong các điều</b> 188, 189, 190… 300 và 324 của Bộ luật này.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub" style="margin-bottom:12px">📋 <b>4 điều kiện</b> để pháp nhân thương mại phải chịu TNHS (Điều 75):</div>
+      <div id="g2">
+        <div class="item v-blue">
+          <div class="hd"><div class="emo">🎭</div><div class="ti"><div class="num">Điều kiện 1</div><h3>Nhân danh pháp nhân</h3></div></div>
+          <div class="bd">Hành vi phạm tội được thực hiện <b>nhân danh</b> pháp nhân thương mại.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Giám đốc ký hợp đồng xả thải trái phép <b>với tư cách đại diện công ty</b>, không phải việc cá nhân.</div>
+          </div>
+        </div>
+        <div class="item v-green">
+          <div class="hd"><div class="emo">💰</div><div class="ti"><div class="num">Điều kiện 2</div><h3>Vì lợi ích pháp nhân</h3></div></div>
+          <div class="bd">Hành vi phạm tội được thực hiện <b>vì lợi ích</b> của pháp nhân thương mại.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty trốn thuế để <b>tăng lợi nhuận doanh nghiệp</b>, không phải để tư lợi riêng của 1 nhân viên.</div>
+          </div>
+        </div>
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">👔</div><div class="ti"><div class="num">Điều kiện 3</div><h3>Có sự chỉ đạo / chấp thuận</h3></div></div>
+          <div class="bd">Hành vi được thực hiện có <b>sự chỉ đạo, điều hành hoặc chấp thuận</b> của pháp nhân thương mại.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>HĐQT <b>biểu quyết thông qua</b> kế hoạch gây ô nhiễm để tiết kiệm chi phí xử lý.</div>
+          </div>
+        </div>
+        <div class="item v-red">
+          <div class="hd"><div class="emo">⏳</div><div class="ti"><div class="num">Điều kiện 4</div><h3>Còn thời hiệu truy cứu</h3></div></div>
+          <div class="bd"><b>Chưa hết thời hiệu</b> truy cứu trách nhiệm hình sự theo quy định của BLHS.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Tội phạm xảy ra cách đây quá lâu, đã <b>hết thời hiệu</b> ⇒ pháp nhân không còn bị truy cứu.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Đủ <b>cả 4 điều kiện</b> thì pháp nhân thương mại mới phải chịu TNHS — lưu ý vẫn không loại trừ TNHS của cá nhân.</div>
+      <div class="replay"><button id="rp2">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    var g=document.getElementById('g'+i);
+    if(!g)return;
+    var els=g.querySelectorAll('.item');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  document.getElementById('rp2').addEventListener('click',function(){play('2')});
+  play('0');
+})();
+</script>
+</body>
+</html>

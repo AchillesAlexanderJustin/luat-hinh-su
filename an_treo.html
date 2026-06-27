@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Án treo</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:20px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:130px;cursor:pointer;padding:9px 8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:12.5px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  .quote{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.6;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px;margin-top:9px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
+  .sub b{color:var(--accent2)}
+
+  .item{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:13px 14px;margin-bottom:11px;opacity:0;transform:translateX(-12px);transition:.45s}
+  .item.in{opacity:1;transform:none}
+  .item .ie{font-size:22px;flex-shrink:0;width:32px;text-align:center;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .item .it{flex:1}
+  .item .it h4{margin:0 0 4px;font-size:14px}
+  .item .it p{margin:0;font-size:13px;line-height:1.55;color:var(--txt)}
+  .item .it p b{color:var(--accent2)}
+  .g .item{border-left-color:var(--green)} .g .item h4{color:var(--green)}
+  .r .item{border-left-color:var(--accent)} .r .item h4{color:var(--accent)}
+
+  .ex{margin-top:13px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:11px;padding:13px;font-size:13px;line-height:1.6}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .formula{border-radius:14px;padding:18px;text-align:center;margin:14px 0;font-size:16px;font-weight:800;background:rgba(72,213,151,.1);border:2px solid var(--green);color:var(--green)}
+  .formula .leg{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:8px}
+
+  .calc{background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:12px;padding:15px;margin-top:6px}
+  .calc .ch{font-weight:800;color:var(--blue);font-size:13px;display:flex;align-items:center;gap:7px;margin-bottom:10px}
+  .calc .crow{font-size:13px;line-height:1.7;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .calc .crow:last-child{border-bottom:none}
+  .calc .crow b{color:var(--accent2)}
+  .calc .total{margin-top:8px;background:rgba(72,213,151,.12);border:1px solid var(--green);border-radius:9px;padding:10px;font-size:14px;font-weight:800;color:var(--green);text-align:center}
+
+  .seebtn{margin-top:13px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:340px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">⛓️ Án treo (Điều 65 BLHS 2015)</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">📖 Khái niệm</div>
+    <div class="tab" data-t="1">✅ Điều kiện hưởng</div>
+    <div class="tab" data-t="2">🚫 Không được hưởng</div>
+    <div class="tab" data-t="3">⏳ Thời gian thử thách</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic">⚖️</div><div class="qti">Án treo — Điều 65 BLHS 2015</div></div>
+        <div class="qsub">Biện pháp miễn chấp hành hình phạt tù có điều kiện</div>
+        <div class="qbody">Án treo là biện pháp <b>miễn chấp hành hình phạt tù có điều kiện</b>, áp dụng với người bị phạt tù <b>không quá 03 năm</b>, căn cứ vào <b>nhân thân</b> và các <b>tình tiết giảm nhẹ</b>, xét thấy không cần bắt họ phải chấp hành hình phạt tù.</div>
+      </div>
+      <div class="g" id="g0">
+        <div class="item"><div class="ie">⛓️</div><div class="it"><h4>Bản chất</h4><p>KHÔNG phải là 1 loại hình phạt — mà là <b>biện pháp miễn chấp hành hình phạt tù có điều kiện</b>.</p></div></div>
+        <div class="item"><div class="ie">🏠</div><div class="it"><h4>Ý nghĩa</h4><p>Người bị án treo <b>không phải vào tù</b>, được cải tạo tại cộng đồng dưới sự giám sát.</p></div></div>
+        <div class="item"><div class="ie">⚠️</div><div class="it"><h4>Điều kiện kèm theo</h4><p>Nếu trong thời gian thử thách <b>phạm tội mới</b> ⇒ phải chấp hành cả hình phạt tù đã cho hưởng án treo.</p></div></div>
+      </div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A bị tuyên 2 năm tù nhưng được <b>hưởng án treo</b> ⇒ A không vào tù, sống & cải tạo tại địa phương; nếu chấp hành tốt thì không phải đi tù.</div>
+      <div class="hint">Nhớ: án treo <b>không phải hình phạt</b>, là biện pháp miễn chấp hành hình phạt tù <b>có điều kiện</b>.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="sub">5 điều kiện để được hưởng án treo (theo Nghị quyết 02/2018 & Điều 65):</div>
+      <div class="g" id="g1">
+        <div class="item"><div class="ie">📏</div><div class="it"><h4>1. Mức án ≤ 3 năm tù</h4><p>Bị xử phạt tù <b>không quá 03 năm</b>.</p></div></div>
+        <div class="item"><div class="ie">👤</div><div class="it"><h4>2. Nhân thân tốt</h4><p>Ngoài lần phạm tội này, người đó <b>chấp hành chính sách, pháp luật, thực hiện đầy đủ nghĩa vụ công dân</b> nơi cư trú/làm việc.</p></div></div>
+        <div class="item"><div class="ie">📋</div><div class="it"><h4>3. Có ≥ 2 tình tiết giảm nhẹ</h4><p>Có từ <b>02 tình tiết giảm nhẹ</b> trở lên, trong đó ít nhất <b>01 tình tiết</b> ở khoản 1 Điều 51 (và không có tình tiết tăng nặng, hoặc có nhưng số giảm nhẹ vẫn nhiều hơn).</p></div></div>
+        <div class="item"><div class="ie">🏡</div><div class="it"><h4>4. Có nơi cư trú / làm việc ổn định</h4><p>Để cơ quan, tổ chức có thẩm quyền <b>giám sát, giáo dục</b>.</p></div></div>
+        <div class="item"><div class="ie">🕊️</div><div class="it"><h4>5. Không cần cách ly khỏi xã hội</h4><p>Xét thấy <b>không cần bắt chấp hành tù</b>, vẫn có khả năng tự cải tạo & không gây nguy hiểm cho xã hội.</p></div></div>
+      </div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A bị tuyên 2 năm tù (≤3 năm), lần đầu phạm tội, có 3 tình tiết giảm nhẹ, có nhà & công việc ổn định ⇒ đủ điều kiện <b>hưởng án treo</b>.</div>
+      <div class="hint">Phải đủ <b>cả 5 điều kiện</b> mới được Tòa cho hưởng án treo.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic">🚫</div><div class="qti">Không được hưởng án treo khi…</div></div>
+        <div class="qsub">Nghị quyết 02/2018/NQ-HĐTP</div>
+      </div>
+      <div class="r" id="g2">
+        <div class="item"><div class="ie">🏃</div><div class="it"><h4>Bỏ trốn / bị truy nã</h4><p>Người phạm tội <b>bỏ trốn</b> và đã bị cơ quan tố tụng <b>đề nghị truy nã</b>.</p></div></div>
+        <div class="item"><div class="ie">🔁</div><div class="it"><h4>Phạm tội mới trong thời gian thử thách</h4><p>Đang được hưởng án treo mà <b>phạm tội mới</b> trong thời gian thử thách.</p></div></div>
+        <div class="item"><div class="ie">⚖️</div><div class="it"><h4>Xét xử cùng lần về nhiều tội</h4><p>Bị xét xử trong cùng một lần về <b>nhiều tội</b> (trừ trường hợp người dưới 18 tuổi).</p></div></div>
+        <div class="item"><div class="ie">🔢</div><div class="it"><h4>Phạm tội nhiều lần</h4><p>Phạm tội <b>nhiều lần</b> (trừ trường hợp người dưới 18 tuổi).</p></div></div>
+        <div class="item"><div class="ie">♻️</div><div class="it"><h4>Tái phạm / tái phạm nguy hiểm</h4><p>Thuộc trường hợp <b>tái phạm hoặc tái phạm nguy hiểm</b>.</p></div></div>
+      </div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A từng bị kết án, chưa xóa án tích mà lại phạm tội mới ⇒ <b>tái phạm</b> ⇒ KHÔNG được hưởng án treo dù mức án ≤ 3 năm.</div>
+      <div class="hint">Đây là các "rào chắn" — dù đủ điều kiện cơ bản nhưng rơi vào 1 trong các trường hợp này thì vẫn không được án treo.</div>
+      <div class="replay"><button id="rp2">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="pane" data-p="3" style="display:none">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic" style="background:rgba(72,213,151,.18);color:var(--green)">⏳</div><div class="qti">Ấn định thời gian thử thách</div></div>
+        <div class="qbody">Khi cho hưởng án treo, Tòa phải ấn định thời gian thử thách <b>bằng hai lần mức hình phạt tù</b>, nhưng <b>không dưới 01 năm và không quá 05 năm</b>.</div>
+      </div>
+      <div class="formula">
+        Thời gian thử thách = Mức án tù × 2
+        <span class="leg">Giới hạn: tối thiểu 01 năm · tối đa 05 năm</span>
+      </div>
+      <div class="calc">
+        <div class="ch"><span class="ic">💡</span>Ví dụ tính toán (theo slide)</div>
+        <div class="crow">Tòa xử phạt A <b>3 năm tù</b> cho hưởng án treo.</div>
+        <div class="crow">Thời gian thử thách = 3 × 2 = <b>6 năm</b></div>
+        <div class="crow">Nhưng tối đa chỉ <b>05 năm</b> ⇒ áp trần.</div>
+        <div class="total">⇒ Thời gian thử thách: 5 năm (không phải 6)</div>
+      </div>
+      <button class="seebtn" data-il="iltt"><span>🖼️ Xem cơ chế áp trần/sàn</span><span class="car">▾</span></button>
+      <div class="illus" id="iltt"><div class="illus-inner">
+        <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">Thời gian thử thách = án tù × 2 (kẹp trong 1–5 năm)</text>
+          <line x1="30" y1="70" x2="330" y2="70" stroke="#2a2f3a" stroke-width="2"/>
+          <line x1="60" y1="58" x2="60" y2="82" stroke="#48d597" stroke-width="3"/>
+          <text x="60" y="98" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">1 năm</text>
+          <text x="60" y="110" fill="#9aa3b2" font-size="8" text-anchor="middle">sàn</text>
+          <line x1="300" y1="58" x2="300" y2="82" stroke="#ff5c4d" stroke-width="3"/>
+          <text x="300" y="98" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">5 năm</text>
+          <text x="300" y="110" fill="#9aa3b2" font-size="8" text-anchor="middle">trần</text>
+          <rect x="60" y="64" width="240" height="12" fill="#48d597" opacity="0.25"/>
+          <circle cx="240" cy="70" r="6" fill="#ffd54a"/>
+          <text x="240" y="50" fill="#ffd54a" font-size="9" font-weight="700" text-anchor="middle">3 năm × 2 = 6</text>
+          <text x="240" y="40" fill="#ff5c4d" font-size="8" text-anchor="middle">vượt trần → kéo về 5</text>
+        </svg>
+      </div></div>
+      <div class="hint">Công thức: <b>án tù × 2</b>, nhưng luôn nằm trong khoảng <b>1–5 năm</b> (dưới 1 thì nâng lên 1, trên 5 thì hạ xuống 5).</div>
+      <div class="replay"><button id="rp3">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    var g=document.getElementById('g'+i); if(!g)return;
+    var els=g.querySelectorAll('.item');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*220)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  document.getElementById('rp2').addEventListener('click',function(){play('2')});
+  document.getElementById('rp3').addEventListener('click',function(){});
+  play('0');
+})();
+</script>
+</body>
+</html>

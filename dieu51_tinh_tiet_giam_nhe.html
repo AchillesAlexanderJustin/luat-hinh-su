@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Điều 51 — Tình tiết giảm nhẹ TNHS</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  .quote{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,213,74,.18);color:var(--accent2);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px;margin-top:9px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  /* tabs nhóm */
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:130px;cursor:pointer;padding:10px 10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);color:var(--muted);font-weight:600;font-size:13px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .gdesc{font-size:13px;color:var(--muted);margin-bottom:14px;text-align:center}
+  .gdesc b{color:var(--accent2)}
+
+  /* chip tình tiết */
+  .chip{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:13px 14px;margin-bottom:11px;opacity:0;transform:translateX(-12px);transition:.45s}
+  .chip.in{opacity:1;transform:none}
+  .chip .ce{font-size:23px;flex-shrink:0;width:34px;text-align:center;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .chip .ct{flex:1}
+  .chip .ct .pt{font-size:10.5px;font-weight:800;color:var(--accent2);text-transform:uppercase;letter-spacing:.3px}
+  .chip .ct h4{margin:2px 0 4px;font-size:14px}
+  .chip .ct .exr{font-size:12px;color:var(--muted);line-height:1.5}
+  .chip .ct .exr b{color:var(--blue)}
+  .chip .ct .exr .el{font-weight:800;color:var(--blue);font-size:11px;margin-right:4px}
+  .chip .ct .exr .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .g1 .chip{border-left-color:var(--green)} .g1 .chip .pt{color:var(--green)}
+  .g2 .chip{border-left-color:var(--orange)} .g2 .chip .pt{color:var(--orange)}
+  .g3 .chip{border-left-color:var(--purple)} .g3 .chip .pt{color:var(--purple)}
+
+  .note{background:rgba(255,213,74,.08);border:1px dashed var(--accent2);border-radius:10px;padding:13px;font-size:13px;line-height:1.6;color:var(--txt);margin-top:6px}
+  .note b{color:var(--accent2)}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Điều 51 — Tình tiết giảm nhẹ TNHS</div>
+
+  <div class="card">
+    <div class="quote">
+      <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 51 BLHS 2015</div></div>
+      <div class="qsub">Các tình tiết giảm nhẹ trách nhiệm hình sự</div>
+      <div class="qbody">Khoản 1 liệt kê các tình tiết giảm nhẹ TNHS (a → x). Khoản 2: khi quyết định hình phạt, Tòa có thể coi đầu thú hoặc tình tiết khác là giảm nhẹ <b>nhưng phải ghi rõ lý do</b> trong bản án.</div>
+    </div>
+
+    <div class="gdesc">Mình nhóm các tình tiết thành <b>3 nhóm</b> cho dễ nhớ — bấm tab để xem từng nhóm nhaa:</div>
+    <div class="tabs">
+      <div class="tab on" data-t="0">💚 Hành vi khắc phục</div>
+      <div class="tab" data-t="1">🧩 Hoàn cảnh phạm tội</div>
+      <div class="tab" data-t="2">👤 Nhân thân tốt</div>
+    </div>
+
+    <!-- NHÓM 1 -->
+    <div class="pane g1" data-p="0">
+      <div class="gdesc" style="margin-bottom:12px">Nhóm thể hiện <b>thái độ ăn năn, khắc phục hậu quả</b> của người phạm tội.</div>
+      <div id="grp0">
+        <div class="chip">
+          <div class="ce">🛡️</div>
+          <div class="ct"><div class="pt">Điểm a</div><h4>Đã ngăn chặn / làm giảm tác hại</h4>
+            <div class="exr"><span class="el ic">💡</span>Sau khi gây cháy, A <b>tự dập lửa</b> ngăn cháy lan rộng.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🤝</div>
+          <div class="ct"><div class="pt">Điểm b</div><h4>Tự nguyện sửa chữa, bồi thường, khắc phục hậu quả</h4>
+            <div class="exr"><span class="el ic">💡</span>A gây tai nạn rồi <b>chủ động bồi thường toàn bộ</b> viện phí cho nạn nhân.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🙋</div>
+          <div class="ct"><div class="pt">Điểm r, s, t</div><h4>Tự thú · thành khẩn khai báo, ăn năn · tích cực hợp tác</h4>
+            <div class="exr"><span class="el ic">💡</span>A <b>ra tự thú</b>, khai rõ sự việc và giúp cơ quan điều tra phá án.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🏅</div>
+          <div class="ct"><div class="pt">Điểm u</div><h4>Đã lập công chuộc tội</h4>
+            <div class="exr"><span class="el ic">💡</span>Trong quá trình điều tra, A <b>giúp bắt giữ đồng bọn</b> nguy hiểm.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NHÓM 2 -->
+    <div class="pane g2" data-p="1" style="display:none">
+      <div class="gdesc" style="margin-bottom:12px">Nhóm liên quan <b>hoàn cảnh, bối cảnh</b> làm hành vi bớt nguy hiểm hoặc đáng cảm thông.</div>
+      <div id="grp1">
+        <div class="chip">
+          <div class="ce">🛡️</div>
+          <div class="ct"><div class="pt">Điểm c</div><h4>Vượt quá giới hạn phòng vệ chính đáng</h4>
+            <div class="exr"><span class="el ic">💡</span>Bị tấn công, A chống trả nhưng <b>quá mức cần thiết</b> gây thương tích cho kẻ tấn công.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🚨</div>
+          <div class="ct"><div class="pt">Điểm d</div><h4>Vượt quá yêu cầu của tình thế cấp thiết</h4>
+            <div class="exr"><span class="el ic">💡</span>Để cứu người, A phá tài sản <b>nhiều hơn mức cần thiết</b>.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🚔</div>
+          <div class="ct"><div class="pt">Điểm đ</div><h4>Vượt quá mức cần thiết khi bắt giữ người phạm tội</h4>
+            <div class="exr"><span class="el ic">💡</span>Khi bắt trộm, A dùng vũ lực <b>mạnh hơn mức cần thiết</b>.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">😡</div>
+          <div class="ct"><div class="pt">Điểm e</div><h4>Bị kích động về tinh thần do hành vi trái pháp luật của nạn nhân</h4>
+            <div class="exr"><span class="el ic">💡</span>Nạn nhân <b>chửi bới, xúc phạm</b> khiến A bị kích động rồi ra tay.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">😟</div>
+          <div class="ct"><div class="pt">Điểm g</div><h4>Hoàn cảnh đặc biệt khó khăn không do mình tự gây ra</h4>
+            <div class="exr"><span class="el ic">💡</span>A trộm cắp vì <b>quá túng quẫn</b> do thiên tai, không phải lỗi của mình.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">📚</div>
+          <div class="ct"><div class="pt">Điểm m</div><h4>Phạm tội do lạc hậu</h4>
+            <div class="exr"><span class="el ic">💡</span>Người dân vùng sâu phạm tội do <b>thiếu hiểu biết, hủ tục</b>.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NHÓM 3 -->
+    <div class="pane g3" data-p="2" style="display:none">
+      <div class="gdesc" style="margin-bottom:12px">Nhóm liên quan <b>nhân thân</b> của người phạm tội (đặc điểm cá nhân đáng khoan hồng).</div>
+      <div id="grp2">
+        <div class="chip">
+          <div class="ce">🤰</div>
+          <div class="ct"><div class="pt">Điểm n</div><h4>Người phạm tội là phụ nữ có thai</h4>
+            <div class="exr"><span class="el ic">💡</span>Bị cáo là <b>phụ nữ đang mang thai</b> ⇒ được xem xét giảm nhẹ.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🌟</div>
+          <div class="ct"><div class="pt">Điểm v</div><h4>Có thành tích xuất sắc trong sản xuất, chiến đấu, học tập, công tác</h4>
+            <div class="exr"><span class="el ic">💡</span>A là <b>chiến sĩ thi đua / học sinh giỏi</b> có nhiều thành tích.</div></div>
+        </div>
+        <div class="chip">
+          <div class="ce">🎖️</div>
+          <div class="ct"><div class="pt">Điểm x</div><h4>Là người có công với cách mạng / thân nhân liệt sĩ</h4>
+            <div class="exr"><span class="el ic">💡</span>A là <b>cha, mẹ, vợ, chồng, con của liệt sĩ</b> hoặc người có công.</div></div>
+        </div>
+      </div>
+      <div class="note">📌 <b>Khoản 2 Điều 51:</b> Ngoài danh sách trên, Tòa <b>có thể coi đầu thú hoặc tình tiết khác</b> là giảm nhẹ, <b>nhưng phải ghi rõ lý do</b> trong bản án.</div>
+    </div>
+
+    <div class="hint">💡 Liên hệ: Có <b>≥ 2 tình tiết giảm nhẹ</b> ở khoản 1 là điều kiện để xét <b>miễn hình phạt (Đ.59)</b> hoặc quyết định hình phạt dưới khung (Đ.54).</div>
+    <div class="replay"><button id="rp">▶ Phát lại nhóm này</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  function play(i){
+    var g=document.getElementById('grp'+i); if(!g)return;
+    var c=g.querySelectorAll('.chip');
+    c.forEach(function(x){x.classList.remove('in')});
+    c.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*180)});
+  }
+  var cur='0';
+  document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){cur=t.getAttribute('data-t')})});
+  document.getElementById('rp').addEventListener('click',function(){play(cur)});
+  play('0');
+})();
+</script>
+</body>
+</html>

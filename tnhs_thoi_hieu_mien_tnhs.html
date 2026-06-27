@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trách nhiệm hình sự · Thời hiệu · Miễn TNHS</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:150px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .sub b{color:var(--accent2)}
+
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd{display:flex;align-items:center;gap:13px;padding:14px 16px;background:var(--panel2)}
+  .item .emo{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .item .ti{flex:1}
+  .item .ti .num{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+  .item .ti h3{margin:2px 0 0;font-size:15px}
+  .item .bd{padding:14px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .item .bd b{color:var(--accent2)}
+
+  .v-blue{border-color:var(--blue)} .v-blue .emo{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .v-blue h3{color:var(--blue)} .v-blue .num{color:var(--blue)}
+  .v-red{border-color:var(--accent)} .v-red .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .v-red h3{color:var(--accent)} .v-red .num{color:var(--accent)}
+  .v-green{border-color:var(--green)} .v-green .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .v-green h3{color:var(--green)} .v-green .num{color:var(--green)}
+  .v-orange{border-color:var(--orange)} .v-orange .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .v-orange h3{color:var(--orange)} .v-orange .num{color:var(--orange)}
+  .v-purple{border-color:var(--purple)} .v-purple .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .v-purple h3{color:var(--purple)} .v-purple .num{color:var(--purple)}
+
+  .quote{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .quote .qhd{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .quote .qic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:13px;font-weight:800}
+  .quote .qsub{font-size:11.5px;color:var(--muted);margin-left:39px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .seebtn{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:360px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .ex{margin-top:11px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:10px;padding:11px;font-size:12.5px;line-height:1.55}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  /* phân biệt được miễn vs có thể miễn */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+  @media(max-width:600px){.split{grid-template-columns:1fr}}
+  .schip{border-radius:12px;padding:13px;text-align:center;font-size:13px;font-weight:700}
+  .schip.must{background:rgba(72,213,151,.12);border:1px solid var(--green);color:var(--green)}
+  .schip.may{background:rgba(255,213,74,.1);border:1px solid var(--accent2);color:var(--accent2)}
+  .schip span{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:4px}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">TNHS · Thời hiệu truy cứu · Miễn TNHS</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">⚖️ Trách nhiệm hình sự</div>
+    <div class="tab" data-t="1">⏳ Thời hiệu truy cứu</div>
+    <div class="tab" data-t="2">🕊️ Căn cứ miễn TNHS</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div id="g0">
+        <div class="item v-red">
+          <div class="hd"><div class="emo">⚖️</div><div class="ti"><div class="num">Khái niệm</div><h3>Trách nhiệm hình sự</h3></div></div>
+          <div class="bd">
+            Là <b>sự phản ứng của Nhà nước</b> đối với người thực hiện tội phạm, thể hiện tập trung ở việc <b>áp dụng hình phạt</b> đối với chủ thể đó. Người phạm tội phải <b>gánh chịu những hậu quả pháp lý bất lợi</b>.
+            <button class="seebtn" data-il="il00"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="il00"><div class="illus-inner">
+              <svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+                <defs><marker id="arx" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff5c4d"/></marker></defs>
+                <rect x="20" y="35" width="110" height="34" rx="8" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="75" y="50" fill="#5aa9ff" font-size="11" font-weight="700" text-anchor="middle">🏛️ Nhà nước</text>
+                <text x="75" y="62" fill="#9aa3b2" font-size="9" text-anchor="middle">phản ứng</text>
+                <path d="M132 52 L222 52" stroke="#ff5c4d" stroke-width="2" marker-end="url(#arx)"/>
+                <text x="177" y="44" fill="#ff5c4d" font-size="10" text-anchor="middle">áp dụng hình phạt</text>
+                <rect x="230" y="35" width="115" height="34" rx="8" fill="#171a21" stroke="#ff5c4d"/>
+                <text x="287" y="50" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">🧍 Người phạm tội</text>
+                <text x="287" y="62" fill="#9aa3b2" font-size="9" text-anchor="middle">gánh hậu quả bất lợi</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A trộm cắp bị Tòa tuyên 2 năm tù ⇒ bản án tù là <b>hậu quả pháp lý bất lợi</b> A phải gánh — đó là TNHS.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">TNHS là loại trách nhiệm pháp lý nghiêm khắc nhất, chỉ áp dụng với người phạm tội.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="sub">Hết thời hạn luật định mà <b>chưa bị truy cứu</b> thì người phạm tội <b>không bị truy cứu TNHS</b> nữa.</div>
+      <div id="g1">
+        <div class="item v-blue">
+          <div class="hd"><div class="emo">⏳</div><div class="ti"><div class="num">Khái niệm & mốc thời gian</div><h3>Thời hiệu truy cứu TNHS</h3></div></div>
+          <div class="bd">
+            Là thời hạn do BLHS quy định mà khi <b>hết thời hạn đó</b> thì người phạm tội <b>không bị truy cứu</b> TNHS. Mốc thời hiệu theo loại tội:
+            <button class="seebtn" data-il="il10"><span>🖼️ Xem thang thời hiệu</span><span class="car">▾</span></button>
+            <div class="illus" id="il10"><div class="illus-inner">
+              <svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#e7e9ee" font-size="11" font-weight="700" text-anchor="middle">Thời hiệu tăng theo mức độ nghiêm trọng</text>
+                <rect x="20" y="30" width="70" height="22" rx="5" fill="#48d597"/>
+                <text x="55" y="45" fill="#0b1410" font-size="10" font-weight="700" text-anchor="middle">05 năm</text>
+                <text x="100" y="45" fill="#9aa3b2" font-size="10">ít nghiêm trọng</text>
+                <rect x="20" y="58" width="110" height="22" rx="5" fill="#ffd54a"/>
+                <text x="75" y="73" fill="#1a1300" font-size="10" font-weight="700" text-anchor="middle">10 năm</text>
+                <text x="140" y="73" fill="#9aa3b2" font-size="10">nghiêm trọng</text>
+                <rect x="20" y="86" width="160" height="22" rx="5" fill="#ff9d4d"/>
+                <text x="100" y="101" fill="#1a1300" font-size="10" font-weight="700" text-anchor="middle">15 năm</text>
+                <text x="190" y="101" fill="#9aa3b2" font-size="10">rất nghiêm trọng</text>
+                <rect x="20" y="114" width="210" height="22" rx="5" fill="#ff5c4d"/>
+                <text x="125" y="129" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">20 năm</text>
+                <text x="240" y="129" fill="#9aa3b2" font-size="10">đặc biệt ngh.trọng</text>
+              </svg>
+            </div></div>
+            <div class="quote">
+              <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 27 BLHS 2015</div></div>
+              <div class="qsub">Thời hiệu truy cứu trách nhiệm hình sự</div>
+              <div class="qbody">Thời hiệu truy cứu TNHS là thời hạn do Bộ luật này quy định mà khi <b>hết thời hạn đó</b> thì người phạm tội <b>không bị truy cứu</b> TNHS: 05 năm (ít NT), 10 năm (NT), 15 năm (rất NT), 20 năm (đặc biệt NT).</div>
+            </div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A phạm tội ít nghiêm trọng, suốt <b>hơn 5 năm</b> không bị phát hiện và không phạm tội mới ⇒ hết thời hiệu ⇒ không bị truy cứu nữa.</div>
+          </div>
+        </div>
+
+        <div class="item v-red">
+          <div class="hd"><div class="emo">🚷</div><div class="ti"><div class="num">Ngoại lệ</div><h3>Không áp dụng thời hiệu</h3></div></div>
+          <div class="bd">
+            Một số tội <b>không bao giờ hết thời hiệu</b> — dù bao lâu vẫn bị truy cứu.
+            <div class="quote">
+              <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 28 BLHS 2015</div></div>
+              <div class="qsub">Không áp dụng thời hiệu truy cứu TNHS</div>
+              <div class="qbody">Không áp dụng thời hiệu với: <b>tội xâm phạm an ninh quốc gia</b>; tội <b>phá hoại hòa bình, chống loài người, tội phạm chiến tranh</b>; tội tham ô, nhận hối lộ đặc biệt nghiêm trọng (khoản 3, 4 Điều 353 & 354).</div>
+            </div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Tội phản bội Tổ quốc xảy ra 30 năm trước vẫn có thể bị truy cứu ⇒ không có thời hiệu.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Mẹo nhớ mốc: <b>5 – 10 – 15 – 20</b> năm. Trừ nhóm tội ở Điều 28 thì vô thời hiệu.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="sub">Điều 29 chia 2 nhóm: <b>"được miễn"</b> (bắt buộc) và <b>"có thể được miễn"</b> (tùy cơ quan tố tụng).</div>
+      <div class="split">
+        <div class="schip must">✅ ĐƯỢC miễn<span>bắt buộc — khoản 1</span></div>
+        <div class="schip may">🟡 CÓ THỂ được miễn<span>tùy xét — khoản 2 & 3</span></div>
+      </div>
+      <div id="g2">
+        <div class="item v-green">
+          <div class="hd"><div class="emo">✅</div><div class="ti"><div class="num">Khoản 1 — ĐƯỢC miễn (bắt buộc)</div><h3>Đương nhiên miễn TNHS</h3></div></div>
+          <div class="bd">
+            Người phạm tội <b>được miễn</b> TNHS khi: (a) thay đổi chính sách, pháp luật làm hành vi <b>không còn nguy hiểm</b>; (b) có <b>quyết định đại xá</b>.
+            <div class="quote">
+              <div class="qhd"><div class="qic" style="background:rgba(72,213,151,.18);color:var(--green)">⚖️</div><div class="qti">Điều 29 khoản 1 BLHS 2015</div></div>
+              <div class="qsub">Căn cứ miễn TNHS (bắt buộc)</div>
+              <div class="qbody">Người phạm tội <b>được miễn</b> TNHS khi: a) do thay đổi chính sách, pháp luật làm hành vi không còn nguy hiểm cho xã hội; b) khi có <b>quyết định đại xá</b>.</div>
+            </div>
+            <button class="seebtn" data-il="ilK1"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="ilK1"><div class="illus-inner">
+              <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">ĐƯỢC miễn = chắc chắn (mũi tên 1 chiều)</text>
+                <rect x="20" y="42" width="120" height="36" rx="8" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="80" y="60" fill="#5aa9ff" font-size="10" font-weight="700" text-anchor="middle">Luật đổi /</text>
+                <text x="80" y="72" fill="#5aa9ff" font-size="10" font-weight="700" text-anchor="middle">Đại xá</text>
+                <path d="M142 60 L218 60" stroke="#48d597" stroke-width="3" marker-end="url(#arG)"/>
+                <defs><marker id="arG" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#48d597"/></marker></defs>
+                <rect x="222" y="42" width="120" height="36" rx="8" fill="#171a21" stroke="#48d597"/>
+                <text x="282" y="60" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">✅ Miễn TNHS</text>
+                <text x="282" y="72" fill="#9aa3b2" font-size="9" text-anchor="middle">đương nhiên</text>
+                <text x="180" y="104" fill="#9aa3b2" font-size="10" text-anchor="middle">Có căn cứ ⇒ buộc phải miễn, không phụ thuộc ý chí cơ quan</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Hành vi A từng là tội, sau đó luật sửa đổi <b>không coi là tội</b> nữa ⇒ A đương nhiên được miễn TNHS.</div>
+          </div>
+        </div>
+
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">🟡</div><div class="ti"><div class="num">Khoản 2 — CÓ THỂ được miễn</div><h3>Tùy xét của cơ quan tố tụng</h3></div></div>
+          <div class="bd">
+            <b>Có thể</b> được miễn khi: (a) chuyển biến tình hình làm người phạm tội không còn nguy hiểm; (b) <b>mắc bệnh hiểm nghèo</b> không còn khả năng gây nguy hiểm; (c) <b>tự thú</b>, khai rõ, lập công lớn / cống hiến đặc biệt.
+            <div class="quote">
+              <div class="qhd"><div class="qic" style="background:rgba(255,157,77,.18);color:var(--orange)">⚖️</div><div class="qti">Điều 29 khoản 2 BLHS 2015</div></div>
+              <div class="qsub">Căn cứ có thể được miễn TNHS</div>
+              <div class="qbody">Người phạm tội <b>có thể</b> được miễn TNHS khi: chuyển biến tình hình; mắc bệnh hiểm nghèo không còn khả năng gây nguy hiểm; tự thú, lập công lớn hoặc có cống hiến đặc biệt được Nhà nước & xã hội thừa nhận.</div>
+            </div>
+            <button class="seebtn" data-il="ilK2"><span>🖼️ Xem minh hoạ</span><span class="car">▾</span></button>
+            <div class="illus" id="ilK2"><div class="illus-inner">
+              <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#ff9d4d" font-size="11" font-weight="700" text-anchor="middle">CÓ THỂ miễn = tùy cơ quan xét (3 căn cứ)</text>
+                <rect x="10" y="30" width="105" height="30" rx="7" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="62" y="49" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Chuyển biến</text>
+                <rect x="127" y="30" width="105" height="30" rx="7" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="180" y="46" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Bệnh hiểm</text>
+                <text x="180" y="56" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">nghèo</text>
+                <rect x="244" y="30" width="105" height="30" rx="7" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="296" y="49" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Tự thú/lập công</text>
+                <path d="M180 62 L180 80" stroke="#9aa3b2" stroke-width="2" stroke-dasharray="4" marker-end="url(#arO)"/>
+                <defs><marker id="arO" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9aa3b2"/></marker></defs>
+                <rect x="110" y="82" width="140" height="32" rx="8" fill="#171a21" stroke="#9aa3b2" stroke-dasharray="5"/>
+                <text x="180" y="102" fill="#ffd54a" font-size="10" font-weight="700" text-anchor="middle">🟡 Có thể miễn (tùy xét)</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A phạm tội nhưng <b>tự thú</b>, khai báo giúp phá án lớn ⇒ có thể (không chắc chắn) được miễn TNHS.</div>
+          </div>
+        </div>
+
+        <div class="item v-purple">
+          <div class="hd"><div class="emo">🤝</div><div class="ti"><div class="num">Khoản 3 — CÓ THỂ được miễn</div><h3>Hòa giải với người bị hại</h3></div></div>
+          <div class="bd">
+            Người phạm <b>tội nghiêm trọng do vô ý</b> hoặc <b>tội ít nghiêm trọng</b> gây thiệt hại tính mạng/sức khỏe/danh dự/tài sản, đã <b>tự nguyện bồi thường, khắc phục</b>, được người bị hại <b>tự nguyện hòa giải & đề nghị miễn</b> ⇒ có thể được miễn TNHS.
+            <div class="quote">
+              <div class="qhd"><div class="qic" style="background:rgba(177,140,255,.18);color:var(--purple)">⚖️</div><div class="qti">Điều 29 khoản 3 BLHS 2015</div></div>
+              <div class="qsub">Miễn TNHS do hòa giải</div>
+              <div class="qbody">Người thực hiện tội phạm <b>nghiêm trọng do vô ý</b> hoặc <b>tội ít nghiêm trọng</b>… đã tự nguyện sửa chữa, bồi thường hoặc khắc phục hậu quả và được người bị hại tự nguyện hòa giải, đề nghị miễn ⇒ <b>có thể được miễn</b> TNHS.</div>
+            </div>
+            <button class="seebtn" data-il="ilK3"><span>🖼️ Xem minh hoạ (điều kiện kép)</span><span class="car">▾</span></button>
+            <div class="illus" id="ilK3"><div class="illus-inner">
+              <svg viewBox="0 0 360 140" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#b18cff" font-size="11" font-weight="700" text-anchor="middle">Cần đủ CẢ 4 điều kiện</text>
+                <rect x="15" y="28" width="155" height="28" rx="7" fill="#171a21" stroke="#b18cff"/>
+                <text x="92" y="46" fill="#b18cff" font-size="9" font-weight="700" text-anchor="middle">① Tội NT do vô ý / ít NT</text>
+                <rect x="190" y="28" width="155" height="28" rx="7" fill="#171a21" stroke="#b18cff"/>
+                <text x="267" y="46" fill="#b18cff" font-size="9" font-weight="700" text-anchor="middle">② Tự nguyện bồi thường</text>
+                <rect x="15" y="62" width="155" height="28" rx="7" fill="#171a21" stroke="#b18cff"/>
+                <text x="92" y="80" fill="#b18cff" font-size="9" font-weight="700" text-anchor="middle">③ Người bị hại hòa giải</text>
+                <rect x="190" y="62" width="155" height="28" rx="7" fill="#171a21" stroke="#b18cff"/>
+                <text x="267" y="80" fill="#b18cff" font-size="9" font-weight="700" text-anchor="middle">④ Đề nghị miễn</text>
+                <path d="M180 92 L180 106" stroke="#9aa3b2" stroke-width="2" stroke-dasharray="4" marker-end="url(#arP)"/>
+                <defs><marker id="arP" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9aa3b2"/></marker></defs>
+                <rect x="110" y="108" width="140" height="28" rx="8" fill="#171a21" stroke="#ffd54a" stroke-dasharray="5"/>
+                <text x="180" y="126" fill="#ffd54a" font-size="10" font-weight="700" text-anchor="middle">🟡 Có thể được miễn</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A vô ý gây tai nạn (tội nghiêm trọng do vô ý), <b>bồi thường đầy đủ</b>, gia đình nạn nhân <b>hòa giải & xin miễn</b> ⇒ có thể được miễn TNHS.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Phân biệt cốt lõi: <b>khoản 1 = ĐƯỢC miễn (chắc chắn)</b> · <b>khoản 2,3 = CÓ THỂ được miễn (tùy xét)</b>.</div>
+      <div class="replay"><button id="rp2">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    var g=document.getElementById('g'+i); if(!g)return;
+    var els=g.querySelectorAll('.item');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  document.getElementById('rp2').addEventListener('click',function(){play('2')});
+  play('0');
+})();
+</script>
+</body>
+</html>

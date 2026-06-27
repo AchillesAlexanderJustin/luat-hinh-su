@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hình phạt & Biện pháp tư pháp</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:19px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:140px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:13.5px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+  .sub b{color:var(--accent2)}
+
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:13px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd{display:flex;align-items:center;gap:13px;padding:13px 16px;background:var(--panel2)}
+  .item .emo{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .item .ti{flex:1}
+  .item .ti h3{margin:0;font-size:15px}
+  .item .bd{padding:13px 16px;font-size:13.5px;line-height:1.6;color:var(--txt)}
+  .item .bd b{color:var(--accent2)}
+  .item .ex{margin-top:9px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:9px;padding:10px;font-size:12.5px;line-height:1.5}
+  .item .ex .eh{font-weight:800;color:var(--blue);font-size:11.5px;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+  .item .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .v-blue{border-color:var(--blue)} .v-blue .emo{background:rgba(90,169,255,.15);border:1px solid var(--blue)} .v-blue h3{color:var(--blue)}
+  .v-red{border-color:var(--accent)} .v-red .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)} .v-red h3{color:var(--accent)}
+  .v-green{border-color:var(--green)} .v-green .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)} .v-green h3{color:var(--green)}
+  .v-orange{border-color:var(--orange)} .v-orange .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .v-orange h3{color:var(--orange)}
+  .v-purple{border-color:var(--purple)} .v-purple .emo{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .v-purple h3{color:var(--purple)}
+
+  /* 2 cột hình phạt */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:600px){.twocol{grid-template-columns:1fr}}
+  .colp{border-radius:14px;padding:16px;opacity:0;transform:translateY(10px);transition:.5s}
+  .colp.in{opacity:1;transform:none}
+  .colp.main{background:rgba(255,92,77,.07);border:1px solid var(--accent)}
+  .colp.bonus{background:rgba(90,169,255,.07);border:1px solid var(--blue)}
+  .colp .ch{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:800;margin-bottom:12px}
+  .colp.main .ch{color:var(--accent)} .colp.bonus .ch{color:var(--blue)}
+  .colp .ce{font-size:22px;animation:float 2.6s ease-in-out infinite}
+  .colp ul{margin:0;padding:0;list-style:none}
+  .colp li{font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:flex-start}
+  .colp li:last-child{border-bottom:none}
+  .colp li .lic{flex-shrink:0}
+  .note{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.5}
+  .note b{color:var(--accent2)}
+
+  .quote{margin-top:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px}
+  .quote .qhd{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .quote .qic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:13px;font-weight:800}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .seebtn{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:340px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">III. Hình phạt & Biện pháp tư pháp</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">🛠️ Biện pháp tư pháp</div>
+    <div class="tab" data-t="1">👤 Hình phạt cá nhân</div>
+    <div class="tab" data-t="2">🏢 Hình phạt pháp nhân</div>
+    <div class="tab" data-t="3">❓ Hiểu rõ: PNTM & Huy động vốn</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="sub"><b>Biện pháp tư pháp</b> là biện pháp cưỡng chế <b>hỗ trợ hoặc thay thế</b> hình phạt, không phải hình phạt. Đối với cá nhân phạm tội gồm:</div>
+      <div id="g0">
+        <div class="item v-red">
+          <div class="hd"><div class="emo">📦</div><div class="ti"><h3>Tịch thu vật, tiền liên quan đến tội phạm</h3></div></div>
+          <div class="bd">Tịch thu sung công vật, tiền <b>trực tiếp liên quan</b> đến tội phạm (công cụ, phương tiện phạm tội, tiền do phạm tội mà có).
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Tịch thu <b>khẩu súng</b> dùng để giết người, <b>số tiền</b> do buôn ma túy mà có.</div>
+          </div>
+        </div>
+        <div class="item v-green">
+          <div class="hd"><div class="emo">🤝</div><div class="ti"><h3>Trả lại tài sản, bồi thường, xin lỗi</h3></div></div>
+          <div class="bd">Trả lại tài sản, sửa chữa hoặc bồi thường thiệt hại; buộc <b>công khai xin lỗi</b>.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Buộc trả lại xe đã trộm cho chủ; buộc công khai xin lỗi người bị vu khống.</div>
+          </div>
+        </div>
+        <div class="item v-blue">
+          <div class="hd"><div class="emo">🏥</div><div class="ti"><h3>Bắt buộc chữa bệnh</h3></div></div>
+          <div class="bd">Áp dụng với người thực hiện hành vi nguy hiểm trong khi <b>mắc bệnh tâm thần</b> (mất NLTNHS) — thay vì hình phạt.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Người tâm thần gây án không chịu TNHS (Đ.21) ⇒ áp dụng biện pháp <b>bắt buộc chữa bệnh</b>.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Phân biệt: biện pháp tư pháp <b>không phải hình phạt</b>, không gây án tích.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="sub">Hình phạt với <b>cá nhân</b> chia 2 nhóm: <b>hình phạt chính</b> (áp dụng độc lập, mỗi tội 1 hình phạt chính) và <b>hình phạt bổ sung</b> (kèm theo hình phạt chính).</div>
+      <div class="twocol" id="cols">
+        <div class="colp main">
+          <div class="ch"><span class="ce">⚖️</span> Hình phạt CHÍNH</div>
+          <ul>
+            <li><span class="lic">⚠️</span>Cảnh cáo</li>
+            <li><span class="lic">💵</span>Phạt tiền*</li>
+            <li><span class="lic">🔗</span>Cải tạo không giam giữ</li>
+            <li><span class="lic">✈️</span>Trục xuất*</li>
+            <li><span class="lic">🔒</span>Tù có thời hạn</li>
+            <li><span class="lic">♾️</span>Tù chung thân</li>
+            <li><span class="lic">💀</span>Tử hình</li>
+          </ul>
+          <div class="note">* Phạt tiền & trục xuất <b>vừa có thể là HP chính, vừa là HP bổ sung</b> (tùy trường hợp).</div>
+        </div>
+        <div class="colp bonus">
+          <div class="ch"><span class="ce">➕</span> Hình phạt BỔ SUNG</div>
+          <ul>
+            <li><span class="lic">🚷</span>Cấm đảm nhiệm chức vụ, cấm hành nghề / làm công việc nhất định (1–5 năm)</li>
+            <li><span class="lic">🏠</span>Cấm cư trú (1–5 năm)</li>
+            <li><span class="lic">👮</span>Quản chế (1–5 năm)</li>
+            <li><span class="lic">🪪</span>Tước một số quyền công dân</li>
+            <li><span class="lic">🏦</span>Tịch thu tài sản</li>
+            <li><span class="lic">💵</span>Phạt tiền (khi không là HP chính)</li>
+            <li><span class="lic">✈️</span>Trục xuất (khi không là HP chính)</li>
+          </ul>
+        </div>
+      </div>
+      <button class="seebtn" data-il="ilrel"><span>🖼️ Xem quan hệ chính – bổ sung</span><span class="car">▾</span></button>
+      <div class="illus" id="ilrel"><div class="illus-inner">
+        <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#e7e9ee" font-size="11" font-weight="700" text-anchor="middle">Mỗi tội: 1 HP chính + có thể kèm ≥1 HP bổ sung</text>
+          <rect x="40" y="38" width="120" height="40" rx="10" fill="#171a21" stroke="#ff5c4d"/>
+          <text x="100" y="56" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">HP CHÍNH</text>
+          <text x="100" y="70" fill="#9aa3b2" font-size="9" text-anchor="middle">bắt buộc · duy nhất 1</text>
+          <text x="170" y="62" fill="#48d597" font-size="14" font-weight="700">+</text>
+          <rect x="190" y="38" width="130" height="40" rx="10" fill="#171a21" stroke="#5aa9ff" stroke-dasharray="5"/>
+          <text x="255" y="56" fill="#5aa9ff" font-size="11" font-weight="700" text-anchor="middle">HP BỔ SUNG</text>
+          <text x="255" y="70" fill="#9aa3b2" font-size="9" text-anchor="middle">tùy chọn · có thể nhiều</text>
+          <text x="180" y="104" fill="#9aa3b2" font-size="9.5" text-anchor="middle">HP bổ sung KHÔNG được áp dụng một mình</text>
+        </svg>
+      </div></div>
+      <div class="ex" style="margin-top:14px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:9px;padding:11px;font-size:12.5px;line-height:1.55">
+        <div style="font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px"><span class="ic">💡</span>Ví dụ</div>
+        Tham ô tài sản: Tòa tuyên <b style="color:var(--blue)">15 năm tù</b> (HP chính) <b>+ cấm đảm nhiệm chức vụ 5 năm + tịch thu tài sản</b> (HP bổ sung).
+      </div>
+      <div class="hint">Mỗi tội chỉ <b>1 hình phạt chính</b>, nhưng có thể kèm <b>nhiều hình phạt bổ sung</b>.</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="sub">Pháp nhân thương mại phạm tội cũng có hình phạt riêng — <b>3 hình phạt chính</b> và <b>3 hình phạt bổ sung</b>.</div>
+      <div id="g2">
+        <div class="item v-red">
+          <div class="hd"><div class="emo">⚖️</div><div class="ti"><h3>Hình phạt chính (3 loại)</h3></div></div>
+          <div class="bd">
+            <b>1.</b> Phạt tiền · <b>2.</b> Đình chỉ hoạt động <b>có thời hạn</b> · <b>3.</b> Đình chỉ hoạt động <b>vĩnh viễn</b>.
+            <button class="seebtn" data-il="ilpn"><span>🖼️ Xem mức độ nặng dần</span><span class="car">▾</span></button>
+            <div class="illus" id="ilpn"><div class="illus-inner">
+              <svg viewBox="0 0 360 100" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">Mức độ nghiêm khắc tăng dần →</text>
+                <rect x="15" y="35" width="100" height="34" rx="8" fill="#171a21" stroke="#48d597"/>
+                <text x="65" y="50" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">💵 Phạt tiền</text>
+                <text x="65" y="62" fill="#9aa3b2" font-size="8" text-anchor="middle">nhẹ nhất</text>
+                <text x="122" y="54" fill="#9aa3b2" font-size="13">→</text>
+                <rect x="135" y="35" width="100" height="34" rx="8" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="185" y="50" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">⏸️ Đình chỉ</text>
+                <text x="185" y="62" fill="#9aa3b2" font-size="8" text-anchor="middle">có thời hạn</text>
+                <text x="242" y="54" fill="#9aa3b2" font-size="13">→</text>
+                <rect x="255" y="35" width="95" height="34" rx="8" fill="#171a21" stroke="#ff5c4d"/>
+                <text x="302" y="50" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">⛔ Đình chỉ</text>
+                <text x="302" y="62" fill="#9aa3b2" font-size="8" text-anchor="middle">vĩnh viễn ("khai tử")</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty xả thải gây ô nhiễm nghiêm trọng ⇒ bị <b>đình chỉ hoạt động vĩnh viễn</b> (mức nặng nhất với pháp nhân).</div>
+          </div>
+        </div>
+        <div class="item v-blue">
+          <div class="hd"><div class="emo">➕</div><div class="ti"><h3>Hình phạt bổ sung (3 loại)</h3></div></div>
+          <div class="bd">
+            <b>1.</b> Cấm kinh doanh, cấm hoạt động trong một số lĩnh vực nhất định · <b>2.</b> Cấm huy động vốn · <b>3.</b> Phạt tiền (khi không áp dụng là HP chính).
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Ngoài phạt tiền, công ty còn bị <b>cấm huy động vốn</b> trong thời gian nhất định ⇒ HP bổ sung.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Pháp nhân không thể bị tù/tử hình — hình phạt nặng nhất là <b>đình chỉ hoạt động vĩnh viễn</b>.</div>
+      <div class="replay"><button id="rp2">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="pane" data-p="3" style="display:none">
+    <div class="card">
+      <div class="sub">2 khái niệm dễ nhầm — giải thích kỹ + mô phỏng động từng trường hợp nhaa.</div>
+      <div id="g3">
+
+        <div class="item v-purple">
+          <div class="hd"><div class="emo">🏢</div><div class="ti"><h3>Pháp nhân thương mại (PNTM) là gì?</h3></div></div>
+          <div class="bd">
+            Là một <b>tổ chức</b> (không phải con người) được pháp luật công nhận có <b>tư cách pháp nhân</b>, và có <b>mục tiêu chính là tìm kiếm lợi nhuận</b>. VD: công ty TNHH, công ty cổ phần, doanh nghiệp tư nhân lớn…
+            <br><br>4 đặc điểm để được coi là <b>pháp nhân</b> (Điều 74 BLDS):
+            <button class="seebtn" data-il="ilpntm"><span>🖼️ Xem 4 đặc điểm</span><span class="car">▾</span></button>
+            <div class="illus" id="ilpntm"><div class="illus-inner">
+              <svg viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#b18cff" font-size="11" font-weight="700" text-anchor="middle">Có đủ 4 ⇒ là pháp nhân</text>
+                <rect x="15" y="28" width="160" height="40" rx="9" fill="#171a21" stroke="#b18cff"/>
+                <text x="95" y="45" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">① Thành lập hợp pháp</text>
+                <text x="95" y="59" fill="#9aa3b2" font-size="8.5" text-anchor="middle">đăng ký theo luật</text>
+                <rect x="185" y="28" width="160" height="40" rx="9" fill="#171a21" stroke="#b18cff"/>
+                <text x="265" y="45" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">② Cơ cấu tổ chức chặt chẽ</text>
+                <text x="265" y="59" fill="#9aa3b2" font-size="8.5" text-anchor="middle">có bộ máy điều hành</text>
+                <rect x="15" y="76" width="160" height="40" rx="9" fill="#171a21" stroke="#b18cff"/>
+                <text x="95" y="93" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">③ Tài sản độc lập</text>
+                <text x="95" y="107" fill="#9aa3b2" font-size="8.5" text-anchor="middle">tách khỏi tài sản cá nhân</text>
+                <rect x="185" y="76" width="160" height="40" rx="9" fill="#171a21" stroke="#b18cff"/>
+                <text x="265" y="93" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">④ Tự nhân danh mình</text>
+                <text x="265" y="107" fill="#9aa3b2" font-size="8.5" text-anchor="middle">ký hợp đồng, ra tòa</text>
+                <text x="180" y="140" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">+ Mục tiêu LỢI NHUẬN ⇒ pháp nhân THƯƠNG MẠI</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty CP A ký hợp đồng <b>bằng tên công ty</b>, dùng <b>tài sản của công ty</b> (không phải túi tiền giám đốc) để trả nợ ⇒ là PNTM. Còn trường học công, bệnh viện công (không vì lợi nhuận) ⇒ là pháp nhân <b>phi thương mại</b>, không thuộc diện này.</div>
+          </div>
+        </div>
+
+        <div class="item v-orange">
+          <div class="hd"><div class="emo">🆚</div><div class="ti"><h3>Vì sao tổ chức lại "phạm tội" được?</h3></div></div>
+          <div class="bd">
+            Vì PNTM là <b>chủ thể pháp lý độc lập</b> — tự chịu trách nhiệm bằng tài sản riêng. Khi ban lãnh đạo nhân danh công ty & vì lợi ích công ty làm điều phạm pháp (trốn thuế, xả thải…) thì <b>cả công ty</b> bị truy cứu, <b>không loại trừ</b> TNHS của cá nhân liên quan.
+            <button class="seebtn" data-il="ilwhy"><span>🖼️ Xem cơ chế chịu trách nhiệm kép</span><span class="car">▾</span></button>
+            <div class="illus" id="ilwhy"><div class="illus-inner">
+              <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+                <defs><marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#ff9d4d"/></marker></defs>
+                <rect x="120" y="14" width="120" height="32" rx="8" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="180" y="30" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">Hành vi phạm tội</text>
+                <text x="180" y="42" fill="#9aa3b2" font-size="8" text-anchor="middle">(nhân danh + vì lợi ích cty)</text>
+                <path d="M150 46 L70 78" stroke="#ff9d4d" stroke-width="2" marker-end="url(#arw)"/>
+                <path d="M210 46 L290 78" stroke="#ff9d4d" stroke-width="2" marker-end="url(#arw)"/>
+                <rect x="10" y="82" width="120" height="38" rx="9" fill="#171a21" stroke="#b18cff"/>
+                <text x="70" y="99" fill="#b18cff" font-size="10" font-weight="700" text-anchor="middle">🏢 Pháp nhân</text>
+                <text x="70" y="113" fill="#9aa3b2" font-size="8" text-anchor="middle">phạt tiền / đình chỉ</text>
+                <rect x="230" y="82" width="120" height="38" rx="9" fill="#171a21" stroke="#ff5c4d"/>
+                <text x="290" y="99" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">🧍 Cá nhân</text>
+                <text x="290" y="113" fill="#9aa3b2" font-size="8" text-anchor="middle">tù / phạt tiền…</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty B xả thải gây ô nhiễm: <b>công ty B</b> bị phạt tiền + đình chỉ hoạt động, <b>đồng thời</b> giám đốc C (người chỉ đạo) bị xử lý hình sự riêng ⇒ trách nhiệm <b>kép</b>.</div>
+          </div>
+        </div>
+
+        <div class="item v-green">
+          <div class="hd"><div class="emo">💰</div><div class="ti"><h3>"Huy động vốn" là gì?</h3></div></div>
+          <div class="bd">
+            Là việc doanh nghiệp <b>gom tiền từ bên ngoài</b> để có vốn hoạt động / mở rộng kinh doanh. Có nhiều cách huy động:
+            <button class="seebtn" data-il="ilvon"><span>🖼️ Xem các cách huy động vốn</span><span class="car">▾</span></button>
+            <div class="illus" id="ilvon"><div class="illus-inner">
+              <svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="180" cy="75" r="38" fill="#171a21" stroke="#48d597" stroke-width="2"/>
+                <text x="180" y="72" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">🏢 Doanh</text>
+                <text x="180" y="86" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">nghiệp</text>
+                <rect x="10" y="14" width="105" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="62" y="33" fill="#5aa9ff" font-size="9.5" font-weight="700" text-anchor="middle">📈 Bán cổ phiếu</text>
+                <rect x="245" y="14" width="105" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="297" y="33" fill="#5aa9ff" font-size="9.5" font-weight="700" text-anchor="middle">📜 Trái phiếu</text>
+                <rect x="10" y="106" width="105" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="62" y="125" fill="#5aa9ff" font-size="9.5" font-weight="700" text-anchor="middle">🏦 Vay ngân hàng</text>
+                <rect x="245" y="106" width="105" height="30" rx="7" fill="#171a21" stroke="#5aa9ff"/>
+                <text x="297" y="125" fill="#5aa9ff" font-size="9.5" font-weight="700" text-anchor="middle">🤝 Kêu gọi góp vốn</text>
+                <line x1="115" y1="29" x2="148" y2="58" stroke="#48d597" stroke-width="1.5" stroke-dasharray="3"/>
+                <line x1="245" y1="29" x2="212" y2="58" stroke="#48d597" stroke-width="1.5" stroke-dasharray="3"/>
+                <line x1="115" y1="121" x2="148" y2="92" stroke="#48d597" stroke-width="1.5" stroke-dasharray="3"/>
+                <line x1="245" y1="121" x2="212" y2="92" stroke="#48d597" stroke-width="1.5" stroke-dasharray="3"/>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty cần 100 tỷ mở nhà máy ⇒ <b>phát hành cổ phiếu</b> bán cho nhà đầu tư / <b>phát hành trái phiếu</b> / <b>vay ngân hàng</b>. Tất cả đều là huy động vốn.</div>
+          </div>
+        </div>
+
+        <div class="item v-red">
+          <div class="hd"><div class="emo">🚫</div><div class="ti"><h3>"Cấm huy động vốn" = hình phạt thế nào?</h3></div></div>
+          <div class="bd">
+            Là hình phạt bổ sung <b>cấm doanh nghiệp gom tiền</b> theo các cách trên trong một thời gian. Hậu quả: công ty bị <b>nghẹt dòng tiền</b>, không có vốn để tiếp tục/mở rộng ⇒ khó làm ăn, là đòn răn đe mạnh với pháp nhân.
+            <button class="seebtn" data-il="ilcam"><span>🖼️ Xem hiệu ứng khi bị cấm</span><span class="car">▾</span></button>
+            <div class="illus" id="ilcam"><div class="illus-inner">
+              <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="180" cy="62" r="34" fill="#171a21" stroke="#ff5c4d" stroke-width="2"/>
+                <text x="180" y="60" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">🏢 Doanh</text>
+                <text x="180" y="73" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">nghiệp</text>
+                <line x1="55" y1="30" x2="148" y2="50" stroke="#ff5c4d" stroke-width="2"/>
+                <line x1="60" y1="48" x2="55" y2="30" stroke="#ff5c4d" stroke-width="2"/>
+                <text x="60" y="22" fill="#ff5c4d" font-size="13" font-weight="700">🚫</text>
+                <line x1="305" y1="30" x2="212" y2="50" stroke="#ff5c4d" stroke-width="2"/>
+                <text x="300" y="22" fill="#ff5c4d" font-size="13" font-weight="700">🚫</text>
+                <text x="180" y="112" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">Bị chặn mọi nguồn tiền ⇒ "nghẹt vốn"</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty lừa đảo trong phát hành trái phiếu ⇒ ngoài phạt tiền còn bị <b>cấm huy động vốn 1–3 năm</b> ⇒ không thể gọi vốn mới để hoạt động.</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="hint">Tóm: PNTM = <b>tổ chức kinh doanh có tư cách pháp nhân</b> · Huy động vốn = <b>gom tiền từ bên ngoài</b> · Cấm huy động vốn = <b>chặn nguồn tiền</b> để răn đe.</div>
+      <div class="replay"><button id="rp3">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    if(i==='1'){
+      var c=document.querySelectorAll('#cols .colp');
+      c.forEach(function(x){x.classList.remove('in')});
+      c.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*350)});
+      return;
+    }
+    var g=document.getElementById('g'+i); if(!g)return;
+    var els=g.querySelectorAll('.item');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  document.getElementById('rp2').addEventListener('click',function(){play('2')});
+  document.getElementById('rp3').addEventListener('click',function(){play('3')});
+  play('0');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Điều 56 — Tổng hợp hình phạt nhiều bản án</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:18px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:140px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:13px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  .quote{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:3px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.6;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px;margin-top:9px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;text-align:center}
+  .sub b{color:var(--accent2)}
+
+  /* công thức box */
+  .formula{border-radius:14px;padding:18px;text-align:center;margin-bottom:14px;font-size:16px;font-weight:800;letter-spacing:.3px}
+  .formula.old{background:rgba(255,157,77,.1);border:2px solid var(--orange);color:var(--orange)}
+  .formula.new{background:rgba(255,92,77,.1);border:2px solid var(--accent);color:var(--accent)}
+  .formula .leg{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:8px;letter-spacing:0}
+
+  /* bước */
+  .step{display:flex;gap:12px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:0 12px 12px 0;padding:13px 14px;margin-bottom:11px;opacity:0;transform:translateX(-12px);transition:.45s}
+  .step.in{opacity:1;transform:none}
+  .step.old{border-left-color:var(--orange)} .step.new{border-left-color:var(--accent)}
+  .step .se{font-size:21px;flex-shrink:0;width:30px;text-align:center;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .step .st{flex:1}
+  .step .st .sn{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--blue)}
+  .step.old .sn{color:var(--orange)} .step.new .sn{color:var(--accent)}
+  .step .st p{margin:3px 0 0;font-size:13px;line-height:1.55}
+  .step .st p b{color:var(--accent2)}
+
+  /* ví dụ tính toán */
+  .calc{background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:12px;padding:15px;margin-top:14px;opacity:0;transform:translateY(10px);transition:.5s}
+  .calc.in{opacity:1;transform:none}
+  .calc .ch{font-weight:800;color:var(--blue);font-size:13px;display:flex;align-items:center;gap:7px;margin-bottom:10px}
+  .calc .ch .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+  .calc .crow{font-size:13px;line-height:1.7;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .calc .crow:last-child{border-bottom:none}
+  .calc .crow b{color:var(--accent2)}
+  .calc .total{margin-top:8px;background:rgba(72,213,151,.12);border:1px solid var(--green);border-radius:9px;padding:10px;font-size:14px;font-weight:800;color:var(--green);text-align:center}
+
+  .seebtn{margin-top:13px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:360px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+  .key{background:rgba(177,140,255,.08);border:1px dashed var(--purple);border-radius:10px;padding:13px;font-size:13px;line-height:1.6;margin-top:6px}
+  .key b{color:var(--purple)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Điều 56 — Tổng hợp hình phạt của nhiều bản án</div>
+
+  <div class="card" style="margin-bottom:18px">
+    <div class="quote" style="margin-bottom:0">
+      <div class="qhd"><div class="qic">⚖️</div><div class="qti">Điều 56 BLHS 2015 — Khái niệm</div></div>
+      <div class="qsub">Có nhiều bản án</div>
+      <div class="qbody">Có nhiều bản án là trường hợp <b>một người đang chấp hành một bản án</b> lại bị đưa xét xử về một tội phạm khác, hoặc một người <b>cùng lúc có nhiều bản án</b> khác nhau đang có hiệu lực.</div>
+    </div>
+  </div>
+
+  <div class="sub">2 trường hợp với <b>2 công thức ngược nhau</b> — phân biệt theo <b>thời điểm phạm tội</b>:</div>
+  <div class="tabs">
+    <div class="tab on" data-t="0">🕰️ Tội CŨ (Khoản 1)</div>
+    <div class="tab" data-t="1">🆕 Tội MỚI (Khoản 2)</div>
+  </div>
+
+  <!-- TAB 0: TỘI CŨ -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic" style="background:rgba(255,157,77,.18);color:var(--orange)">🕰️</div><div class="qti">Khoản 1 Điều 56</div></div>
+        <div class="qsub">Đang chấp hành 1 bản án, bị xử về tội ĐÃ PHẠM TRƯỚC khi có bản án này (tội cũ)</div>
+        <div class="qbody">Tổng hợp hình phạt khi người đang chấp hành 1 bản án mà lại bị xét xử về tội <b>đã phạm trước khi có bản án này</b>.</div>
+      </div>
+      <div class="formula old">
+        Tổng hợp HP = (HPBA2 + HPBA1) − T<sub>GĐCH</sub> BA1
+        <span class="leg">HPBA1 = hình phạt bản án 1 · HPBA2 = hình phạt bản án 2 · T<sub>GĐCH</sub> BA1 = thời gian đã chấp hành bản án 1</span>
+      </div>
+      <div id="s0">
+        <div class="step old"><div class="se">⚖️</div><div class="st"><div class="sn">Bước 1</div><p>Tòa <b>quyết định hình phạt</b> đối với tội đang bị xét xử.</p></div></div>
+        <div class="step old"><div class="se">➕</div><div class="st"><div class="sn">Bước 2</div><p>Sau đó <b>quyết định hình phạt chung</b> theo Điều 55 (cộng cả 2 bản án).</p></div></div>
+        <div class="step old"><div class="se">➖</div><div class="st"><div class="sn">Bước 3</div><p>Thời gian <b>đã chấp hành</b> bản án trước được <b>TRỪ vào</b> thời hạn chấp hành hình phạt chung.</p></div></div>
+      </div>
+      <div class="calc" id="c0">
+        <div class="ch"><span class="ic">💡</span>Ví dụ tính toán (tội cũ)</div>
+        <div class="crow">A bị xử <b>5 năm tù</b> tội cướp tài sản (BA1), chấp hành được <b>3 năm</b>.</div>
+        <div class="crow">Bị phát hiện tội <b>giết người</b> (đã phạm <b>TRƯỚC</b> khi có BA1) ⇒ bị kết án <b>8 năm tù</b> (BA2).</div>
+        <div class="crow">Tổng hợp = (8 + 5) − 3 = <b>13 − 3</b></div>
+        <div class="total">⇒ Còn phải chấp hành: 10 năm tù</div>
+      </div>
+      <button class="seebtn" data-il="ilold"><span>🖼️ Xem dòng thời gian</span><span class="car">▾</span></button>
+      <div class="illus" id="ilold"><div class="illus-inner">
+        <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#ff9d4d" font-size="11" font-weight="700" text-anchor="middle">Tội cũ: phạm TRƯỚC khi có bản án 1</text>
+          <line x1="20" y1="60" x2="340" y2="60" stroke="#2a2f3a" stroke-width="2"/>
+          <circle cx="60" cy="60" r="5" fill="#ff5c4d"/>
+          <text x="60" y="46" fill="#ff5c4d" font-size="9" font-weight="700" text-anchor="middle">Phạm tội cũ</text>
+          <text x="60" y="80" fill="#9aa3b2" font-size="8" text-anchor="middle">(giết người)</text>
+          <circle cx="160" cy="60" r="5" fill="#ff9d4d"/>
+          <text x="160" y="46" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Có bản án 1</text>
+          <text x="160" y="80" fill="#9aa3b2" font-size="8" text-anchor="middle">(cướp, 5 năm)</text>
+          <circle cx="290" cy="60" r="5" fill="#48d597"/>
+          <text x="290" y="46" fill="#48d597" font-size="9" font-weight="700" text-anchor="middle">Bị phát hiện</text>
+          <text x="290" y="80" fill="#9aa3b2" font-size="8" text-anchor="middle">(xử bản án 2)</text>
+          <text x="180" y="108" fill="#9aa3b2" font-size="9" text-anchor="middle">Tội cũ nằm TRƯỚC mốc bản án 1 ⇒ dùng công thức cộng rồi trừ</text>
+        </svg>
+      </div></div>
+      <div class="hint">Đặc điểm tội CŨ: phạm <b>trước</b> khi có BA1 ⇒ cộng cả 2 rồi trừ thời gian đã chấp hành.</div>
+      <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- TAB 1: TỘI MỚI -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic" style="background:rgba(255,92,77,.18);color:var(--accent)">🆕</div><div class="qti">Khoản 2 Điều 56</div></div>
+        <div class="qsub">Đang chấp hành 1 bản án mà lại PHẠM TỘI MỚI</div>
+        <div class="qbody">Tổng hợp hình phạt khi người đang chấp hành 1 bản án mà lại <b>phạm tội mới</b>.</div>
+      </div>
+      <div class="formula new">
+        Tổng hợp HP = (HPBA1 − T<sub>GĐCH</sub> BA1) + HPBA2
+        <span class="leg">Lấy phần CHƯA chấp hành của BA1, rồi CỘNG nguyên hình phạt bản án mới</span>
+      </div>
+      <div id="s1">
+        <div class="step new"><div class="se">⚖️</div><div class="st"><div class="sn">Bước 1</div><p>Tòa <b>quyết định hình phạt</b> đối với <b>tội mới</b>.</p></div></div>
+        <div class="step new"><div class="se">➕</div><div class="st"><div class="sn">Bước 2</div><p>Sau đó <b>cộng với phần hình phạt CHƯA chấp hành</b> của bản án trước rồi quyết định hình phạt chung theo Điều 55.</p></div></div>
+      </div>
+      <div class="calc" id="c1">
+        <div class="ch"><span class="ic">💡</span>Ví dụ tính toán (tội mới)</div>
+        <div class="crow">B bị kết án <b>10 năm tù</b> tội lừa đảo (BA1), chấp hành được <b>3 năm</b>.</div>
+        <div class="crow">Đang thụ án thì <b>phạm tội MỚI</b> (giết người) ⇒ bị kết án <b>6 năm tù</b> (BA2).</div>
+        <div class="crow">Phần chưa chấp hành BA1 = 10 − 3 = <b>7 năm</b></div>
+        <div class="crow">Tổng hợp = (10 − 3) + 6 = <b>7 + 6</b></div>
+        <div class="total">⇒ Còn phải chấp hành: 13 năm tù</div>
+      </div>
+      <button class="seebtn" data-il="ilnew"><span>🖼️ Xem dòng thời gian</span><span class="car">▾</span></button>
+      <div class="illus" id="ilnew"><div class="illus-inner">
+        <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">Tội mới: phạm SAU khi có bản án 1 (đang thụ án)</text>
+          <line x1="20" y1="60" x2="340" y2="60" stroke="#2a2f3a" stroke-width="2"/>
+          <circle cx="60" cy="60" r="5" fill="#ff9d4d"/>
+          <text x="60" y="46" fill="#ff9d4d" font-size="9" font-weight="700" text-anchor="middle">Có bản án 1</text>
+          <text x="60" y="80" fill="#9aa3b2" font-size="8" text-anchor="middle">(lừa đảo,10 năm)</text>
+          <rect x="65" y="55" width="120" height="10" fill="#48d597" opacity="0.4"/>
+          <text x="125" y="80" fill="#48d597" font-size="8" text-anchor="middle">đang chấp hành (3 năm)</text>
+          <circle cx="190" cy="60" r="5" fill="#ff5c4d"/>
+          <text x="195" y="46" fill="#ff5c4d" font-size="9" font-weight="700" text-anchor="middle">Phạm tội MỚI</text>
+          <text x="195" y="92" fill="#9aa3b2" font-size="8" text-anchor="middle">(giết người - trong tù)</text>
+          <text x="180" y="110" fill="#9aa3b2" font-size="9" text-anchor="middle">Tội mới nằm SAU mốc bản án 1 ⇒ lấy phần chưa chấp hành + cộng án mới</text>
+        </svg>
+      </div></div>
+      <div class="hint">Đặc điểm tội MỚI: phạm <b>sau</b> khi có BA1 (đang thụ án) ⇒ trừ trước rồi cộng án mới (nặng hơn vì không được giảm).</div>
+      <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <div class="key">
+      🔑 <b>Phân biệt mấu chốt (rất hay thi):</b><br>
+      • <b style="color:var(--orange)">Tội CŨ</b> (phạm trước BA1): <b>(BA2 + BA1) − đã chấp hành</b> → cộng cả rồi mới trừ.<br>
+      • <b style="color:var(--accent)">Tội MỚI</b> (phạm sau, đang thụ án): <b>(BA1 − đã chấp hành) + BA2</b> → trừ trước rồi cộng nguyên án mới.<br>
+      <span style="color:var(--muted);font-size:12px">⇒ Tội mới thường <b>bất lợi hơn</b> cho người phạm tội (vì cộng nguyên án mới, không "hòa" vào phần đã chấp hành).</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    var steps=document.querySelectorAll('#s'+i+' .step');
+    var calc=document.getElementById('c'+i);
+    steps.forEach(function(x){x.classList.remove('in')});
+    calc.classList.remove('in');
+    steps.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+    setTimeout(function(){calc.classList.add('in')},steps.length*300+200);
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  play('0');
+})();
+</script>
+</body>
+</html>

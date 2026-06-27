@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phân loại Lỗi - BLHS 2015</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:860px;margin:0 auto}
+  .title{text-align:center;font-size:20px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:150px;cursor:pointer;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:14px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+
+  .stack{display:flex;flex-direction:column;gap:16px}
+  /* card lỗi */
+  .lcard{
+    background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;
+    opacity:0;transform:translateY(16px);transition:.5s;
+  }
+  .lcard.in{opacity:1;transform:none}
+  .lcard .hd{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--panel2)}
+  .lcard .emo{
+    width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+    font-size:28px;flex-shrink:0;animation:float 2.6s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .lcard .ti{flex:1}
+  .lcard .ti h3{margin:0;font-size:17px}
+  .lcard .ti .badge{display:inline-block;margin-top:5px;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;color:#0b0e14}
+
+  .c-coytt{border-color:var(--accent)}
+  .c-coytt .emo{background:rgba(255,92,77,.15);border:1px solid var(--accent)}
+  .c-coytt h3{color:var(--accent)} .c-coytt .badge{background:var(--accent)}
+  .c-coygt{border-color:var(--orange)}
+  .c-coygt .emo{background:rgba(255,157,77,.15);border:1px solid var(--orange)}
+  .c-coygt h3{color:var(--orange)} .c-coygt .badge{background:var(--orange)}
+  .c-voytt{border-color:var(--accent2)}
+  .c-voytt .emo{background:rgba(255,213,74,.15);border:1px solid var(--accent2)}
+  .c-voytt h3{color:var(--accent2)} .c-voytt .badge{background:var(--accent2)}
+  .c-voyct{border-color:var(--green)}
+  .c-voyct .emo{background:rgba(72,213,151,.15);border:1px solid var(--green)}
+  .c-voyct h3{color:var(--green)} .c-voyct .badge{background:var(--green)}
+
+  .bd{padding:16px 18px}
+  /* 2 vế nhận thức + ý chí */
+  .ve{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start;
+    opacity:0;transform:translateX(-10px);transition:.4s}
+  .ve.in{opacity:1;transform:none}
+  .ve:last-of-type{margin-bottom:0}
+  .ve .vic{font-size:20px;width:30px;text-align:center;flex-shrink:0}
+  .ve .vtx{font-size:14px;line-height:1.55}
+  .ve .vtx b{color:var(--txt)}
+  .ve .vlbl{display:block;font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+
+  /* khung trích dẫn kiểu hình 2 */
+  .quote{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .quote .qhd{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .quote .qic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:14px;font-weight:800}
+  .quote .qsub{font-size:12px;color:var(--muted);margin-left:44px;margin-top:-4px}
+  .quote .qbody{font-style:italic;font-size:13px;line-height:1.6;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  /* khung ví dụ tình huống */
+  .ex{margin-top:12px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:12px;padding:14px;opacity:0;transform:translateY(8px);transition:.45s}
+  .ex.in{opacity:1;transform:none}
+  .ex .ehd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--blue);margin-bottom:8px}
+  .ex .ehd .eic{font-size:18px;animation:wig 2.2s ease-in-out infinite}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+  .ex .estory{font-size:13.5px;line-height:1.65;color:var(--txt);margin-bottom:8px}
+  .ex .estory b{color:var(--blue)}
+  .ex .ewhy{font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+  .ex .ewhy b{color:var(--accent2)}
+
+  .replay{margin-top:18px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Phân loại Lỗi — Điều 10 & 11 BLHS 2015</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">🎯 Lỗi cố ý</div>
+    <div class="tab" data-t="1">🌀 Lỗi vô ý</div>
+  </div>
+
+  <!-- TAB 0: CỐ Ý -->
+  <div class="pane" data-p="0">
+    <div class="stack" id="stack0">
+
+      <!-- cố ý trực tiếp -->
+      <div class="lcard c-coytt">
+        <div class="hd">
+          <div class="emo">😈</div>
+          <div class="ti"><h3>Lỗi cố ý trực tiếp</h3><span class="badge">Mong muốn hậu quả</span></div>
+        </div>
+        <div class="bd">
+          <div class="ve"><div class="vic">🧠</div><div class="vtx"><span class="vlbl">Lý trí (nhận thức)</span><b>Nhận thức rõ</b> hành vi của mình là nguy hiểm cho xã hội, <b>thấy trước hậu quả</b> của hành vi đó.</div></div>
+          <div class="ve"><div class="vic">❤️‍🔥</div><div class="vtx"><span class="vlbl">Ý chí (mong muốn)</span><b>Mong muốn</b> hậu quả xảy ra.</div></div>
+          <div class="quote">
+            <div class="qhd"><div class="qic">⚖️</div><div class="qti">Khoản 1 Điều 10 BLHS 2015</div></div>
+            <div class="qsub">Cố ý phạm tội</div>
+            <div class="qbody">"Người phạm tội nhận thức rõ hành vi của mình là nguy hiểm cho xã hội, thấy trước hậu quả của hành vi đó và <b>mong muốn</b> hậu quả xảy ra."</div>
+          </div>
+          <div class="ex">
+            <div class="ehd"><span class="eic">💡</span> Ví dụ tình huống</div>
+            <div class="estory">A có thù với B, mua dao rồi rình đâm thẳng vào tim B cho đến chết. A <b>biết rõ</b> đâm vào tim sẽ chết và <b>chính A muốn B chết</b>.</div>
+            <div class="ewhy">→ A nhận thức rõ + <b>mong muốn</b> hậu quả chết người ⇒ <b>cố ý trực tiếp</b>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- cố ý gián tiếp -->
+      <div class="lcard c-coygt">
+        <div class="hd">
+          <div class="emo">😏</div>
+          <div class="ti"><h3>Lỗi cố ý gián tiếp</h3><span class="badge">Để mặc hậu quả</span></div>
+        </div>
+        <div class="bd">
+          <div class="ve"><div class="vic">🧠</div><div class="vtx"><span class="vlbl">Lý trí (nhận thức)</span><b>Nhận thức rõ</b> hành vi nguy hiểm cho xã hội, <b>thấy trước hậu quả</b> có thể xảy ra.</div></div>
+          <div class="ve"><div class="vic">🤷</div><div class="vtx"><span class="vlbl">Ý chí (để mặc)</span>Tuy <b>không mong muốn</b> nhưng vẫn <b>có ý thức để mặc</b> cho hậu quả xảy ra.</div></div>
+          <div class="quote">
+            <div class="qhd"><div class="qic" style="background:rgba(255,157,77,.18);color:var(--orange)">⚖️</div><div class="qti">Khoản 2 Điều 10 BLHS 2015</div></div>
+            <div class="qsub">Cố ý phạm tội</div>
+            <div class="qbody">"Người phạm tội nhận thức rõ hành vi của mình là nguy hiểm cho xã hội, thấy trước hậu quả có thể xảy ra, tuy không mong muốn nhưng vẫn <b>có ý thức để mặc</b> cho hậu quả xảy ra."</div>
+          </div>
+          <div class="ex">
+            <div class="ehd"><span class="eic">💡</span> Ví dụ tình huống</div>
+            <div class="estory">A đốt nhà C để trả thù, biết rõ trong nhà đang có người ngủ. A <b>không nhằm giết</b> ai, chỉ muốn cháy nhà, nhưng <b>kệ</b> — ai chết thì chết. Kết quả có người chết cháy.</div>
+            <div class="ewhy">→ A thấy trước hậu quả chết người có thể xảy ra, không mong muốn nhưng <b>để mặc</b> ⇒ <b>cố ý gián tiếp</b> đối với cái chết.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="replay"><button id="rp0">▶ Phát lại</button></div>
+    <div class="hint">Khác biệt cốt lõi: cố ý trực tiếp = <b>mong muốn</b>, cố ý gián tiếp = <b>để mặc</b>.</div>
+  </div>
+
+  <!-- TAB 1: VÔ Ý -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="stack" id="stack1">
+
+      <!-- vô ý vì quá tự tin -->
+      <div class="lcard c-voytt">
+        <div class="hd">
+          <div class="emo">😅</div>
+          <div class="ti"><h3>Lỗi vô ý vì quá tự tin</h3><span class="badge">Tin sẽ không xảy ra</span></div>
+        </div>
+        <div class="bd">
+          <div class="ve"><div class="vic">🧠</div><div class="vtx"><span class="vlbl">Lý trí (nhận thức)</span><b>Thấy trước</b> hành vi của mình có thể gây hậu quả nguy hại cho xã hội.</div></div>
+          <div class="ve"><div class="vic">🤞</div><div class="vtx"><span class="vlbl">Ý chí (tự tin loại trừ)</span>Cho rằng hậu quả đó <b>sẽ không xảy ra</b> hoặc <b>có thể ngăn ngừa được</b>.</div></div>
+          <div class="quote">
+            <div class="qhd"><div class="qic" style="background:rgba(255,213,74,.18);color:var(--accent2)">⚖️</div><div class="qti">Khoản 1 Điều 11 BLHS 2015</div></div>
+            <div class="qsub">Vô ý phạm tội</div>
+            <div class="qbody">"Người phạm tội tuy thấy trước hành vi của mình có thể gây ra hậu quả nguy hại cho xã hội nhưng <b>cho rằng hậu quả đó sẽ không xảy ra hoặc có thể ngăn ngừa được</b>."</div>
+          </div>
+          <div class="ex">
+            <div class="ehd"><span class="eic">💡</span> Ví dụ tình huống</div>
+            <div class="estory">Tài xế A vượt ẩu ở khúc cua, <b>biết</b> là nguy hiểm có thể gây tai nạn, nhưng <b>tự tin</b> tay lái mình cứng, từng vượt nhiều lần không sao nên tin sẽ né kịp. Kết quả tông chết người đi đường.</div>
+            <div class="ewhy">→ A <b>có thấy trước</b> hậu quả nhưng tin sẽ ngăn được ⇒ <b>vô ý vì quá tự tin</b>.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- vô ý do cẩu thả -->
+      <div class="lcard c-voyct">
+        <div class="hd">
+          <div class="emo">😵</div>
+          <div class="ti"><h3>Lỗi vô ý do cẩu thả</h3><span class="badge">Không thấy trước</span></div>
+        </div>
+        <div class="bd">
+          <div class="ve"><div class="vic">🚫</div><div class="vtx"><span class="vlbl">Lý trí (không nhận thức)</span><b>Không thấy trước</b> hành vi của mình có thể gây hậu quả nguy hại cho xã hội.</div></div>
+          <div class="ve"><div class="vic">📋</div><div class="vtx"><span class="vlbl">Nghĩa vụ (phải & có thể)</span>Mặc dù <b>phải thấy trước</b> và <b>có thể thấy trước</b> hậu quả đó.</div></div>
+          <div class="quote">
+            <div class="qhd"><div class="qic" style="background:rgba(72,213,151,.18);color:var(--green)">⚖️</div><div class="qti">Khoản 2 Điều 11 BLHS 2015</div></div>
+            <div class="qsub">Vô ý phạm tội</div>
+            <div class="qbody">"Người phạm tội <b>không thấy trước</b> hành vi của mình có thể gây ra hậu quả nguy hại cho xã hội, mặc dù phải thấy trước và có thể thấy trước hậu quả đó."</div>
+          </div>
+          <div class="ex">
+            <div class="ehd"><span class="eic">💡</span> Ví dụ tình huống</div>
+            <div class="estory">Y tá A do <b>quên không kiểm tra</b> nhãn thuốc, tiêm nhầm loại thuốc cho bệnh nhân khiến họ tử vong. A <b>không hề nghĩ tới</b> hậu quả, nhưng theo quy trình nghề nghiệp <b>buộc phải</b> kiểm tra và hoàn toàn <b>có thể</b> phát hiện ra.</div>
+            <div class="ewhy">→ A <b>không thấy trước</b> hậu quả dù phải thấy và có thể thấy ⇒ <b>vô ý do cẩu thả</b>.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="replay"><button id="rp1">▶ Phát lại</button></div>
+    <div class="hint">Khác biệt cốt lõi: quá tự tin = <b>có thấy trước</b> nhưng loại trừ; cẩu thả = <b>không thấy trước</b>.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  function play(i){
+    var stack=document.getElementById('stack'+i);
+    var cards=stack.querySelectorAll('.lcard');
+    var ves=stack.querySelectorAll('.ve');
+    var exs=stack.querySelectorAll('.ex');
+    cards.forEach(function(c){c.classList.remove('in')});
+    ves.forEach(function(v){v.classList.remove('in')});
+    exs.forEach(function(e){e.classList.remove('in')});
+    cards.forEach(function(c,k){setTimeout(function(){c.classList.add('in')},k*450)});
+    ves.forEach(function(v,k){setTimeout(function(){v.classList.add('in')},600+k*250)});
+    exs.forEach(function(e,k){setTimeout(function(){e.classList.add('in')},1100+k*450)});
+  }
+  document.getElementById('rp0').addEventListener('click',function(){play('0')});
+  document.getElementById('rp1').addEventListener('click',function(){play('1')});
+  play('0');
+})();
+</script>
+</body>
+</html>

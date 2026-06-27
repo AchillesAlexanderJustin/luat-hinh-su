@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hình phạt pháp nhân & Quyết định hình phạt</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --line:#2a2f3a;
+    --txt:#e7e9ee; --muted:#9aa3b2; --accent:#ff5c4d; --accent2:#ffd54a;
+    --blue:#5aa9ff; --green:#48d597; --purple:#b18cff; --orange:#ff9d4d;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);margin:0;padding:24px}
+  .wrap{max-width:880px;margin:0 auto}
+  .title{text-align:center;font-size:18px;font-weight:800;letter-spacing:.4px;padding:14px;border:2px solid var(--blue);border-radius:12px;background:linear-gradient(180deg,#1c2230,#141821);margin-bottom:18px;text-transform:uppercase}
+  .tabs{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{flex:1;min-width:120px;cursor:pointer;padding:9px 8px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--muted);font-weight:600;font-size:12.5px;text-align:center;transition:.2s}
+  .tab:hover{border-color:var(--blue);color:var(--txt)}
+  .tab.on{background:var(--blue);color:#0b0e14;border-color:var(--blue)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+  .head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .head .emo{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .head h2{margin:0;font-size:17px}
+  .head .lv{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.3px;color:var(--muted)}
+
+  .body{font-size:14px;line-height:1.7;color:var(--txt);margin-bottom:6px}
+  .body b{color:var(--accent2)}
+  .body .fill{background:rgba(72,213,151,.18);color:var(--green);font-weight:700;padding:1px 6px;border-radius:5px}
+
+  .pts{margin:14px 0}
+  .pt{display:flex;gap:11px;align-items:flex-start;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:10px;opacity:0;transform:translateX(-12px);transition:.45s}
+  .pt.in{opacity:1;transform:none}
+  .pt .pi{font-size:20px;flex-shrink:0;width:28px;text-align:center}
+  .pt .pp{font-size:13px;line-height:1.55}
+  .pt .pp b{color:var(--accent2)}
+  .pt .pp .lbl{display:block;font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+
+  .quote{margin-top:14px;background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:13px}
+  .quote .qhd{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .quote .qic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,92,77,.18);color:var(--accent);flex-shrink:0}
+  .quote .qti{font-size:13px;font-weight:800}
+  .quote .qbody{font-style:italic;font-size:12.5px;line-height:1.55;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;margin-top:8px}
+  .quote .qbody b{color:var(--accent2);font-style:normal}
+
+  .ex{margin-top:13px;background:rgba(90,169,255,.07);border:1px solid var(--blue);border-radius:11px;padding:13px;font-size:13px;line-height:1.6}
+  .ex .eh{font-weight:800;color:var(--blue);font-size:12px;display:flex;align-items:center;gap:6px;margin-bottom:5px}
+  .ex b{color:var(--blue)}
+  .ic{animation:wig 2.2s ease-in-out infinite;display:inline-block}
+  @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-12deg)}75%{transform:rotate(12deg)}}
+
+  .seebtn{margin-top:13px;display:inline-flex;align-items:center;gap:7px;background:var(--green);color:#0b1410;border:none;padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700}
+  .seebtn:hover{filter:brightness(1.1)}
+  .seebtn .car{transition:transform .3s}
+  .seebtn.open .car{transform:rotate(180deg)}
+  .illus{max-height:0;overflow:hidden;transition:max-height .55s ease}
+  .illus.open{max-height:360px;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+  .illus-inner{padding:16px}
+  .illus svg{width:100%;height:auto;display:block}
+
+  /* quyết định hình phạt - các trường hợp */
+  .item{border:1px solid var(--line);border-radius:14px;margin-bottom:13px;overflow:hidden;opacity:0;transform:translateY(12px);transition:.5s}
+  .item.in{opacity:1;transform:none}
+  .item .hd2{display:flex;align-items:center;gap:13px;padding:13px 16px;background:var(--panel2)}
+  .item .e2{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0;animation:float 2.6s ease-in-out infinite}
+  .item .t2{flex:1}
+  .item .t2 h3{margin:0;font-size:15px}
+  .item .t2 .ref{font-size:11px;color:var(--muted);font-weight:700}
+  .item .bd2{padding:13px 16px;font-size:13.5px;line-height:1.6}
+  .item .bd2 b{color:var(--accent2)}
+  .item .ex{margin-top:9px}
+  .q1{border-color:var(--green)} .q1 .e2{background:rgba(72,213,151,.15);border:1px solid var(--green)} .q1 h3{color:var(--green)}
+  .q2{border-color:var(--orange)} .q2 .e2{background:rgba(255,157,77,.15);border:1px solid var(--orange)} .q2 h3{color:var(--orange)}
+  .q3{border-color:var(--purple)} .q3 .e2{background:rgba(177,140,255,.15);border:1px solid var(--purple)} .q3 h3{color:var(--purple)}
+
+  .replay{margin-top:16px;text-align:center}
+  .replay button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+  .replay button:hover{border-color:var(--accent);color:var(--txt)}
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">Hình phạt pháp nhân & Quyết định hình phạt</div>
+
+  <div class="tabs">
+    <div class="tab on" data-t="0">💵 Phạt tiền (Đ.77)</div>
+    <div class="tab" data-t="1">⏸️ Đình chỉ có thời hạn (Đ.78)</div>
+    <div class="tab" data-t="2">⛔ Đình chỉ vĩnh viễn (Đ.79)</div>
+    <div class="tab" data-t="3">⚖️ Quyết định hình phạt</div>
+    <div class="tab" data-t="4">⬇️ Dưới khung (Đ.54 chi tiết)</div>
+  </div>
+
+  <!-- ĐIỀU 77 -->
+  <div class="pane" data-p="0">
+    <div class="card">
+      <div class="head"><div class="emo" style="background:rgba(72,213,151,.15);border:1px solid var(--green)">💵</div><div><div class="lv">Hình phạt pháp nhân — nhẹ nhất</div><h2 style="color:var(--green)">Điều 77 — Phạt tiền</h2></div></div>
+      <div class="body">Với pháp nhân thương mại, phạt tiền có thể là <b>HP chính hoặc HP bổ sung</b>.</div>
+      <div class="pts" id="p0">
+        <div class="pt"><div class="pi">⚖️</div><div class="pp"><span class="lbl">Vai trò</span>Là <b>hình phạt chính HOẶC hình phạt bổ sung</b> đối với pháp nhân thương mại phạm tội.</div></div>
+        <div class="pt"><div class="pi">📊</div><div class="pp"><span class="lbl">Căn cứ xác định mức</span>Tính chất & mức độ nguy hiểm của tội phạm + <b>tình hình tài chính</b> của pháp nhân + sự biến động giá cả.</div></div>
+        <div class="pt"><div class="pi">💰</div><div class="pp"><span class="lbl">Mức tối thiểu</span>Không được thấp hơn <b>50.000.000 đồng</b>.</div></div>
+      </div>
+      <div class="quote">
+        <div class="qhd"><div class="qic" style="background:rgba(72,213,151,.18);color:var(--green)">⚖️</div><div class="qti">Điều 77 BLHS 2015</div></div>
+        <div class="qbody">Mức tiền phạt được quyết định căn cứ vào tính chất, mức độ nguy hiểm của tội phạm và có xét đến <b>tình hình tài chính</b> của pháp nhân… <b>nhưng không được thấp hơn 50.000.000 đồng</b>.</div>
+      </div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty trốn thuế lớn ⇒ bị phạt tiền (HP chính); mức phạt xét theo <b>quy mô tài chính</b> của công ty, tối thiểu 50 triệu.</div>
+      <div class="hint">So sánh: phạt tiền cá nhân tối thiểu <b>1 triệu</b> (Đ.35), pháp nhân tối thiểu <b>50 triệu</b> (Đ.77).</div>
+      <div class="replay"><button class="rp" data-i="0">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- ĐIỀU 78 -->
+  <div class="pane" data-p="1" style="display:none">
+    <div class="card">
+      <div class="head"><div class="emo" style="background:rgba(255,157,77,.15);border:1px solid var(--orange)">⏸️</div><div><div class="lv">Hình phạt pháp nhân — trung bình</div><h2 style="color:var(--orange)">Điều 78 — Đình chỉ hoạt động có thời hạn</h2></div></div>
+      <div class="body">Là việc <b>tạm dừng hoạt động</b> của pháp nhân trong một hoặc một số lĩnh vực mà pháp nhân phạm tội gây thiệt hại — <b>khi hậu quả còn khả năng khắc phục</b>.</div>
+      <div class="pts" id="p1">
+        <div class="pt"><div class="pi">⏸️</div><div class="pp"><span class="lbl">Bản chất</span><b>Tạm dừng</b> hoạt động ở một/một số lĩnh vực phạm tội.</div></div>
+        <div class="pt"><div class="pi">🩹</div><div class="pp"><span class="lbl">Điều kiện</span>Hậu quả gây ra <b>có khả năng khắc phục</b> trên thực tế.</div></div>
+        <div class="pt"><div class="pi">⏱️</div><div class="pp"><span class="lbl">Thời hạn</span>Từ <b>06 tháng đến 03 năm</b>.</div></div>
+      </div>
+      <button class="seebtn" data-il="il78"><span>🖼️ Xem so sánh có thời hạn vs vĩnh viễn</span><span class="car">▾</span></button>
+      <div class="illus" id="il78"><div class="illus-inner">
+        <svg viewBox="0 0 360 110" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#ff9d4d" font-size="11" font-weight="700" text-anchor="middle">Đình chỉ CÓ THỜI HẠN = tạm dừng (có thể quay lại)</text>
+          <rect x="30" y="40" width="80" height="34" rx="8" fill="#171a21" stroke="#48d597"/>
+          <text x="70" y="61" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">▶️ Hoạt động</text>
+          <text x="118" y="60" fill="#9aa3b2" font-size="13">→</text>
+          <rect x="135" y="40" width="90" height="34" rx="8" fill="#171a21" stroke="#ff9d4d"/>
+          <text x="180" y="56" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">⏸️ Tạm dừng</text>
+          <text x="180" y="68" fill="#9aa3b2" font-size="8" text-anchor="middle">6 tháng – 3 năm</text>
+          <text x="233" y="60" fill="#9aa3b2" font-size="13">→</text>
+          <rect x="250" y="40" width="90" height="34" rx="8" fill="#171a21" stroke="#48d597"/>
+          <text x="295" y="61" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">▶️ Hoạt động lại</text>
+          <text x="180" y="98" fill="#9aa3b2" font-size="9.5" text-anchor="middle">Khắc phục xong hậu quả ⇒ được tiếp tục</text>
+        </svg>
+      </div></div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Nhà máy gây ô nhiễm nhưng <b>có thể xử lý được</b> ⇒ bị <b>đình chỉ hoạt động phân xưởng đó 1 năm</b> để khắc phục, sau đó hoạt động lại.</div>
+      <div class="hint">Số liệu điền theo BLHS: thời hạn đình chỉ <b>6 tháng – 3 năm</b>.</div>
+      <div class="replay"><button class="rp" data-i="1">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- ĐIỀU 79 -->
+  <div class="pane" data-p="2" style="display:none">
+    <div class="card">
+      <div class="head"><div class="emo" style="background:rgba(255,92,77,.15);border:1px solid var(--accent)">⛔</div><div><div class="lv">Hình phạt pháp nhân — nặng nhất</div><h2 style="color:var(--accent)">Điều 79 — Đình chỉ hoạt động vĩnh viễn</h2></div></div>
+      <div class="body">Là <b>chấm dứt hoạt động</b> của pháp nhân — "khai tử" doanh nghiệp. Áp dụng khi hậu quả <b>không còn khả năng khắc phục</b>.</div>
+      <div class="pts" id="p2">
+        <div class="pt"><div class="pi">⛔</div><div class="pp"><span class="lbl">TH1 — đình chỉ 1 phần</span>Chấm dứt vĩnh viễn <b>trong một/một số lĩnh vực</b> gây thiệt hại tính mạng nhiều người, môi trường, an ninh… mà <b>không còn khả năng khắc phục</b>.</div></div>
+        <div class="pt"><div class="pi">💀</div><div class="pp"><span class="lbl">TH2 — đình chỉ toàn bộ</span>Pháp nhân được <b>thành lập chỉ để phạm tội</b> ⇒ bị đình chỉ <b>toàn bộ hoạt động</b> (xóa sổ).</div></div>
+      </div>
+      <button class="seebtn" data-il="il79"><span>🖼️ Xem 2 trường hợp đình chỉ vĩnh viễn</span><span class="car">▾</span></button>
+      <div class="illus" id="il79"><div class="illus-inner">
+        <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+          <text x="180" y="16" fill="#ff5c4d" font-size="11" font-weight="700" text-anchor="middle">Đình chỉ VĨNH VIỄN = chấm dứt, không quay lại</text>
+          <rect x="20" y="30" width="155" height="44" rx="9" fill="#171a21" stroke="#ff9d4d"/>
+          <text x="97" y="48" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">TH1: 1 số lĩnh vực</text>
+          <text x="97" y="63" fill="#9aa3b2" font-size="8.5" text-anchor="middle">hậu quả không khắc phục được</text>
+          <rect x="185" y="30" width="155" height="44" rx="9" fill="#171a21" stroke="#ff5c4d"/>
+          <text x="262" y="48" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">TH2: TOÀN BỘ</text>
+          <text x="262" y="63" fill="#9aa3b2" font-size="8.5" text-anchor="middle">lập ra chỉ để phạm tội</text>
+          <text x="180" y="98" fill="#ff5c4d" font-size="12" font-weight="700" text-anchor="middle">💀 "Khai tử" doanh nghiệp</text>
+          <text x="180" y="116" fill="#9aa3b2" font-size="9" text-anchor="middle">= mức nghiêm khắc nhất với pháp nhân</text>
+        </svg>
+      </div></div>
+      <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Công ty "ma" <b>lập ra chỉ để rửa tiền / buôn lậu</b> ⇒ bị đình chỉ <b>toàn bộ hoạt động vĩnh viễn</b> (TH2).</div>
+      <div class="hint">Đình chỉ vĩnh viễn = mức nặng nhất, tương đương "tử hình" của pháp nhân.</div>
+      <div class="replay"><button class="rp" data-i="2">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- QUYẾT ĐỊNH HÌNH PHẠT -->
+  <div class="pane" data-p="3" style="display:none">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic">⚖️</div><div class="qti">Quyết định hình phạt — Khái niệm</div></div>
+        <div class="qbody">Là việc <b>Tòa án lựa chọn loại hình phạt với mức cụ thể</b> trong phạm vi luật định để áp dụng đối với người phạm tội / pháp nhân thương mại phạm tội.</div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center">3 trường hợp đặc biệt khi quyết định hình phạt:</div>
+      <div id="g3">
+        <div class="item q1">
+          <div class="hd2"><div class="e2">⬇️</div><div class="t2"><h3>Dưới mức thấp nhất của khung</h3><div class="ref">Điều 54 BLHS 2015</div></div></div>
+          <div class="bd2">
+            Khi có <b>nhiều tình tiết giảm nhẹ</b> (≥2 ở khoản 1 Đ.51), Tòa có thể tuyên hình phạt <b>nhẹ hơn mức thấp nhất của khung</b> đang áp dụng.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>Khung tội là 7–15 năm, nhưng bị cáo có nhiều tình tiết giảm nhẹ ⇒ Tòa tuyên <b>5 năm</b> (dưới khung).</div>
+          </div>
+        </div>
+        <div class="item q2">
+          <div class="hd2"><div class="e2">➕</div><div class="t2"><h3>Phạm nhiều tội</h3><div class="ref">Điều 55 BLHS 2015</div></div></div>
+          <div class="bd2">
+            Khi 1 người phạm <b>nhiều tội</b> trong cùng vụ, Tòa quyết định hình phạt cho từng tội rồi <b>tổng hợp</b> theo nguyên tắc luật định.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A vừa trộm cắp vừa cố ý gây thương tích ⇒ xử từng tội rồi <b>tổng hợp thành hình phạt chung</b>.</div>
+          </div>
+        </div>
+        <div class="item q3">
+          <div class="hd2"><div class="e2">📚</div><div class="t2"><h3>Tổng hợp hình phạt nhiều bản án</h3><div class="ref">Điều 56 BLHS 2015</div></div></div>
+          <div class="bd2">
+            Khi 1 người đang chấp hành 1 bản án lại bị xử bản án khác, Tòa <b>tổng hợp hình phạt của nhiều bản án</b>.
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A đang thụ án 3 năm thì bị phát hiện tội cũ chưa xử ⇒ Tòa <b>tổng hợp 2 bản án</b> thành hình phạt chung.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Mẹo nhớ: <b>54 = dưới khung · 55 = nhiều tội · 56 = nhiều bản án</b>.</div>
+      <div class="replay"><button class="rp" data-i="3">▶ Phát lại</button></div>
+    </div>
+  </div>
+
+  <!-- ĐIỀU 54 CHI TIẾT -->
+  <div class="pane" data-p="4" style="display:none">
+    <div class="card">
+      <div class="quote">
+        <div class="qhd"><div class="qic" style="background:rgba(72,213,151,.18);color:var(--green)">⬇️</div><div class="qti">Điều 54 BLHS 2015</div></div>
+        <div class="qbody">Quyết định hình phạt <b>dưới mức thấp nhất của khung</b> hình phạt được áp dụng — gồm 3 trường hợp với mức "giảm" khác nhau.</div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;text-align:center">3 trường hợp được tuyên dưới khung — mức nới lỏng <b>tăng dần</b>:</div>
+      <div id="g4">
+        <div class="item q1">
+          <div class="hd2"><div class="e2">1️⃣</div><div class="t2"><h3>Dưới khung — nhưng trong khung liền kề nhẹ hơn</h3><div class="ref">Khoản 1 Điều 54</div></div></div>
+          <div class="bd2">
+            Tòa có thể tuyên dưới mức thấp nhất, <b>nhưng phải trong khung hình phạt liền kề nhẹ hơn</b> của điều luật.
+            <div style="margin-top:7px;font-size:12.5px;color:var(--muted)"><b style="color:var(--accent2)">Điều kiện:</b> có ít nhất <b>2 tình tiết giảm nhẹ</b> tại khoản 1 Điều 51.</div>
+            <button class="seebtn" data-il="il54a"><span>🖼️ Xem ví dụ Điều 128</span><span class="car">▾</span></button>
+            <div class="illus" id="il54a"><div class="illus-inner">
+              <svg viewBox="0 0 360 130" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#48d597" font-size="11" font-weight="700" text-anchor="middle">Điều 128 — nhảy xuống khung liền kề nhẹ hơn</text>
+                <rect x="30" y="38" width="135" height="40" rx="9" fill="#171a21" stroke="#ff9d4d"/>
+                <text x="97" y="55" fill="#ff9d4d" font-size="10" font-weight="700" text-anchor="middle">K2: 3 → 10 năm</text>
+                <text x="97" y="69" fill="#9aa3b2" font-size="8.5" text-anchor="middle">khung đang áp dụng</text>
+                <text x="178" y="62" fill="#48d597" font-size="16" font-weight="700">↓</text>
+                <rect x="195" y="38" width="135" height="40" rx="9" fill="#171a21" stroke="#48d597"/>
+                <text x="262" y="55" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">K1: 1 → 5 năm</text>
+                <text x="262" y="69" fill="#9aa3b2" font-size="8.5" text-anchor="middle">khung liền kề nhẹ hơn</text>
+                <text x="180" y="104" fill="#9aa3b2" font-size="9.5" text-anchor="middle">Tuyên trong khung K1 (vd 4 năm), không xuống thấp hơn nữa</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A phạm tội theo khoản 2 Đ.128 (3–10 năm) nhưng có ≥2 tình tiết giảm nhẹ ⇒ Tòa tuyên trong <b>khung khoản 1 liền kề</b> (1–5 năm), ví dụ 4 năm.</div>
+          </div>
+        </div>
+
+        <div class="item q2">
+          <div class="hd2"><div class="e2">2️⃣</div><div class="t2"><h3>Dưới khung — KHÔNG bắt buộc trong khung liền kề</h3><div class="ref">Khoản 2 Điều 54</div></div></div>
+          <div class="bd2">
+            Với <b>người phạm tội lần đầu là người giúp sức trong đồng phạm nhưng có vai trò không đáng kể</b> ⇒ Tòa có thể tuyên dưới mức thấp nhất mà <b>không buộc phải trong khung liền kề</b> (nới rộng hơn TH1).
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>B chỉ <b>đứng canh gác</b> (giúp sức, vai trò rất nhỏ), lần đầu phạm tội ⇒ được tuyên dưới khung mà không bị giới hạn ở khung liền kề.</div>
+          </div>
+        </div>
+
+        <div class="item q3">
+          <div class="hd2"><div class="e2">3️⃣</div><div class="t2"><h3>Khung nhẹ nhất & duy nhất → có thể chuyển loại hình phạt nhẹ hơn</h3><div class="ref">Khoản 3 Điều 54</div></div></div>
+          <div class="bd2">
+            Nếu đủ điều kiện ở khoản 1/2 mà tội chỉ có <b>khung hình phạt nhẹ nhất & duy nhất</b> ⇒ Tòa có thể tuyên dưới mức thấp nhất, hoặc <b>chuyển sang loại hình phạt khác nhẹ hơn</b>.
+            <button class="seebtn" data-il="il54c"><span>🖼️ Xem ví dụ Điều 171</span><span class="car">▾</span></button>
+            <div class="illus" id="il54c"><div class="illus-inner">
+              <svg viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg">
+                <text x="180" y="16" fill="#b18cff" font-size="11" font-weight="700" text-anchor="middle">Điều 171 — chuyển sang loại hình phạt nhẹ hơn</text>
+                <rect x="30" y="40" width="130" height="38" rx="9" fill="#171a21" stroke="#ff5c4d"/>
+                <text x="95" y="57" fill="#ff5c4d" font-size="10" font-weight="700" text-anchor="middle">🔒 Tù 1–5 năm</text>
+                <text x="95" y="70" fill="#9aa3b2" font-size="8.5" text-anchor="middle">khung nhẹ nhất K1</text>
+                <text x="172" y="63" fill="#48d597" font-size="16" font-weight="700">→</text>
+                <rect x="190" y="40" width="140" height="38" rx="9" fill="#171a21" stroke="#48d597"/>
+                <text x="260" y="57" fill="#48d597" font-size="10" font-weight="700" text-anchor="middle">🔗 Cải tạo KGG</text>
+                <text x="260" y="70" fill="#9aa3b2" font-size="8.5" text-anchor="middle">loại hình phạt nhẹ hơn</text>
+                <text x="180" y="104" fill="#9aa3b2" font-size="9.5" text-anchor="middle">Thay vì tù ⇒ chuyển sang hình phạt nhẹ hơn (cải tạo KGG)</text>
+              </svg>
+            </div></div>
+            <div class="ex"><div class="eh"><span class="ic">💡</span>Ví dụ</div>A cướp giật (Đ.171, khoản 1: tù 1–5 năm) nhưng đủ điều kiện giảm đặc biệt ⇒ Tòa có thể <b>chuyển sang cải tạo không giam giữ</b> thay vì tù.</div>
+          </div>
+        </div>
+      </div>
+      <div class="hint">Mức nới lỏng tăng dần: <b>K1</b> (trong khung liền kề) → <b>K2</b> (không cần khung liền kề) → <b>K3</b> (chuyển loại hình phạt nhẹ hơn).</div>
+      <div class="replay"><button class="rp" data-i="4">▶ Phát lại</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('.tab'), panes=document.querySelectorAll('.pane');
+  tabs.forEach(function(t){
+    t.addEventListener('click',function(){
+      tabs.forEach(function(x){x.classList.remove('on')}); t.classList.add('on');
+      var i=t.getAttribute('data-t');
+      panes.forEach(function(p){p.style.display=p.getAttribute('data-p')===i?'block':'none'});
+      play(i);
+    });
+  });
+  document.querySelectorAll('.seebtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var il=document.getElementById(b.getAttribute('data-il'));
+      var open=il.classList.toggle('open'); b.classList.toggle('open',open);
+    });
+  });
+  function play(i){
+    if(i==='3'||i==='4'){
+      var it=document.querySelectorAll('#g'+i+' .item');
+      it.forEach(function(x){x.classList.remove('in')});
+      it.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*300)});
+      return;
+    }
+    var p=document.getElementById('p'+i); if(!p)return;
+    var els=p.querySelectorAll('.pt');
+    els.forEach(function(x){x.classList.remove('in')});
+    els.forEach(function(x,k){setTimeout(function(){x.classList.add('in')},k*250)});
+  }
+  document.querySelectorAll('.rp').forEach(function(b){
+    b.addEventListener('click',function(){play(b.getAttribute('data-i'))});
+  });
+  play('0');
+})();
+</script>
+</body>
+</html>
