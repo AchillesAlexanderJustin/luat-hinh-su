@@ -94,7 +94,18 @@
     erase:function(){return SVGH+E(120,110,'📄',42,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .7s .6s both">'+E(150,98,'✨',34)+'</g><g style="opacity:0;animation:svPop .6s 1.1s both">'+E(195,108,'✅',38)+'</g>'+L('Xoá án tích — coi như chưa bị kết án')+'</svg>';},
     free:function(){return SVGH+E(120,110,'🔓',42,'animation:svPop .6s both')+'<g style="animation:svRise 1s .5s both">'+E(195,105,'🕊️',40)+'</g>'+L('Được miễn / tha')+'</svg>';},
     court:function(){return SVGH+E(120,110,'👨‍⚖️',42,'animation:svIn .5s both')+'<g style="transform-origin:205px 80px;animation:svLower .8s .5s both">'+E(185,100,'⚖️',40)+'</g>'+L('Toà án xét xử & quyết định')+'</svg>';},
-    concept:function(){return SVGH+E(135,110,'⚖️',46,'animation:svPulse 1.6s 2 both')+E(205,105,'📖',36,'opacity:0;animation:svIn .6s .5s both')+L('Khái niệm pháp lý')+'</svg>';}
+    concept:function(){return SVGH+E(135,110,'⚖️',46,'animation:svPulse 1.6s 2 both')+E(205,105,'📖',36,'opacity:0;animation:svIn .6s .5s both')+L('Khái niệm pháp lý')+'</svg>';},
+    duration:function(it){var v=(it&&it.value)||'?',u=(it&&it.unit)||'';return SVGH
+      + E(92,112,'⏳',48,'animation:svPulse 1.5s 2 both')
+      + '<rect x="150" y="70" width="150" height="58" rx="12" fill="rgba(243,201,105,.10)" stroke="rgba(243,201,105,.5)" style="opacity:0;animation:svIn .5s .3s both"/>'
+      + '<text x="225" y="112" font-size="34" font-weight="800" fill="#ffe49b" text-anchor="middle" style="opacity:0;animation:svPop .6s .5s both">'+v+'</text>'
+      + '<text class="sub" x="225" y="120" text-anchor="middle" style="opacity:0;animation:svIn .5s .8s both">'+u+'</text>'
+      + L('Mốc / thời hạn cần nhớ')+'</svg>';},
+    number:function(it){var v=(it&&it.value)||'?',u=(it&&it.unit)||'';var ic=(u==='lần')?'🔁':(u==='%')?'📊':(u==='tuổi')?'🎂':(u==='đồng'||u==='triệu'||u==='tỷ')?'💰':'🔢';return SVGH
+      + E(98,114,ic,46,'animation:svPop .6s both')
+      + '<text x="214" y="116" font-size="46" font-weight="800" fill="#ffe49b" text-anchor="middle" style="opacity:0;animation:svPop .6s .4s both">'+v+'</text>'
+      + '<text class="sub" x="214" y="142" text-anchor="middle" style="opacity:0;animation:svIn .5s .8s both">'+u+'</text>'
+      + L('Con số cần nhớ')+'</svg>';}
   };
   function pick(s){ s=(s||'').toLowerCase();
     var R=[['tử hình','penalty'],['phạt tù','penalty'],['hình phạt','penalty'],['đi tù','penalty'],['vào tù','penalty'],
@@ -122,12 +133,24 @@
   var stage=modal.querySelector('.lhs-stage'),mtitle=modal.querySelector('.lhs-mtitle'),
       mcap=modal.querySelector('.lhs-cap'),nextBtn=modal.querySelector('.lhs-next'),replayBtn=modal.querySelector('.lhs-replay');
   var cur=null,seq=null,si=0,timer=null,LIST=[];
-  function render(it){ mtitle.textContent=it.title; mcap.innerHTML=it.cap; stage.innerHTML=(S[it.scene]||S.concept)(); cur=it; }
+  function render(it){
+    mtitle.textContent=it.title; mcap.innerHTML=it.cap;
+    stage.innerHTML=(S[it.scene]||S.concept)(it);
+    var old=modal.querySelector('.lhs-chips'); if(old)old.remove();
+    if(it.chips&&it.chips.length){
+      var c=document.createElement('div'); c.className='lhs-chips';
+      c.style.cssText='display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px';
+      c.innerHTML='<span style="font-size:11px;color:#9aa1bd;align-self:center;margin-right:2px">Từ khoá:</span>'+it.chips.map(function(x){
+        return '<span style="font-size:11px;font-weight:700;color:#1a1400;background:linear-gradient(90deg,#ffd54a,#ffe49b);border-radius:20px;padding:3px 10px">'+x.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>';}).join('');
+      stage.insertAdjacentElement('afterend',c);
+    }
+    cur=it;
+  }
   function open(it){ clearTimeout(timer); seq=null; nextBtn.hidden=true; render(it); modal.classList.add('show'); }
   function close(){ clearTimeout(timer); modal.classList.remove('show'); }
   function showSeq(){ clearTimeout(timer); render(seq[si]); nextBtn.hidden=(si>=seq.length-1); timer=setTimeout(function(){ if(si<seq.length-1){si++;showSeq();} },5400); }
   function startSeq(){ if(!LIST.length)return; seq=LIST.slice(); si=0; modal.classList.add('show'); showSeq(); }
-  replayBtn.addEventListener('click',function(){ if(cur) stage.innerHTML=(S[cur.scene]||S.concept)(); });
+  replayBtn.addEventListener('click',function(){ if(cur) render(cur); });
   nextBtn.addEventListener('click',function(){ if(seq&&si<seq.length-1){si++;showSeq();} });
   modal.querySelector('.lhs-x').addEventListener('click',close);
   modal.addEventListener('click',function(e){ if(e.target===modal) close(); });
@@ -156,18 +179,27 @@
     if(!title){ title=t.split(/[.:!?\n]/)[0].split(' ').slice(0,9).join(' '); }
     var cap=t; if(title && cap.indexOf(title)===0) cap=cap.slice(title.length).trim();
     cap=cap.replace(/^[\-–—:•.\s]+/,'');
-    // nếu chú thích trùng tiêu đề hoặc rỗng, thử lấy đoạn mô tả kế tiếp
     if(!cap||cap===title){
       var d=row.querySelector('p,.cd,.it,.desc'); if(d){var ds=(d.textContent||'').replace(/\s+/g,' ').trim(); if(ds&&ds!==title)cap=ds;}
       if(!cap||cap===title){var sib=row.nextElementSibling; if(sib){var ss=(sib.textContent||'').replace(/\s+/g,' ').trim(); if(ss.length>12)cap=ss;}}
     }
     if(cap.length>270) cap=cap.slice(0,267)+'…';
-    // bỏ qua trích dẫn điều luật trơ trọi (vd "Điều 51 BLHS 2015") không có giải thích
     if(/^[⚖📜📖\s]*Điều\s/i.test(title) && (!cap||cap===title) && t.length<40)return;
     if(!cap) cap=title;
     var key=title.toLowerCase(); if(seenTitles[key])return; seenTitles[key]=1;
+    // ---- lấy từ khoá được tô vàng (in đậm) làm trọng tâm mô phỏng ----
+    var hi=[]; row.querySelectorAll('b,strong,mark').forEach(function(x){
+      var s=(x.textContent||'').replace(/\s+/g,' ').trim();
+      if(s && s.length<=44 && s!==title && hi.indexOf(s)<0) hi.push(s);
+    });
+    var hiText=hi.join(' ');
+    var scene, value=null, unit=null;
+    // ưu tiên số/ngày tháng/thời hạn nằm trong phần tô vàng
+    var mm=hiText.match(/(\d[\d.,]*)\s*(năm|tháng|ngày|giờ|tuổi|lần|%|đồng|triệu|tỷ)/i);
+    if(mm){ value=mm[1]; unit=mm[2].toLowerCase(); scene=/(năm|tháng|ngày|giờ)/.test(unit)?'duration':'number'; }
+    else { scene=pick(hiText||t); }   // chọn hoạt cảnh theo từ khoá tô vàng trước
     row.dataset.lhsSim='1';
-    addBtn(icon,{title:title||'Ý chính',cap:cap,scene:pick(t)});
+    addBtn(icon,{title:title||'Ý chính',cap:cap,scene:scene,value:value,unit:unit,chips:hi.slice(0,4)});
   });
   if(!LIST.length) simall.style.display='none';
 })();
