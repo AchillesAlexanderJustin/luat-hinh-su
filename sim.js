@@ -1,12 +1,10 @@
 /* Luật Hình sự — engine mô phỏng dùng chung (auto cho mọi widget) */
 (function(){
-  // ---- dọn các phần tử cũ (từ lần chèn trước) ----
   ['.lhs-back','.lhs-simall','#lhsModal','.lhs-sim','.lhs-sim2'].forEach(function(sel){
     document.querySelectorAll(sel).forEach(function(e){ e.remove(); });
   });
   document.querySelectorAll('[data-lhs-sim]').forEach(function(e){ e.removeAttribute('data-lhs-sim'); });
 
-  // ---- CSS ----
   var css = ''
   + '.lhs-back{position:fixed;top:14px;left:14px;z-index:9999;text-decoration:none;font-family:"Segoe UI",system-ui,sans-serif;font-size:13px;font-weight:700;color:#fff;background:rgba(18,22,38,.88);border:1px solid rgba(255,255,255,.22);padding:8px 14px;border-radius:30px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(0,0,0,.45);transition:.2s}'
   + '.lhs-back:hover{background:#5aa9ff;color:#06121f;transform:translateX(-2px)}'
@@ -24,6 +22,9 @@
   + '.lhs-mtitle{font-size:16px;font-weight:800;color:#ffe49b;margin:0 28px 12px 0}'
   + '.lhs-stage{background:radial-gradient(420px 200px at 50% 0%,rgba(124,140,255,.14),transparent 65%),#0c1020;border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:6px;margin-bottom:12px}'
   + '.lhs-stage svg{width:100%;height:auto;display:block;border-radius:10px}'
+  + '.lhs-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}'
+  + '.lhs-chips .lbl0{font-size:11px;color:#9aa1bd;align-self:center;margin-right:2px}'
+  + '.lhs-chips b{font-size:11px;font-weight:700;color:#1a1400;background:linear-gradient(90deg,#ffd54a,#ffe49b);border-radius:20px;padding:3px 10px}'
   + '.lhs-cap{font-size:13px;line-height:1.6;color:#cfd5ea;margin-bottom:14px}'
   + '.lhs-cap b{color:#ffe49b}'
   + '.lhs-mctrl{display:flex;gap:8px;justify-content:flex-end}'
@@ -53,35 +54,33 @@
   + '@keyframes svDrop{0%{transform:translateY(-20px);opacity:0}100%{transform:translateY(0);opacity:1}}';
   var st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
 
-  // ---- nút quay lại + mô phỏng tất cả + modal ----
   var back=document.createElement('a'); back.className='lhs-back'; back.href='index.html'; back.textContent='← Quay lại roadmap';
   document.body.appendChild(back);
   var simall=document.createElement('button'); simall.className='lhs-simall'; simall.type='button'; simall.textContent='✨ Mô phỏng tất cả các ý';
   document.body.appendChild(simall);
   var modal=document.createElement('div'); modal.className='lhs-modal'; modal.id='lhsModal';
-  modal.innerHTML='<div class="lhs-card"><button class="lhs-x" type="button">✕</button><div class="lhs-mtitle"></div><div class="lhs-stage"></div><div class="lhs-cap"></div><div class="lhs-mctrl"><button class="lhs-replay" type="button">▶ Phát lại</button><button class="lhs-next" type="button" hidden>Tiếp ▶</button></div></div>';
+  modal.innerHTML='<div class="lhs-card"><button class="lhs-x" type="button">✕</button><div class="lhs-mtitle"></div><div class="lhs-stage"></div><div class="lhs-chips" hidden></div><div class="lhs-cap"></div><div class="lhs-mctrl"><button class="lhs-replay" type="button">▶ Phát lại</button><button class="lhs-next" type="button" hidden>Tiếp ▶</button></div></div>';
   document.body.appendChild(modal);
 
-  // ---- thư viện hoạt cảnh ----
   var SVGH='<svg viewBox="0 0 340 190" class="sv" xmlns="http://www.w3.org/2000/svg">';
   function E(x,y,s,sz,stl){return '<text x="'+x+'" y="'+y+'" font-size="'+(sz||44)+'" style="'+(stl||'')+'">'+s+'</text>';}
   function L(t){return '<text class="lbl" x="170" y="172" text-anchor="middle">'+t+'</text>';}
   var S={
     harm:function(){return SVGH+E(55,108,'✊',46,'animation:svPunch 1s')+E(208,108,'👥',46,'animation:svShake .5s .8s 2')+'<g style="opacity:0;animation:svFlash .7s .85s 2 forwards">'+E(150,78,'💥',34)+'</g>'+L('Gây / đe doạ thiệt hại cho xã hội')+'</svg>';},
-    lawban:function(){return SVGH+E(60,110,'📖',46,'animation:svIn .6s')+E(150,108,'✋',40,'animation:svIn .6s .4s both')+'<g style="opacity:0;animation:svPop .6s .9s both">'+E(150,112,'🚫',54)+'</g><text class="tag" x="245" y="95" fill="#ff6b6b" style="opacity:0;animation:svPop .5s 1.2s both">CẤM</text>'+L('Bị BLHS cấm — không luật, không tội')+'</svg>';},
-    subject:function(){return SVGH+'<g style="animation:svPop .6s both">'+E(55,105,'🧑‍⚖️',44)+'</g><text class="sub" x="78" y="135" text-anchor="middle">đủ NLTNHS</text><g style="animation:svPop .6s .5s both">'+E(205,105,'🏢',44)+'</g><text class="sub" x="227" y="135" text-anchor="middle">pháp nhân TM</text><g style="opacity:0;animation:svPop .5s 1s both">'+E(150,95,'✅',30)+'</g>'+L('Chủ thể có năng lực TNHS / tuổi')+'</svg>';},
-    fault:function(){return SVGH+E(140,70,'🧠',40,'animation:svPop .6s both')+'<g style="opacity:0;animation:svIn .6s .6s both">'+E(45,135,'😈',34)+'<text class="sub" x="62" y="158" text-anchor="middle">cố ý</text></g><g style="opacity:0;animation:svIn .6s .9s both">'+E(245,135,'😬',34)+'<text class="sub" x="262" y="158" text-anchor="middle">vô ý</text></g><text class="lbl" x="170" y="182" text-anchor="middle">Thực hiện một cách cố ý hoặc vô ý</text></svg>';},
+    lawban:function(){return SVGH+E(60,110,'📖',46,'animation:svIn .6s')+E(150,108,'✋',40,'animation:svIn .6s .4s both')+'<g style="opacity:0;animation:svPop .6s .9s both">'+E(150,112,'🚫',54)+'</g>'+L('Bị BLHS cấm — không luật, không tội')+'</svg>';},
+    subject:function(){return SVGH+'<g style="animation:svPop .6s both">'+E(55,105,'🧑‍⚖️',44)+'</g><text class="sub" x="78" y="135" text-anchor="middle">đủ NLTNHS</text><g style="animation:svPop .6s .5s both">'+E(205,105,'🏢',44)+'</g><text class="sub" x="227" y="135" text-anchor="middle">pháp nhân TM</text>'+L('Chủ thể có năng lực TNHS / tuổi')+'</svg>';},
+    fault:function(){return SVGH+E(140,70,'🧠',40,'animation:svPop .6s both')+'<g style="opacity:0;animation:svIn .6s .6s both">'+E(45,135,'😈',34)+'<text class="sub" x="62" y="158" text-anchor="middle">cố ý</text></g><g style="opacity:0;animation:svIn .6s .9s both">'+E(245,135,'😬',34)+'<text class="sub" x="262" y="158" text-anchor="middle">vô ý</text></g><text class="lbl" x="170" y="182" text-anchor="middle">Cố ý hoặc vô ý</text></svg>';},
     penalty:function(){return SVGH+'<g style="transform-origin:120px 70px;animation:svLower .7s .3s both">'+E(95,95,'⚖️',46)+'</g>'+E(160,112,'➜',30,'opacity:0;animation:svIn .5s .9s both')+'<g style="opacity:0;animation:svPop .6s 1.1s both">'+E(215,108,'🔒',46)+'</g>'+L('Bị xử lý bằng hình phạt')+'</svg>';},
     choice:function(){return SVGH+E(145,108,'🧍',42,'animation:svIn .6s both')+'<path d="M150 95 L70 55" stroke="#49e0a0" stroke-width="2" fill="none" style="opacity:0;animation:svIn .5s .5s both"/><path d="M190 95 L270 55" stroke="#ff6b6b" stroke-width="2" fill="none" style="opacity:0;animation:svIn .5s .5s both"/><g style="opacity:0;animation:svIn .5s .7s both">'+E(35,50,'✅',24)+'<text class="sub" x="55" y="40" text-anchor="middle">không phạm</text></g><g style="opacity:0;animation:svPop .6s 1s both">'+E(265,50,'❌',24)+'<text class="sub" x="285" y="40" text-anchor="middle">chọn phạm</text></g>'+L('Có thể chọn khác nhưng đã chọn làm')+'</svg>';},
-    forced:function(){return SVGH+E(110,110,'🗡️',40,'animation:svIn .5s both')+E(150,112,'🧍',42,'animation:svShake .5s .4s 3')+E(205,112,'✍️',34,'opacity:0;animation:svIn .6s .8s both')+'<text class="tag" x="150" y="55" fill="#ff6b6b" text-anchor="middle" style="opacity:0;animation:svPop .5s 1.1s both">Bị ép!</text>'+L('Bị cưỡng bức ⇒ không tự lựa chọn')+'</svg>';},
+    forced:function(){return SVGH+E(110,110,'🗡️',40,'animation:svIn .5s both')+E(150,112,'🧍',42,'animation:svShake .5s .4s 3')+E(205,112,'✍️',34,'opacity:0;animation:svIn .6s .8s both')+L('Bị cưỡng bức ⇒ không tự lựa chọn')+'</svg>';},
     unforeseeable:function(){return SVGH+'<line x1="0" y1="150" x2="340" y2="150" stroke="#39406a" stroke-width="3"/>'+E(60,60,'👷',34,'animation:svIn .4s both')+'<line x1="78" y1="20" x2="78" y2="150" stroke="#5a6088" stroke-width="3"/><g style="animation:svFall 1.3s .5s both">'+E(60,60,'🧍',32)+'</g><g style="animation:svDrive 1.6s .4s both">'+E(150,142,'🚗',34)+'</g><g style="opacity:0;animation:svFlash .8s 1.7s 2 both">'+E(150,120,'💥',30)+'</g><text class="lbl" x="170" y="178" text-anchor="middle">Không thể &amp; không buộc thấy trước</text></svg>';},
     prepare:function(){return SVGH+E(60,108,'🧍',42,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .6s .6s both">'+E(150,108,'🔫',40)+'</g>'+E(225,100,'🕒',30,'opacity:0;animation:svIn .5s 1s both')+'<text class="sub" x="170" y="138" text-anchor="middle">sắm công cụ — chưa ra tay</text>'+L('Chuẩn bị phạm tội (Đ.14)')+'</svg>';},
     attempt:function(){return SVGH+E(35,108,'🔫',38,'animation:svIn .4s both')+'<circle cx="80" cy="98" r="5" fill="#ffd54a" style="animation:svMiss 1.2s .5s both"/>'+E(250,108,'🎯',38,'animation:svShake .4s 1.3s 2')+'<text class="tag" x="170" y="55" fill="#ffae5c" text-anchor="middle" style="opacity:0;animation:svPop .5s 1.4s both">đạn lép / trượt!</text>'+L('Đã ra tay nhưng dở dang ngoài ý muốn')+'</svg>';},
     completed:function(){return SVGH+E(35,108,'🔫',38,'animation:svIn .4s both')+'<circle cx="80" cy="98" r="5" fill="#ff6b6b" style="animation:svHit 1.1s .5s both"/>'+E(250,108,'🎯',38)+'<g style="opacity:0;animation:svPop .6s 1.5s both">'+E(255,108,'💀',40)+'</g>'+L('Đủ dấu hiệu cấu thành ⇒ hoàn thành')+'</svg>';},
-    voluntary:function(){return SVGH+'<g style="transform-origin:80px 110px;animation:svLower 1s .4s both">'+E(60,112,'🔫',40)+'</g><g style="animation:svWalk 1.4s 1.1s both">'+E(150,112,'🚶',40)+'</g><text class="tag" x="90" y="60" fill="#49e0a0" style="opacity:0;animation:svPop .5s .9s both">hạ súng</text>'+L('Tự dừng dù không ai cản ⇒ miễn TNHS')+'</svg>';},
+    voluntary:function(){return SVGH+'<g style="transform-origin:80px 110px;animation:svLower 1s .4s both">'+E(60,112,'🔫',40)+'</g><g style="animation:svWalk 1.4s 1.1s both">'+E(150,112,'🚶',40)+'</g>'+L('Tự dừng dù không ai cản ⇒ miễn TNHS')+'</svg>';},
     nature:function(){return SVGH+E(150,112,'🔒',54,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .6s .6s both">'+E(150,116,'🚫',64)+'</g>'+L('KHÔNG phải hình phạt')+'</svg>';},
     community:function(){return SVGH+'<g style="animation:svIn .5s both">'+E(60,108,'🔒',44)+E(95,80,'🚫',40)+'</g>'+E(150,108,'➜',28,'opacity:0;animation:svIn .5s .6s both')+'<g style="opacity:0;animation:svPop .6s .8s both">'+E(205,108,'🏠',44)+'</g>'+E(255,100,'👁️',26,'opacity:0;animation:svPulse 1.2s 1.2s 2;')+'<text class="lbl" x="170" y="170" text-anchor="middle">Cải tạo tại cộng đồng, có giám sát</text></svg>';},
-    condition:function(){return SVGH+E(45,108,'⏳',38,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .6s .6s both">'+E(120,108,'⚠️',34)+'<text class="sub" x="137" y="140" text-anchor="middle">phạm tội mới</text></g>'+E(190,108,'➜',26,'opacity:0;animation:svIn .5s 1s both')+'<g style="opacity:0;animation:svPop .6s 1.2s both">'+E(235,108,'🔒',40)+'</g><text class="lbl" x="170" y="172" text-anchor="middle">Phạm tội mới ⇒ chấp hành cả án tù</text></svg>';},
+    condition:function(){return SVGH+E(45,108,'⏳',38,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .6s .6s both">'+E(120,108,'⚠️',34)+'</g>'+E(190,108,'➜',26,'opacity:0;animation:svIn .5s 1s both')+'<g style="opacity:0;animation:svPop .6s 1.2s both">'+E(235,108,'🔒',40)+'</g><text class="lbl" x="170" y="172" text-anchor="middle">Phạm tội mới ⇒ chấp hành cả án tù</text></svg>';},
     checklist:function(){var o=SVGH,A=['điều kiện 1','điều kiện 2','điều kiện 3','điều kiện 4','điều kiện 5'];for(var i=0;i<5;i++){var y=40+i*28;o+='<g style="opacity:0;animation:svTick .5s '+(0.3+i*0.45)+'s both">'+E(40,y,'✅',22)+'</g><text class="sub" x="68" y="'+(y-2)+'">'+A[i]+'</text>';}return o+'<text class="lbl" x="40" y="184">Phải đủ CẢ các điều kiện</text></svg>';},
     barrier:function(){return SVGH+E(45,112,'🧍',40,'animation:svIn .5s both')+'<g style="opacity:0;animation:svPop .6s .5s both">'+E(150,114,'🚧',46)+'</g><g style="opacity:0;animation:svPop .5s .9s both">'+E(155,112,'🚫',50)+'</g><text class="lbl" x="170" y="172" text-anchor="middle">Rơi vào 1 trường hợp ⇒ bị chặn</text></svg>';},
     probation:function(){return SVGH+'<text class="tag" x="170" y="38" fill="#ffe49b" text-anchor="middle" style="opacity:0;animation:svIn .5s .2s both">án tù × 2</text><rect x="45" y="92" width="250" height="10" rx="5" fill="#26304f" style="transform-origin:45px 97px;animation:svGrowX .6s .4s both"/><text class="sub" x="45" y="124" text-anchor="middle">1 năm</text><text class="sub" x="295" y="124" text-anchor="middle">5 năm</text>'+L('Thời gian thử thách trong khoảng 1–5 năm')+'</svg>';},
@@ -97,8 +96,8 @@
     concept:function(){return SVGH+E(135,110,'⚖️',46,'animation:svPulse 1.6s 2 both')+E(205,105,'📖',36,'opacity:0;animation:svIn .6s .5s both')+L('Khái niệm pháp lý')+'</svg>';},
     duration:function(it){var v=(it&&it.value)||'?',u=(it&&it.unit)||'';return SVGH
       + E(92,112,'⏳',48,'animation:svPulse 1.5s 2 both')
-      + '<rect x="150" y="70" width="150" height="58" rx="12" fill="rgba(243,201,105,.10)" stroke="rgba(243,201,105,.5)" style="opacity:0;animation:svIn .5s .3s both"/>'
-      + '<text x="225" y="112" font-size="34" font-weight="800" fill="#ffe49b" text-anchor="middle" style="opacity:0;animation:svPop .6s .5s both">'+v+'</text>'
+      + '<rect x="150" y="72" width="150" height="56" rx="12" fill="rgba(243,201,105,.10)" stroke="rgba(243,201,105,.5)" style="opacity:0;animation:svIn .5s .3s both"/>'
+      + '<text x="225" y="108" font-size="34" font-weight="800" fill="#ffe49b" text-anchor="middle" style="opacity:0;animation:svPop .6s .5s both">'+v+'</text>'
       + '<text class="sub" x="225" y="120" text-anchor="middle" style="opacity:0;animation:svIn .5s .8s both">'+u+'</text>'
       + L('Mốc / thời hạn cần nhớ')+'</svg>';},
     number:function(it){var v=(it&&it.value)||'?',u=(it&&it.unit)||'';var ic=(u==='lần')?'🔁':(u==='%')?'📊':(u==='tuổi')?'🎂':(u==='đồng'||u==='triệu'||u==='tỷ')?'💰':'🔢';return SVGH
@@ -131,19 +130,17 @@
   }
   var EMO=/[←-⇿⌀-➿⬀-⯿☀-⛿]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/;
   var stage=modal.querySelector('.lhs-stage'),mtitle=modal.querySelector('.lhs-mtitle'),
-      mcap=modal.querySelector('.lhs-cap'),nextBtn=modal.querySelector('.lhs-next'),replayBtn=modal.querySelector('.lhs-replay');
+      mcap=modal.querySelector('.lhs-cap'),chipBox=modal.querySelector('.lhs-chips'),
+      nextBtn=modal.querySelector('.lhs-next'),replayBtn=modal.querySelector('.lhs-replay');
   var cur=null,seq=null,si=0,timer=null,LIST=[];
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
   function render(it){
     mtitle.textContent=it.title; mcap.innerHTML=it.cap;
     stage.innerHTML=(S[it.scene]||S.concept)(it);
-    var old=modal.querySelector('.lhs-chips'); if(old)old.remove();
     if(it.chips&&it.chips.length){
-      var c=document.createElement('div'); c.className='lhs-chips';
-      c.style.cssText='display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px';
-      c.innerHTML='<span style="font-size:11px;color:#9aa1bd;align-self:center;margin-right:2px">Từ khoá:</span>'+it.chips.map(function(x){
-        return '<span style="font-size:11px;font-weight:700;color:#1a1400;background:linear-gradient(90deg,#ffd54a,#ffe49b);border-radius:20px;padding:3px 10px">'+x.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>';}).join('');
-      stage.insertAdjacentElement('afterend',c);
-    }
+      chipBox.hidden=false;
+      chipBox.innerHTML='<span class="lbl0">Từ khoá:</span>'+it.chips.map(function(x){return '<b>'+esc(x)+'</b>';}).join('');
+    } else { chipBox.hidden=true; chipBox.innerHTML=''; }
     cur=it;
   }
   function open(it){ clearTimeout(timer); seq=null; nextBtn.hidden=true; render(it); modal.classList.add('show'); }
@@ -168,13 +165,17 @@
   });
   var seenTitles={};
   leaves.forEach(function(icon){
-    // bỏ qua khối trích dẫn điều luật / ghi chú / quote (dễ bị lặp tiêu đề)
     if(icon.closest('.legal-ref,.quote,.note,.hint,.badge,.ref,.qbody,.core'))return;
     var row=icon.parentElement,guard=0;
-    while(row&&row!==document.body){ var tt=(row.textContent||'').replace(/\s+/g,' ').trim(); if(tt.length>=16)break; row=row.parentElement; if(++guard>3)break; }
+    while(row&&row!==document.body){
+      var tt=(row.textContent||'').replace(/\s+/g,' ').trim();
+      var nb=row.querySelectorAll('b,strong').length;
+      if(tt.length>=45 || (tt.length>=18 && nb>=2)) break;
+      row=row.parentElement; if(++guard>4)break;
+    }
     if(!row||row.dataset.lhsSim)return;
     var t=(row.textContent||'').replace(/\s+/g,' ').trim();
-    if(t.length<12||t.length>520)return;
+    if(t.length<12||t.length>600)return;
     var h=row.querySelector('h1,h2,h3,h4,h5,b,strong'); var title=h?h.textContent.replace(/\s+/g,' ').trim():'';
     if(!title){ title=t.split(/[.:!?\n]/)[0].split(' ').slice(0,9).join(' '); }
     var cap=t; if(title && cap.indexOf(title)===0) cap=cap.slice(title.length).trim();
@@ -184,20 +185,18 @@
       if(!cap||cap===title){var sib=row.nextElementSibling; if(sib){var ss=(sib.textContent||'').replace(/\s+/g,' ').trim(); if(ss.length>12)cap=ss;}}
     }
     if(cap.length>270) cap=cap.slice(0,267)+'…';
-    if(/^[⚖📜📖\s]*Điều\s/i.test(title) && (!cap||cap===title) && t.length<40)return;
+    if(/Điều\s/i.test(title) && (!cap||cap===title) && t.length<40)return;
     if(!cap) cap=title;
     var key=title.toLowerCase(); if(seenTitles[key])return; seenTitles[key]=1;
-    // ---- lấy từ khoá được tô vàng (in đậm) làm trọng tâm mô phỏng ----
     var hi=[]; row.querySelectorAll('b,strong,mark').forEach(function(x){
       var s=(x.textContent||'').replace(/\s+/g,' ').trim();
       if(s && s.length<=44 && s!==title && hi.indexOf(s)<0) hi.push(s);
     });
     var hiText=hi.join(' ');
     var scene, value=null, unit=null;
-    // ưu tiên số/ngày tháng/thời hạn nằm trong phần tô vàng
     var mm=hiText.match(/(\d[\d.,]*)\s*(năm|tháng|ngày|giờ|tuổi|lần|%|đồng|triệu|tỷ)/i);
     if(mm){ value=mm[1]; unit=mm[2].toLowerCase(); scene=/(năm|tháng|ngày|giờ)/.test(unit)?'duration':'number'; }
-    else { scene=pick(hiText||t); }   // chọn hoạt cảnh theo từ khoá tô vàng trước
+    else { scene=pick(hiText||t); }
     row.dataset.lhsSim='1';
     addBtn(icon,{title:title||'Ý chính',cap:cap,scene:scene,value:value,unit:unit,chips:hi.slice(0,4)});
   });
