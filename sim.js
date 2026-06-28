@@ -143,16 +143,29 @@
     if(el.closest('a,button,.tab,.tabs,.title,.lhs-modal,.lhs-back,.lhs-simall'))return;
     leaves.push(el);
   });
+  var seenTitles={};
   leaves.forEach(function(icon){
+    // bỏ qua khối trích dẫn điều luật / ghi chú / quote (dễ bị lặp tiêu đề)
+    if(icon.closest('.legal-ref,.quote,.note,.hint,.badge,.ref,.qbody,.core'))return;
     var row=icon.parentElement,guard=0;
     while(row&&row!==document.body){ var tt=(row.textContent||'').replace(/\s+/g,' ').trim(); if(tt.length>=16)break; row=row.parentElement; if(++guard>3)break; }
     if(!row||row.dataset.lhsSim)return;
     var t=(row.textContent||'').replace(/\s+/g,' ').trim();
-    if(t.length<10||t.length>520)return;
+    if(t.length<12||t.length>520)return;
     var h=row.querySelector('h1,h2,h3,h4,h5,b,strong'); var title=h?h.textContent.replace(/\s+/g,' ').trim():'';
-    if(!title){ title=t.split(/[.:!?\n]/)[0].split(' ').slice(0,8).join(' '); }
+    if(!title){ title=t.split(/[.:!?\n]/)[0].split(' ').slice(0,9).join(' '); }
     var cap=t; if(title && cap.indexOf(title)===0) cap=cap.slice(title.length).trim();
-    cap=cap.replace(/^[\-–—:•.\s]+/,''); if(cap.length>270) cap=cap.slice(0,267)+'…'; if(!cap) cap=title;
+    cap=cap.replace(/^[\-–—:•.\s]+/,'');
+    // nếu chú thích trùng tiêu đề hoặc rỗng, thử lấy đoạn mô tả kế tiếp
+    if(!cap||cap===title){
+      var d=row.querySelector('p,.cd,.it,.desc'); if(d){var ds=(d.textContent||'').replace(/\s+/g,' ').trim(); if(ds&&ds!==title)cap=ds;}
+      if(!cap||cap===title){var sib=row.nextElementSibling; if(sib){var ss=(sib.textContent||'').replace(/\s+/g,' ').trim(); if(ss.length>12)cap=ss;}}
+    }
+    if(cap.length>270) cap=cap.slice(0,267)+'…';
+    // bỏ qua trích dẫn điều luật trơ trọi (vd "Điều 51 BLHS 2015") không có giải thích
+    if(/^[⚖📜📖\s]*Điều\s/i.test(title) && (!cap||cap===title) && t.length<40)return;
+    if(!cap) cap=title;
+    var key=title.toLowerCase(); if(seenTitles[key])return; seenTitles[key]=1;
     row.dataset.lhsSim='1';
     addBtn(icon,{title:title||'Ý chính',cap:cap,scene:pick(t)});
   });
