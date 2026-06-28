@@ -175,7 +175,7 @@
     }
     if(!row||row.dataset.lhsSim)return;
     var t=(row.textContent||'').replace(/\s+/g,' ').trim();
-    if(t.length<12||t.length>600)return;
+    if(t.length<12||t.length>2200)return;
     var h=row.querySelector('h1,h2,h3,h4,h5,b,strong'); var title=h?h.textContent.replace(/\s+/g,' ').trim():'';
     if(!title){ title=t.split(/[.:!?\n]/)[0].split(' ').slice(0,9).join(' '); }
     var cap=t; if(title && cap.indexOf(title)===0) cap=cap.slice(title.length).trim();
