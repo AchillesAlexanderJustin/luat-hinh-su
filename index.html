@@ -26,11 +26,9 @@
     background-attachment:fixed;min-height:100vh}
   .wrap{max-width:980px;margin:0 auto}
 
-  /* reading progress bar */
   #readbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
     background:linear-gradient(90deg,var(--gold),var(--violet),var(--blue));box-shadow:0 0 12px rgba(243,201,105,.6);transition:width .1s linear}
 
-  /* HERO */
   .hero{position:relative;text-align:center;padding:40px 24px 32px;border:1px solid var(--line);
     border-radius:24px;overflow:hidden;margin-bottom:18px;
     background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
@@ -49,7 +47,6 @@
   .hero p{position:relative;margin:14px auto 0;max-width:580px;font-size:15px;color:var(--muted);line-height:1.65}
   .hero p b{color:var(--gold2)}
 
-  /* SEARCH */
   .searchbar{position:relative;max-width:580px;margin:22px auto 0}
   .searchbar input{width:100%;padding:15px 46px;font-size:15px;border-radius:16px;color:var(--txt);outline:none;
     border:1px solid var(--line2);background:rgba(0,0,0,.28);transition:.25s;backdrop-filter:blur(6px)}
@@ -60,18 +57,17 @@
     border:none;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:6px;display:none}
   .searchbar .clr:hover{color:var(--gold)}
 
-  /* PROGRESS PANEL */
   .prog{max-width:580px;margin:18px auto 0;background:var(--panel);border:1px solid var(--line);
     border-radius:16px;padding:14px 18px;backdrop-filter:blur(6px)}
-  .prog .ptop{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:9px}
+  .prog .ptop{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:9px;gap:8px;flex-wrap:wrap}
   .prog .ptop .pl{color:var(--muted)}
   .prog .ptop .pl b{color:var(--gold2);font-size:15px}
   .prog .ptop .reset{cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--muted);
     font-size:11px;border-radius:20px;padding:4px 10px;transition:.2s}
   .prog .ptop .reset:hover{color:var(--red);border-color:var(--red)}
-  .prog .bar{height:9px;border-radius:20px;background:rgba(0,0,0,.35);overflow:hidden}
-  .prog .bar i{display:block;height:100%;width:0;border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1);
-    background:linear-gradient(90deg,var(--gold),var(--green))}
+  .prog .bar{height:10px;border-radius:20px;background:rgba(0,0,0,.38);overflow:hidden;position:relative}
+  .prog .bar i{display:block;height:100%;width:0;border-radius:20px;transition:width .6s cubic-bezier(.2,.8,.2,1),background .6s;
+    background:hsl(2,82%,55%);box-shadow:0 0 14px rgba(255,255,255,.12)}
 
   .stats{display:flex;gap:12px;justify-content:center;margin:24px 0 6px;flex-wrap:wrap}
   .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 24px;text-align:center;min-width:100px;backdrop-filter:blur(6px)}
@@ -81,7 +77,6 @@
   .nores{display:none;text-align:center;color:var(--muted);font-size:14px;padding:40px 0}
   .nores b{color:var(--gold2)}
 
-  /* phase */
   .phase{margin-top:34px}
   .phase.hide{display:none}
   .phase-hd{display:flex;align-items:center;gap:15px;margin-bottom:16px}
@@ -109,7 +104,6 @@
   .lcard .cd{font-size:11.5px;color:var(--muted);line-height:1.45}
   .lcard .ref{display:inline-block;margin-top:9px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
     background:rgba(243,201,105,.12);color:var(--gold2);border:1px solid rgba(243,201,105,.3)}
-  /* done check toggle */
   .lcard .mark{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;
     border:1.5px solid var(--line2);background:rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;
     font-size:13px;color:transparent;transition:.2s;cursor:pointer;z-index:2}
@@ -120,7 +114,6 @@
     background:linear-gradient(180deg,rgba(73,224,160,.10),transparent 60%)}
   mark{background:rgba(243,201,105,.4);color:inherit;border-radius:3px;padding:0 1px}
 
-  /* màu phase */
   .ph1 .pe{background:rgba(90,169,255,.16);border:1px solid var(--blue)} .ph1 h2{color:var(--blue)} .ph1 .pn{color:var(--blue)}
   .ph2 .pe{background:rgba(243,201,105,.16);border:1px solid var(--gold)} .ph2 h2{color:var(--gold2)} .ph2 .pn{color:var(--gold2)}
   .ph3 .pe{background:rgba(255,174,92,.16);border:1px solid var(--orange)} .ph3 h2{color:var(--orange)} .ph3 .pn{color:var(--orange)}
@@ -266,7 +259,7 @@
   </div>
 
   <div class="note">
-    💡 <b>Cách ôn hiệu quả:</b> đi theo thứ tự 6 giai đoạn từ trên xuống — mỗi giai đoạn xây trên cái trước. Trong mỗi widget, bấm nút "▶ Phát lại" để xem animation, và "🖼️ Xem minh hoạ" để mở sơ đồ. Các cặp dễ nhầm nên học song song: <b>lỗi cố ý gián tiếp ↔ vô ý quá tự tin</b>, <b>chưa đạt ↔ tự ý nửa chừng</b>, <b>miễn TNHS ↔ miễn hình phạt</b>, <b>án treo ↔ cải tạo KGG</b>, <b>tội cũ ↔ tội mới (Đ.56)</b>.
+    💡 <b>Cách ôn hiệu quả:</b> đi theo thứ tự 6 giai đoạn từ trên xuống — mỗi giai đoạn xây trên cái trước. Trong mỗi widget, bấm nút "▶ Mô phỏng" ở từng ý để xem minh hoạ động, và nút "✨ Mô phỏng tất cả các ý". Các cặp dễ nhầm nên học song song: <b>lỗi cố ý gián tiếp ↔ vô ý quá tự tin</b>, <b>chưa đạt ↔ tự ý nửa chừng</b>, <b>miễn TNHS ↔ miễn hình phạt</b>, <b>án treo ↔ cải tạo KGG</b>, <b>tội cũ ↔ tội mới (Đ.56)</b>.
   </div>
 
   <div class="footer">
@@ -281,12 +274,10 @@
   var cards=Array.prototype.slice.call(document.querySelectorAll('.lcard'));
   var phases=Array.prototype.slice.call(document.querySelectorAll('.phase'));
 
-  /* ---- progress storage ---- */
   function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
   function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
   var done=load();
-  var pdone=document.getElementById('pdone'),pfill=document.getElementById('pfill'),
-      pcong=document.getElementById('pcong');
+  var pdone=document.getElementById('pdone'),pfill=document.getElementById('pfill'),pcong=document.getElementById('pcong');
 
   function refresh(){
     var n=0;
@@ -298,8 +289,17 @@
       if(on)n++;
     });
     pdone.textContent=n;
-    pfill.style.width=Math.round(n/cards.length*100)+'%';
-    pcong.innerHTML = n===cards.length ? ' — <span class="celebrate">Hoàn thành toàn bộ! 🎉</span>' : '';
+    var pct=Math.round(n/cards.length*100);
+    pfill.style.width=pct+'%';
+    var hue=Math.round(pct*1.25);          // 0 = đỏ ... 125 = xanh lá
+    pfill.style.background='hsl('+hue+','+(78-pct*0.18)+'%,'+(52+pct*0.03)+'%)';
+    var st;
+    if(pct===100) st=' — <span class="celebrate">Hoàn thành toàn bộ! 🎉</span>';
+    else if(pct>=75) st=' — <span style="color:#49e0a0;font-weight:700">sắp xong rồi! 💪</span>';
+    else if(pct>=40) st=' — <span style="color:#ffae5c;font-weight:700">đang đúng tiến độ 🟠</span>';
+    else if(pct>0)   st=' — <span style="color:#ff6b6b;font-weight:700">cần tăng tốc! 🔴</span>';
+    else             st=' — <span style="color:#ff6b6b;font-weight:700">bắt đầu thôi! 🔴</span>';
+    pcong.innerHTML=st;
   }
 
   cards.forEach(function(c){
@@ -322,7 +322,6 @@
     if(confirm('Đặt lại toàn bộ tiến độ học?')){done=[];save(done);refresh();}
   });
 
-  /* ---- scroll reveal ---- */
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){
       es.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in'); io.unobserve(en.target);} });
@@ -330,7 +329,6 @@
     cards.forEach(function(c,i){ c.style.transitionDelay=(i%6*40)+'ms'; io.observe(c); });
   } else { cards.forEach(function(c){c.classList.add('in')}); }
 
-  /* ---- 3D tilt on hover (desktop) ---- */
   var fine = window.matchMedia('(pointer:fine)').matches;
   if(fine){
     cards.forEach(function(c){
@@ -343,7 +341,6 @@
     });
   }
 
-  /* ---- reading progress bar ---- */
   var rb=document.getElementById('readbar');
   function onscroll(){
     var h=document.documentElement;
@@ -352,7 +349,6 @@
   }
   window.addEventListener('scroll',onscroll,{passive:true}); onscroll();
 
-  /* ---- search ---- */
   var q=document.getElementById('q'),clr=document.getElementById('clr'),
       nores=document.getElementById('nores'),qecho=document.getElementById('qecho');
   function strip(s){return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();}
@@ -370,7 +366,7 @@
     });
     phases.forEach(function(p){
       var vis=p.querySelectorAll('.lcard:not(.hide)').length;
-      p.classList.toggle('hide',term&&vis===0);
+       p.classList.toggle('hide',term&&vis===0);
     });
     document.querySelectorAll('.connector').forEach(function(c){c.style.display=term?'none':'';});
     nores.style.display=(term&&!any)?'block':'none'; qecho.textContent=raw;

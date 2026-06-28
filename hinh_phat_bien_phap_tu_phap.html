@@ -370,5 +370,86 @@
   play('0');
 })();
 </script>
+<!--LHS-ENHANCE-->
+<style>
+.lhs-back{position:fixed;top:14px;left:14px;z-index:9999;text-decoration:none;
+  font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;font-weight:700;color:#fff;
+  background:rgba(18,22,38,.88);border:1px solid rgba(255,255,255,.22);padding:8px 14px;border-radius:30px;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(0,0,0,.45);transition:.2s}
+.lhs-back:hover{background:#5aa9ff;color:#06121f;transform:translateX(-2px)}
+.lhs-simall{position:fixed;right:16px;bottom:16px;z-index:9999;cursor:pointer;
+  font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;font-weight:700;color:#1a1400;
+  background:linear-gradient(90deg,#ffd54a,#ffae5c);border:none;padding:11px 16px;border-radius:30px;
+  box-shadow:0 8px 22px rgba(0,0,0,.45);transition:.2s}
+.lhs-simall:hover{transform:translateY(-2px) scale(1.03)}
+.lhs-sim{display:inline-flex;align-items:center;gap:4px;margin-left:8px;cursor:pointer;vertical-align:middle;
+  font-size:10.5px;font-weight:700;color:#ffd54a;background:rgba(255,213,74,.12);
+  border:1px solid rgba(255,213,74,.45);border-radius:20px;padding:2px 9px;transition:.2s;
+  font-family:'Segoe UI',system-ui,sans-serif;line-height:1.5;white-space:nowrap}
+.lhs-sim:hover{background:#ffd54a;color:#1a1400}
+@keyframes lhsPop{0%{transform:scale(1) rotate(0)}25%{transform:scale(1.55) rotate(-14deg)}
+  55%{transform:scale(1.2) rotate(12deg)}100%{transform:scale(1) rotate(0)}}
+.lhs-anim{animation:lhsPop .9s cubic-bezier(.2,.8,.2,1);display:inline-block}
+.lhs-ring{position:fixed;border-radius:50%;border:2px solid rgba(90,169,255,.75);pointer-events:none;
+  transform:translate(-50%,-50%);z-index:9998;animation:lhsRing 1s ease-out forwards}
+@keyframes lhsRing{0%{width:6px;height:6px;opacity:.95}100%{width:130px;height:130px;opacity:0}}
+.lhs-spark{position:fixed;width:7px;height:7px;border-radius:50%;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);animation:lhsSpark .85s ease-out forwards}
+@keyframes lhsSpark{0%{opacity:1}100%{opacity:0}}
+.lhs-sweep{position:fixed;pointer-events:none;z-index:9997;border-radius:10px;overflow:hidden}
+.lhs-sweep::before{content:"";position:absolute;top:0;left:-45%;width:45%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(90,169,255,.40),transparent);animation:lhsSweep .85s ease forwards}
+@keyframes lhsSweep{to{left:125%}}
+</style>
+<a href="index.html" class="lhs-back">← Quay lại roadmap</a>
+<button class="lhs-simall" type="button">✨ Mô phỏng tất cả các ý</button>
+<script>
+(function(){
+  var EMO=/[⌚-🧿☀-➿⬀-⯿←-⇿✀-➿]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/;
+  function isIcon(el){
+    if(el.children.length!==0) return false;
+    var t=(el.textContent||'').trim();
+    if(t.length===0||t.length>4) return false;
+    if(!EMO.test(t)) return false;
+    if(el.closest('a,button,.lhs-back,.lhs-sim,.lhs-simall')) return false;
+    return true;
+  }
+  var icons=[];
+  var all=document.querySelectorAll('span,div,i,b,em,p,h1,h2,h3,h4,h5');
+  Array.prototype.forEach.call(all,function(el){ if(isIcon(el)) icons.push(el); });
+
+  function center(el){var r=el.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2,r:r};}
+  function ring(x,y){var d=document.createElement('div');d.className='lhs-ring';
+    d.style.left=x+'px';d.style.top=y+'px';document.body.appendChild(d);setTimeout(function(){d.remove();},1000);}
+  function spark(x,y,c){var s=document.createElement('div');s.className='lhs-spark';
+    s.style.left=x+'px';s.style.top=y+'px';s.style.background=c;document.body.appendChild(s);
+    var ang=Math.random()*6.28, dist=30+Math.random()*34;
+    requestAnimationFrame(function(){s.style.transition='transform .8s ease-out,opacity .8s';
+      s.style.transform='translate('+(Math.cos(ang)*dist)+'px,'+(Math.sin(ang)*dist)+'px)';});
+    setTimeout(function(){s.remove();},850);}
+  function sweep(el){var p=el.parentElement||el;var r=p.getBoundingClientRect();
+    var o=document.createElement('div');o.className='lhs-sweep';
+    o.style.left=r.left+'px';o.style.top=r.top+'px';o.style.width=r.width+'px';o.style.height=r.height+'px';
+    document.body.appendChild(o);setTimeout(function(){o.remove();},880);}
+  var COLORS=['#5aa9ff','#ffd54a','#48d597','#b18cff','#ff9d4d'];
+  function play(el){
+    el.classList.remove('lhs-anim');void el.offsetWidth;el.classList.add('lhs-anim');
+    var c=center(el);ring(c.x,c.y);setTimeout(function(){ring(c.x,c.y);},150);
+    for(var i=0;i<8;i++)spark(c.x,c.y,COLORS[i%COLORS.length]);
+    sweep(el);
+  }
+  icons.forEach(function(el){
+    var b=document.createElement('span');b.className='lhs-sim';b.textContent='▶ Mô phỏng';b.title='Xem minh hoạ động cho ý này';
+    el.insertAdjacentElement('afterend',b);
+    b.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();play(el);});
+  });
+  var sa=document.querySelector('.lhs-simall');
+  if(sa){ if(icons.length===0){sa.style.display='none';}
+    sa.addEventListener('click',function(){icons.forEach(function(el,i){setTimeout(function(){
+      el.scrollIntoView({behavior:'smooth',block:'center'});play(el);},i*650);});});
+  }
+})();
+</script>
+
 </body>
 </html>
