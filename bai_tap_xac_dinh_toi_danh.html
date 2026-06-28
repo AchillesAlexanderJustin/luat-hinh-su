@@ -221,7 +221,7 @@
 <button class="lhs-simall" type="button">✨ Mô phỏng tất cả các ý</button>
 <script>
 (function(){
-  var EMO=/[⌚-🧿☀-➿⬀-⯿←-⇿✀-➿]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/;
+  var EMO=/[⌀-➿⬀-⯿←-⇿]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/;var _ls=document.createElement('script');_ls.src='sim.js';document.body.appendChild(_ls);
   function isIcon(el){
     if(el.children.length!==0) return false;
     var t=(el.textContent||'').trim();
